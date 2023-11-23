@@ -11,7 +11,11 @@ stcs <- stcs_read(dir)
 
 data_patientkey(stcs)
 
-
+stcs$patientlab |>
+  filter(test=="crea (µmol/l)") |>
+  add_var(stcs,c("dob","sex"),"patient") |>
+  mutate(age = age_int(dob,truemissing_to_na(date))) |>
+  mutate(efgr2021 = egfr_2021(truemissing_to_na(result),age,sex))
 
 
 tibble(
@@ -63,3 +67,6 @@ data_organkey(stcs) |>
   add_var(stcs,c("patientkey","tpx","soascaseid"),from = "transplantation",by = "soaskey") |>
   add_var(stcs,c("patid","sex","yob"),from = "patient",by = "patientkey") |>
   select(all_of(c("organkey","soaskey","patientkey","patid","soascaseid","tpxdate","organ","tpx","sex","yob")))
+
+stcs$patientdisease |> glimpse()
+stcs$infectionpathogen
