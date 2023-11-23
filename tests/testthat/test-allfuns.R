@@ -20,7 +20,9 @@ dir <- dir[dir!=""]
 
 dir_name <- strsplit(dir,"/|\\\\")
 
-path_diff <- !do.call(what = "==",dir_name)
+
+path_diff <- !apply(do.call("cbind",dir_name),1,\(x){length(unique(x))==1L})
+
 which(path_diff)[1]
 dir_name <- sapply(dir_name,\(x){x[which(path_diff)[1]]})
 

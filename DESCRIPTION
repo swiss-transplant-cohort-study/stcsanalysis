@@ -1,10 +1,10 @@
 Package: stcswrangling2
 Type: Package
-Title: Analysis of the STCS tables
+Title: Data wrangling tools for the STCS analysis tables
 Version: 0.1.0
 Author: Jaromil Frossard
 Maintainer: Jaromil Frossard <jaromil.frossard@usb.ch>
-Description: Helper function for the STCS analysis tables.
+Description: Data wrangling tools for the STCS analysis tables.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

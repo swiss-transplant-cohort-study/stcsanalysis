@@ -3,6 +3,6 @@
 .Rdata
 .httr-oauth
 .DS_Store
-^dm_core\.R$
-^stcspath\.txt$
+dm_core.R
+stcspath.txt
 
