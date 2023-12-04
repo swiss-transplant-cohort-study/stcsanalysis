@@ -10,6 +10,7 @@
 \alias{is_truemissing.logical}
 \alias{is_truemissing.numeric}
 \alias{truemissing_to_na}
+\alias{is_truemissing.POSIXct}
 \title{Confirmed missing values}
 \usage{
 is_truemissing(x)
@@ -27,6 +28,8 @@ is_truemissing(x)
 \method{is_truemissing}{numeric}(x)
 
 truemissing_to_na(x)
+
+\method{is_truemissing}{POSIXct}(x)
 }
 \arguments{
 \item{x}{a vector. Logical are not implemented.}

@@ -15,6 +15,7 @@ NULL
 #' @export
 #' @importFrom readr write_delim
 #' @importFrom dplyr bind_rows tibble
+#' @importFrom lubridate is.POSIXct
 #' @rdname write_stcs
 stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE,na ="", ...){
 
@@ -35,7 +36,8 @@ stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE,na ="", ...){
   for(i in seq_len(nrow(tb_csv))){
     fi <- tb_csv[["csv"]][i]
 
-    write_delim(x = stcs[[tb_csv[["dataset"]][i]]],
+    write_delim(x = stcs[[tb_csv[["dataset"]][i]]] |>
+                  mutate(across(where(is.POSIXct),\(x){format(x,"%Y-%m-%d %H:%M")})),
                 file = file.path(dir,fi),
                 delim = delim,
                 progress = progress,

@@ -107,6 +107,6 @@ get_stcs_coltypes <- function(variable, datatype){
            "Double" = {col_double()},
            "Character" = {col_character()},
            "Date" = {col_date(format = "%Y-%m-%d")},
-           "Date-Time" = {col_datetime(format = "")})}) |>
+           "Date-Time" = {col_datetime(format = c("%Y-%m-%d %H:%M"))})}) |>
     do.call(what="cols")
 }

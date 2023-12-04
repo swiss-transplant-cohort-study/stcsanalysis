@@ -62,3 +62,9 @@ truemissing_to_na <-function(x){
   x[is_truemissing(x)]<-NA
   x
 }
+
+#'@export
+#'@rdname truemissing
+is_truemissing.POSIXct <- function(x){
+  replace_na(x==as.POSIXct("1700-01-01 00:00:00", tz = "Europe/Zurich"),F)
+}

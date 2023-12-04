@@ -55,16 +55,11 @@ stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soas
 #'@export
 stcs_filter_patientkey <- function(stcs,patientkeys){
   patientkeys <- unique(na.omit(patientkeys))
-  soaskeys <- patientkey2soaskey(patientkeys,stcs)
-  donorkeys <- soaskey2donorkey(soaskeys,stcs)
-  organkeys <- soaskey2organkey(soaskeys,stcs)
-
+  donorkeys <- patientkey2donorkey(patientkeys,stcs)
 
   lapply(stcs,\(x){
     x |>
-      filter_stcs_tab("organkey",organkeys)|>
       filter_stcs_tab("patientkey",patientkeys)|>
-      filter_stcs_tab("soaskey",soaskeys)|>
       filter_stcs_tab("donorkey",donorkeys)
   })
 

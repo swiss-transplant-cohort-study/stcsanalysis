@@ -6,8 +6,15 @@ library(readr)
 library(stcswrangling2)
 library(stringr)
 
-dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2023-11-14/csv"
+egfr_2021(0,10,"Male")
+
+dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2023-12-01/csv"
 stcs <- stcs_read(dir)
+
+
+
+
+tailored_psq(stcs) |> glimpse()
 
 data_patientkey(stcs)
 
@@ -16,6 +23,10 @@ stcs$patientlab |>
   add_var(stcs,c("dob","sex"),"patient") |>
   mutate(age = age_int(dob,truemissing_to_na(date))) |>
   mutate(efgr2021 = egfr_2021(truemissing_to_na(result),age,sex))
+
+data_patientkey(stcs) |>
+  expand_var_from(stcs,.var = "patassessmentkey",from = "patientlongitudinal",by = "patientkey") |>
+  add_var(stcs,"assdate",from = "patientlongitudinal")
 
 
 tibble(

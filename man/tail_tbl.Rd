@@ -3,9 +3,12 @@
 \name{tail_tbl}
 \alias{tail_tbl}
 \alias{tailored_organ}
+\alias{tailored_psq}
 \title{Tailored analysis tables}
 \usage{
 tailored_organ(stcs)
+
+tailored_psq(stcs)
 }
 \arguments{
 \item{stcs}{A list containing the STCS data frame.}
