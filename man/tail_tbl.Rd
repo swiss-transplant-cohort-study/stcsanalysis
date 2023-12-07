@@ -3,10 +3,13 @@
 \name{tail_tbl}
 \alias{tail_tbl}
 \alias{tailored_organ}
+\alias{tailored_patientsurvival}
 \alias{tailored_psq}
 \title{Tailored analysis tables}
 \usage{
 tailored_organ(stcs)
+
+tailored_patientsurvival(stcs)
 
 tailored_psq(stcs)
 }

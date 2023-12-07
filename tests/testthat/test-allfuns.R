@@ -1,10 +1,6 @@
 
 options("lifecycle_verbosity"="error")
 
-print(getwd())
-
-print(tempdir())
-
 
 # LOAD STCS DATA ----
 if(file.exists(file.path("..","..","stcspath.txt"))){

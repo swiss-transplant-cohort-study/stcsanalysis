@@ -23,6 +23,53 @@ tailored_organ <- function(stcs){
 
 }
 
+#'@export
+#'@rdname tail_tbl
+#'@importFrom dplyr slice_max slice_min summarise
+tailored_patientsurvival <- function(stcs){
+  stcs$patient |>
+    select(all_of(c("patientkey","enrollment_date"))) |>
+    add_var(stcs,.var = "deathdate",from ="stop",by = "patientkey",.filter = !is.na(!!sym("deathdate"))) |>
+    left_join(
+      stcs$stop |>
+        filter(!is.na(!!sym("dropoutdate"))) |>
+        group_by(!!sym("patientkey")) |>
+        slice_min(!!sym("dropoutdate")) |>
+        select(all_of(c("patientkey","first_dropoutdate"="dropoutdate","first_dropoutdateaccuracy"="dropoutdateaccuracy"))),
+      by = "patientkey",relationship = "one-to-one") |>
+    add_var(stcs,.var = c("last_dropoutdate"="dropoutdate","last_dropoutdateaccuracy"="dropoutdateaccuracy"),
+            from ="stop",by = "patientkey",.filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))) |>
+    # add_var(stcs,.var = c("lastalivedate"),
+    #         from ="stop",by = "patientkey",.filter = !is.na(!!sym("lastalivedate")))
+    left_join(
+      stcs$patientlongitudinal |>
+        select(all_of(c("patientkey","assdate","patlongkey"))) |>
+        group_by(!!sym("patientkey")) |>
+        slice_max(!!sym("assdate")) |>
+        summarise("last_assdate"=unique(!!sym("assdate")),
+                  "last_patlongkeys" = paste(!!sym("patlongkey"), collapse = ",")),
+      by = "patientkey",relationship = "one-to-one") |>
+    left_join(
+      stcs$patientdisease |>
+        filter(!!sym("disease_category")=="Infection") |>
+        group_by(!!sym("patientkey")) |>
+        slice_max(!!sym("date")) |>
+        summarise("lastinf_date"= unique(!!sym("date")),
+                  "lastinf_diseasekeys" = paste(!!sym("diseasekey"), collapse = ",")),
+      by = "patientkey",relationship = "one-to-one") |>
+    left_join(
+      stcs$organ |>
+        select(all_of(c("patientkey","organkey"))) |>
+        add_var(stcs,c("glodate"="date"),from = "graftloss", by = "organkey") |>
+        group_by(!!sym("patientkey")) |>
+        filter(any(!is.na(!!sym("glodate")))) |>
+        summarise("first_glodate" = min(!!sym("glodate"),na.rm = T),
+                  "laststcs_glodate" = max(!!sym("glodate"))),
+      by = "patientkey",relationship = "one-to-one") |>
+    add_var(stcs,"cutoff_date")
+
+}
+
 
 #'@export
 #'@importFrom stringr str_starts

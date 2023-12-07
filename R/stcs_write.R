@@ -49,9 +49,11 @@ stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE,na ="", ...){
 
 
 #' @export
-#' @importFrom openxlsx openxlsx_setOp createWorkbook addWorksheet writeData saveWorkbook
+#' @importFrom openxlsx openxlsx_getOp openxlsx_setOp createWorkbook addWorksheet writeData saveWorkbook
 #' @rdname write_stcs
 stcs_write_xlsx <- function(stcs,dir){
+  op0 <- openxlsx_getOp("openxlsx.dateFormat")
+
   openxlsx_setOp("openxlsx.dateFormat", "yyyy-mm-dd")
 
   if(!dir.exists(dir)){
@@ -80,6 +82,9 @@ stcs_write_xlsx <- function(stcs,dir){
     saveWorkbook(wb, file = file.path(dir,fi), overwrite = TRUE)
 
   }
+
+  openxlsx_setOp("openxlsx.dateFormat",  op0)
+
 
 
 }
