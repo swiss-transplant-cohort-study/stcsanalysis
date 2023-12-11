@@ -29,7 +29,7 @@ stcs_read <- function(dir, delim=",",lazy = FALSE, progress = FALSE, na = "", ..
 
   ct_meta <- cols(.default = col_character())
 
-  variablemetadata <- stcs_read0(dir,"VariableMetadata.csv",col_types= cols(.default = col_character()),delim=delim,lazy=lazy,progress=progress,na=na, ...=...)
+  variablemetadata <- stcs_read0(dir,"VariableMetaData.csv",col_types= cols(.default = col_character()),delim=delim,lazy=lazy,progress=progress,na=na, ...=...)
 
   out <-
     variablemetadata |>
@@ -59,7 +59,7 @@ stcs_future_read <- function(dir, delim=",",lazy = FALSE, progress = FALSE, na =
 
   ct_meta <- cols(.default = col_character())
 
-  variablemetadata <- stcs_read0(dir,"VariableMetadata.csv",col_types= cols(.default = col_character()),delim=delim,lazy=lazy,progress=progress,na=na, ...=...)
+  variablemetadata <- stcs_read0(dir,"VariableMetaData.csv",col_types= cols(.default = col_character()),delim=delim,lazy=lazy,progress=progress,na=na, ...=...)
 
   out <-
     variablemetadata |>
