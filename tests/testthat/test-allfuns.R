@@ -128,7 +128,7 @@ test_that("recode()", {
                     input2 = letters,
                     output = 1L:26L)
 
-  expect_equal(recode(c("A","B"),c("a","b"),data = rec,.new_var = "output"),c(1L,2L))
+  expect_equal(new_coding(input2=c("a","b"),input1=c("A","B"),data = rec,.new_var = "output"),c(1L,2L))
 
 })
 

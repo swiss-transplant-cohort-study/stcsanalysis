@@ -1,4 +1,4 @@
-#' Recode a variables given a dataframe
+#' Recode a variables given the input from a dataframe
 #'
 #' @param ... (named) vector.
 #' @param data a data frame contains the recoding.
@@ -15,7 +15,7 @@
 #'
 #' @export
 #' @importFrom dplyr anti_join
-recode <- function(...,data,.new_var = "new_var"){
+new_coding <- function(...,data,.new_var = "new_var"){
 
   dotargs <- list(...)
 
