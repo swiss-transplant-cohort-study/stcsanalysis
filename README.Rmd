@@ -13,19 +13,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-# stcswrangling2
+# stcsanalysis
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The stcswrangling2 package contains function to handle the STCS analysis tables.
+The stcsanalysis package contains function to handle the STCS analysis tables.
 
 ## Installation
 
-You can install the development version of stcswrangling2 like so:
+You can install the development version of stcsanalysis like so:
 
 ```{r install, eval = FALSE}
-remotes::install_github("swiss-transplant-cohort-study/stcswrangling2")
+remotes::install_github("swiss-transplant-cohort-study/stcsanalysis")
 ```
 
 ## Example
@@ -33,7 +33,7 @@ remotes::install_github("swiss-transplant-cohort-study/stcswrangling2")
 You can create a table using:
 
 ```{r setup, eval = FALSE}
-library(stcswrangling2)
+library(stcsanalysis)
 stcs <- stcs_read("dir/to/analysis/tables")
 
 data_patientkey(stcs) |> 
