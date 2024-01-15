@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# stcswrangling2
+# stcsanalysis
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -11,10 +11,10 @@ tables.
 
 ## Installation
 
-You can install the development version of stcswrangling2 like so:
+You can install the development version of stcsanalysis like so:
 
 ``` r
-remotes::install_github("swiss-transplant-cohort-study/stcswrangling2")
+remotes::install_github("swiss-transplant-cohort-study/stcsanalysis")
 ```
 
 ## Example
@@ -22,7 +22,7 @@ remotes::install_github("swiss-transplant-cohort-study/stcswrangling2")
 You can create a table using:
 
 ``` r
-library(stcswrangling2)
+library(stcsanalysis)
 stcs <- stcs_read("dir/to/analysis/tables")
 
 data_patientkey(stcs) |> 
