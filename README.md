@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The stcswrangling2 package contains function to handle the STCS analysis
+The stcsanalysis package contains function to handle the STCS analysis
 tables.
 
 ## Installation
