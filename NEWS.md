@@ -1,4 +1,4 @@
-# stcswrangling2 0.1.0
+# stcsanalysis 0.1.0
 
 * Tested on AT from: 2023-12-11
 * Developed AT from: 2023-12-11, 2023-10-18
