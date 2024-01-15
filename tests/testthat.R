@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(stcswrangling2)
+library(stcsanalysis)
 
-test_check("stcswrangling2")
+test_check("stcsanalysis")

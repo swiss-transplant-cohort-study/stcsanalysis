@@ -11,10 +11,12 @@ tailored_organ(stcs)
 
 tailored_patientsurvival(stcs)
 
-tailored_psq(stcs)
+tailored_psq(stcs, silent = FALSE)
 }
 \arguments{
 \item{stcs}{A list containing the STCS data frame.}
+
+\item{silent}{lgl. Specify if warning should be returned.}
 }
 \value{
 A data frame.

@@ -1,6 +1,7 @@
 #' Tailored analysis tables
 #'
 #'@param stcs A list containing the STCS data frame.
+#'@param silent lgl. Specify if warning should be returned.
 #'
 #'@return A data frame.
 #'
@@ -26,45 +27,49 @@ tailored_organ <- function(stcs){
 #'@export
 #'@rdname tail_tbl
 #'@importFrom dplyr slice_max slice_min summarise
+#'@importFrom tidyr pivot_longer
+#'@importFrom tidyselect contains ends_with
 tailored_patientsurvival <- function(stcs){
-  stcs$patient |>
+
+  mendatory_tailored_tables_error(stcs,c("graftloss","patient","patientlongitudinal","stop"))
+
+  stcs[["patient"]] |>
     select(all_of(c("patientkey","enrollment_date"))) |>
     add_var(stcs,.var = "deathdate",from ="stop",by = "patientkey",.filter = !is.na(!!sym("deathdate"))) |>
     left_join(
-      stcs$stop |>
+      stcs[["stop"]] |>
         filter(!is.na(!!sym("dropoutdate"))) |>
         group_by(!!sym("patientkey")) |>
         slice_min(!!sym("dropoutdate")) |>
         select(all_of(c("patientkey","first_dropoutdate"="dropoutdate","first_dropoutdateaccuracy"="dropoutdateaccuracy"))),
       by = "patientkey",relationship = "one-to-one") |>
-    add_var(stcs,.var = c("last_dropoutdate"="dropoutdate","last_dropoutdateaccuracy"="dropoutdateaccuracy"),
-            from ="stop",by = "patientkey",.filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))) |>
+    add_var(stcs,.var = c("last_activedropoutdate"="dropoutdate","last_activedropoutdateaccuracy"="dropoutdateaccuracy"),
+            from ="stop",by = "patientkey",.filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))|!!sym("backstcsdate")>stcs[["admin"]][["cutoff_date"]]) |>
     # add_var(stcs,.var = c("lastalivedate"),
-    #         from ="stop",by = "patientkey",.filter = !is.na(!!sym("lastalivedate")))
+    #         from ="stop",by = "patientkey",.filter = !is.na(!!sym("lastalivedate"))) |>
     left_join(
-      stcs$patientlongitudinal |>
+      stcs[["patientlongitudinal"]] |>
         select(all_of(c("patientkey","assdate","patlongkey"))) |>
         group_by(!!sym("patientkey")) |>
         slice_max(!!sym("assdate")) |>
-        summarise("last_assdate"=unique(!!sym("assdate")),
-                  "last_patlongkeys" = paste(!!sym("patlongkey"), collapse = ",")),
+        summarise("last_patlongkeys" = paste(!!sym("patlongkey"), collapse = ","),
+                  "last_assdate"=unique(!!sym("assdate"))),
       by = "patientkey",relationship = "one-to-one") |>
     left_join(
-      stcs$patientdisease |>
-        filter(!!sym("disease_category")=="Infection") |>
-        group_by(!!sym("patientkey")) |>
-        slice_max(!!sym("date")) |>
-        summarise("lastinf_date"= unique(!!sym("date")),
-                  "lastinf_diseasekeys" = paste(!!sym("diseasekey"), collapse = ",")),
-      by = "patientkey",relationship = "one-to-one") |>
-    left_join(
-      stcs$organ |>
+      stcs[["organ"]] |>
         select(all_of(c("patientkey","organkey"))) |>
         add_var(stcs,c("glodate"="date"),from = "graftloss", by = "organkey") |>
         group_by(!!sym("patientkey")) |>
         filter(any(!is.na(!!sym("glodate")))) |>
         summarise("first_glodate" = min(!!sym("glodate"),na.rm = T),
-                  "laststcs_glodate" = max(!!sym("glodate"))),
+                  "all_glodate" = max(!!sym("glodate"))),
+      by = "patientkey",relationship = "one-to-one") |>
+    left_join(
+      stcs[["patientlongitudinal"]] |> select(all_of(c("patientkey","assdate")),contains("_toggle")) |>
+        pivot_longer(ends_with("_toggle"),values_to = "toggle_value",names_to = "toggle", names_pattern = "(.*)_toggle",values_drop_na = T) |>
+        group_by(across(all_of(c("patientkey","toggle")))) |>
+        summarise(last_date = max(!!sym("assdate")),.groups = "drop") |>
+        pivot_wider(values_from = !!sym("last_date"),names_from = !!sym("toggle"),names_glue = "last_{toggle}_toggle_date"),
       by = "patientkey",relationship = "one-to-one") |>
     add_var(stcs,"cutoff_date")
 
@@ -74,9 +79,22 @@ tailored_patientsurvival <- function(stcs){
 #'@export
 #'@importFrom stringr str_starts
 #'@rdname tail_tbl
-tailored_psq <- function(stcs){
+tailored_psq <- function(stcs, silent = FALSE){
 
-  Reduce(\(x,y){left_join(x,y,by = c("psqkey","patientkey"),relationship = "one-to-one")},
+
+  optional_tab <- c("psqadherence", "psqdaysleep", "psqeducation", "psqequvas",
+                    "psqquol", "psqsleep", "psqtrust", "psq2exercise", "psq2profession",
+                    "psq2workcap", "psq3activity", "psq3household", "psq3occupation",
+                    "psq3sport")
+
+  mendatory_tailored_tables_error(stcs,"psq")
+
+
+  if(any(!optional_tab%in%names(stcs))&!silent){
+    warning("tailored_psq() is not complete. You will missing data from ",paste(optional_tab[!optional_tab%in%names(stcs)],collapse=", "))
+  }
+
+  Reduce(\(x,y){left_join(x,y,by = c("patlongkey","patientkey"),relationship = "one-to-one")},
          lapply(stcs[str_starts(names(stcs),"psq")],psq_wide))
 
 }
@@ -88,7 +106,7 @@ tailored_psq <- function(stcs){
 #' @importFrom dplyr ungroup group_by n across
 #' @importFrom tidyselect where
 #' @importFrom stringr str_pad
-psq_wide <- function(x, .key = c("patientkey","psqkey")){
+psq_wide <- function(x, .key = c("patientkey","patlongkey")){
 
   stopifnot("The data frame must contains a psqkey." = all(.key %in%colnames(x)))
   stopifnot("The data frame must not contains a variable named rowid."= !".rowid"%in%colnames(x))
@@ -118,4 +136,12 @@ psq_wide <- function(x, .key = c("patientkey","psqkey")){
   }
 
 }
+
+
+mendatory_tailored_tables_error <- function(stcs, mendatory_tab){
+  if(any(!mendatory_tab%in%names(stcs))){
+    stop("The following tables are mendatory: ",paste(mendatory_tab,collapse=", "),".")
+  }
+}
+
 

@@ -28,7 +28,7 @@ add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detec
   mc[["relationship"]]="many-to-one"
 
 
-  mc[[1]] <- quote(stcswrangling2::new_var_from)
+  mc[[1]] <- quote(stcsanalysis::new_var_from)
   eval(mc, envir = parent.frame())
 
 
@@ -41,7 +41,7 @@ add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detec
 expand_var_from <- function(data, stcs, .var,from, by, .filter){
   mc <- match.call()
   mc[["relationship"]]="many-to-many"
-  mc[[1]] <- quote(stcswrangling2::new_var_from)
+  mc[[1]] <- quote(stcsanalysis::new_var_from)
   eval(mc, envir = parent.frame())
 }
 

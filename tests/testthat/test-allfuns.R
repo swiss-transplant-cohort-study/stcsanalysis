@@ -5,10 +5,10 @@ options("lifecycle_verbosity"="error")
 # LOAD STCS DATA ----
 if(file.exists(file.path("..","..","stcspath.txt"))){
   dir <- readLines(file.path("..","..","stcspath.txt"))
-}else if(file.exists(file.path("..","..","..","stcswrangling2","stcspath.txt"))){
-  dir <- readLines(file.path("..","..","..","stcswrangling2","stcspath.txt"))
+}else if(file.exists(file.path("..","..","..","stcsanalysis","stcspath.txt"))){
+  dir <- readLines(file.path("..","..","..","stcsanalysis","stcspath.txt"))
 }else{
-  dir <-readLines("H:/project/stcswrangling2/stcspath.txt")
+  dir <-readLines("H:/project/stcsanalysis/stcspath.txt")
 }
 
 dir <- stringr::str_trim(dir)
@@ -76,12 +76,12 @@ test_that(paste0(dir_name[i],": Run detection"), {
 
   out <-
   data_organkey(stcs) |>
-    add_var(stcs,"glo")|>
+    add_var(stcs,"coldisch")|>
     add_var(stcs,c("tpxdate",id="organid"))|>
     colnames()
 
 
-  expect_equal(out,c("organkey", "glo", "tpxdate", "id"))
+  expect_equal(out,c("organkey", "coldisch", "tpxdate", "id"))
 
 })
 

@@ -51,7 +51,7 @@ stcs_read <- function(dir, delim=",",lazy = FALSE, progress = FALSE, na = "", ..
 
 #' @export
 #' @importFrom listenv listenv
-#' @importFrom future `%lazy%` `%<-%`
+#' @importFrom future %lazy% %<-%
 #' @rdname read
 stcs_future_read <- function(dir, delim=",",lazy = FALSE, progress = FALSE, na = "", ...){
 
