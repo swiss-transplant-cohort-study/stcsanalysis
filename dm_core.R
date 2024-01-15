@@ -1,4 +1,4 @@
-library(stcswrangling2)
+library(stcsanalysis)
 library(dplyr)
 library(tidyr)
 library(lubridate)
