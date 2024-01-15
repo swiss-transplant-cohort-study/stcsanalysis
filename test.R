@@ -3,7 +3,7 @@ library(tidyr)
 library(purrr)
 library(rlang)
 library(readr)
-library(stcswrangling2)
+library(stcsanalysis)
 library(stringr)
 library(lubridate)
 
