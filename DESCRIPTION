@@ -1,4 +1,4 @@
-Package: stcswrangling2
+Package: stcsanalysis
 Type: Package
 Title: Data wrangling tools for the STCS analysis tables
 Version: 0.1.0
