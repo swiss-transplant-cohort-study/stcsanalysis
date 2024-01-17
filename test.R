@@ -8,8 +8,13 @@ library(stringr)
 library(lubridate)
 
 
-dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2023-12-06/csv"
+dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-01-15/csv"
 stcs <- stcs_read(dir)
+
+stcs_select_table(stcs,setdiff(names(stcs),"graftloss")) |>
+  tailored_patientsurvival()
+
+
 
 tb_ps <- tailored_patientsurvival(stcs)
 

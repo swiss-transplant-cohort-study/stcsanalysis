@@ -8,6 +8,8 @@
 #'@details
 #'
 #'\code{tailored_organ()}: PK: \code{organkey}. Baseline and outcome of organs.
+#'\code{tailored_patientsurvival()}: PK: \code{patientkey}. Main date for survival of the patients.
+#'\code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
 #'
 #'@name tail_tbl
 
@@ -31,7 +33,7 @@ tailored_organ <- function(stcs){
 #'@importFrom tidyselect contains ends_with
 tailored_patientsurvival <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("graftloss","patient","patientlongitudinal","stop"))
+  mendatory_tailored_tables_error(stcs,c("patient","patientlongitudinal","stop","graftloss"))
 
   stcs[["patient"]] |>
     select(all_of(c("patientkey","enrollment_date"))) |>

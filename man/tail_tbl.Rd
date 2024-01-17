@@ -26,4 +26,6 @@ Tailored analysis tables
 }
 \details{
 \code{tailored_organ()}: PK: \code{organkey}. Baseline and outcome of organs.
+\code{tailored_patientsurvival()}: PK: \code{patientkey}. Main date for survival of the patients.
+\code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
 }
