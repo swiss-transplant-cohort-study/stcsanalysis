@@ -33,7 +33,7 @@ tailored_organ <- function(stcs){
 #'@importFrom tidyselect contains ends_with
 tailored_patientsurvival <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("patient","patientlongitudinal","stop","graftloss"))
+  mendatory_tailored_tables_error(stcs,c("admin","patient","patientlongitudinal","stop"))
 
   stcs[["patient"]] |>
     select(all_of(c("patientkey","enrollment_date"))) |>
@@ -46,9 +46,7 @@ tailored_patientsurvival <- function(stcs){
         select(all_of(c("patientkey","first_dropoutdate"="dropoutdate","first_dropoutdateaccuracy"="dropoutdateaccuracy"))),
       by = "patientkey",relationship = "one-to-one") |>
     add_var(stcs,.var = c("last_activedropoutdate"="dropoutdate","last_activedropoutdateaccuracy"="dropoutdateaccuracy"),
-            from ="stop",by = "patientkey",.filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))|!!sym("backstcsdate")>stcs[["admin"]][["cutoff_date"]]) |>
-    # add_var(stcs,.var = c("lastalivedate"),
-    #         from ="stop",by = "patientkey",.filter = !is.na(!!sym("lastalivedate"))) |>
+            from ="stop",by = "patientkey",.filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))) |>
     left_join(
       stcs[["patientlongitudinal"]] |>
         select(all_of(c("patientkey","assdate","patlongkey"))) |>
@@ -58,22 +56,15 @@ tailored_patientsurvival <- function(stcs){
                   "last_assdate"=unique(!!sym("assdate"))),
       by = "patientkey",relationship = "one-to-one") |>
     left_join(
-      stcs[["organ"]] |>
-        select(all_of(c("patientkey","organkey"))) |>
-        add_var(stcs,c("glodate"="date"),from = "graftloss", by = "organkey") |>
-        group_by(!!sym("patientkey")) |>
-        filter(any(!is.na(!!sym("glodate")))) |>
-        summarise("first_glodate" = min(!!sym("glodate"),na.rm = T),
-                  "all_glodate" = max(!!sym("glodate"))),
-      by = "patientkey",relationship = "one-to-one") |>
-    left_join(
-      stcs[["patientlongitudinal"]] |> select(all_of(c("patientkey","assdate")),contains("_toggle")) |>
+      stcs[["patientlongitudinal"]] |>
+        select(all_of(c("patientkey","assdate")),contains("_toggle")) |>
+        mutate(across(contains("_toggle"),truemissing_to_na)) |>
         pivot_longer(ends_with("_toggle"),values_to = "toggle_value",names_to = "toggle", names_pattern = "(.*)_toggle",values_drop_na = T) |>
         group_by(across(all_of(c("patientkey","toggle")))) |>
         summarise(last_date = max(!!sym("assdate")),.groups = "drop") |>
         pivot_wider(values_from = !!sym("last_date"),names_from = !!sym("toggle"),names_glue = "last_{toggle}_toggle_date"),
       by = "patientkey",relationship = "one-to-one") |>
-    add_var(stcs,"cutoff_date")
+    add_var(stcs,"extraction_date",from = "admin")
 
 }
 

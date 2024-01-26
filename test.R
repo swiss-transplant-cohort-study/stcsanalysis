@@ -8,11 +8,20 @@ library(stringr)
 library(lubridate)
 
 
-dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-01-15/csv"
+dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-01-24/csv"
 stcs <- stcs_read(dir)
 
-stcs_select_table(stcs,setdiff(names(stcs),"graftloss")) |>
+stcs$variablemetadata |>
+  filter(str_detect(variable,"ud"))
+
+stcs |>
   tailored_patientsurvival()
+
+stcs$patientdisease |>
+  add_var(stcs,.var="enrollment_date") |>
+  categorize_infsite(stcs,.date="enrollment_date") |>
+  print(n=200)
+
 
 
 

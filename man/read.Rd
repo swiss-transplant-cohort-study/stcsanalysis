@@ -4,7 +4,7 @@
 \alias{read}
 \alias{stcs_read}
 \alias{stcs_future_read}
-\alias{stcs_read0}
+\alias{stcs_read1}
 \title{Read STCS data}
 \usage{
 stcs_read(dir, delim = ",", lazy = FALSE, progress = FALSE, na = "", ...)
@@ -18,7 +18,7 @@ stcs_future_read(
   ...
 )
 
-stcs_read0(
+stcs_read1(
   dir,
   filename,
   col_types = NULL,
