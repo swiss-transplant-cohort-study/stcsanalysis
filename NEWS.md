@@ -1,3 +1,10 @@
+# stcsanalysis 0.2.0
+
+* Tested on AT from: 2024-02-01
+* Developed AT from: 2024-02-01,
+* add crf_status in patientsurvival
+
+
 # stcsanalysis 0.1.0
 
 * Tested on AT from: 2024-01-24

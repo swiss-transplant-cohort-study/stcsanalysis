@@ -8,7 +8,8 @@
 #' @param .days_range numeric. A vector of length selecting the date range around \code{date} to look for medication.
 #'
 #' @return a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"} describing the selected drugs and their occurrence.
-#' @importFrom dplyr rename count
+#' @importFrom dplyr rename count arrange
+#' @export
 categorize_medication <- function(data, stcs,
                             .drug_category = c("drug_idpro", "drug_ind", "drug_is", "drug_other"),
                             .patientkey = "patientkey",
@@ -36,7 +37,8 @@ categorize_medication <- function(data, stcs,
     count(!!sym("drug_category"),!!sym("name"),!!sym("comment"),!!sym("code")) |>
     mutate("range" = paste(.date,paste(.days_range,collapse = "/"),"days.",collapse = " ")) |>
     rename("n_occurence" = !!sym("n"))|>
-    filter(!((is.na(!!sym("name"))&is.na(!!sym("comment"))&is.na(!!sym("code")))))
+    filter(!((is.na(!!sym("name"))&is.na(!!sym("comment"))&is.na(!!sym("code"))))) |>
+    arrange(!!sym("drug_category"),!!sym("name"),!!sym("comment"))
 
 }
 

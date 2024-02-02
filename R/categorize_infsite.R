@@ -7,6 +7,7 @@
 #' @param .days_range numeric. A vector of length selecting the date range around \code{date} to look for medication.
 #'
 #' @return a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"} describing the selected drugs and their occurrence.
+#' @export
 categorize_infsite <- function(data, stcs,
                                .diseasekey = "diseasekey",
                                .date = "date",
@@ -29,7 +30,8 @@ categorize_infsite <- function(data, stcs,
     count(!!sym("infsite"),!!sym("comment")) |>
     mutate("range" = paste(.date,paste(.days_range,collapse = "/"),"days.",collapse = " ")) |>
     rename("n_occurence" = !!sym("n"))|>
-    filter(!((is.na(!!sym("infsite"))&is.na(!!sym("comment")))))
+    filter(!((is.na(!!sym("infsite"))&is.na(!!sym("comment"))))) |>
+    arrange(!!sym("infsite"),!!sym("comment"))
 
 }
 

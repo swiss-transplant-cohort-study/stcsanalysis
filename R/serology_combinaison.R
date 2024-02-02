@@ -6,6 +6,7 @@
 #' @param don_serology chr. Serology of the Donor. Either "Positive" or Negative.
 #'
 #' @return a character vector.
+#' @importFrom dplyr case_match
 #' @export
 serology_combinaison <- function(rec_serology, don_serology){
   rec_serology <- check_input(rec_serology,c("Positive","Negative",NA_character_))

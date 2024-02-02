@@ -8,14 +8,33 @@ library(stringr)
 library(lubridate)
 
 
-dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-01-24/csv"
+dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-01/csv"
 stcs <- stcs_read(dir)
 
-stcs$variablemetadata |>
-  filter(str_detect(variable,"ud"))
+data_patientkey(stcs) |>
+  mutate(date = Sys.Date()-200) |>
+  categorize_otherdisease(stcs,.days_range = c(-Inf,0))
 
-stcs |>
-  tailored_patientsurvival()
+stcs$patientdisease |>
+  count(disease_category)
+
+tb_surv <- stcs |> tailored_patientsurvival()
+
+tb_inf <-
+  stcs$patientdisease |>
+  filter(patdiagnosis=="Fungi",!is_pre) |>
+  select(patientkey,date) |>
+  group_by(patientkey) |>
+  summarise(fistinf_date = min(date))
+
+tb_surv |>
+  select(patientkey, enrollment_date, deathdate,  first_dropoutdate,last_id_toggle_date,extraction_date) |>
+  left_join(tb_inf, by ="patientkey",relationship = "one-to-one") |>
+  mutate(first_event_date = pmin(fistinf_date,first_dropoutdate,deathdate,last_id_toggle_date,extraction_date,na.rm = T),
+         fist_event_chr = which.pmin_chr(inf=fistinf_date,cens=first_dropoutdate,death=deathdate,cens=last_id_toggle_date,cens=extraction_date))
+
+
+
 
 stcs$patientdisease |>
   add_var(stcs,.var="enrollment_date") |>

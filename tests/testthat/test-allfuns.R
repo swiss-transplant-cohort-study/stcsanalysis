@@ -19,7 +19,6 @@ dir_name <- strsplit(dir,"/|\\\\")
 
 path_diff <- !apply(do.call("cbind",dir_name),1,\(x){length(unique(x))==1L})
 
-which(path_diff)[1]
 dir_name <- sapply(dir_name,\(x){x[which(path_diff)[1]]})
 
 
@@ -45,16 +44,6 @@ stcs <-
   validate_metadata()
 
 
-## Tailored tables ----
-
-test_that(paste0(dir_name[i],": Run tailored_organ()"), {
-
-  out <- tailored_organ(stcs)
-
-  expect_s3_class(out,"data.frame")
-
-})
-
 
 ## Utilities ----
 
@@ -64,9 +53,6 @@ test_that(paste0(dir_name[i],": var_available()"), {
                    var_available(stcs))
 
 })
-
-
-
 
 
 
@@ -115,6 +101,76 @@ test_that(paste0(dir_name[i],": selecting and filter"), {
 
 
 })
+
+
+## Tailored tables ----
+
+test_that(paste0(dir_name[i],": Run tailored_organ()"), {
+
+  out <- tailored_organ(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run tailored_patientsurvival()"), {
+
+  out <- tailored_patientsurvival(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
+
+  out <- tailored_organsurvival(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
+
+  out <- tailored_psq(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+## categorize
+
+test_that(paste0(dir_name[i],": Run categorize_infsite()"), {
+
+  out <- stcs$patientdisease |>
+    dplyr::filter(disease_category=="Infection") |>
+    add_var(stcs,"enrollment_date",from = "patient","patientkey") |>
+    categorize_infsite(stcs,.date = "enrollment_date")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+test_that(paste0(dir_name[i],": Run categorize_medication()"), {
+
+  out <- stcs$patient |>
+    categorize_medication(stcs,.date = "enrollment_date")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+test_that(paste0(dir_name[i],": Run categorize_medication()"), {
+
+  out <- stcs$patient |>
+    categorize_otherdisease(stcs,.date = "enrollment_date")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
 
 }
 
@@ -171,6 +227,19 @@ test_that("Run age_months()", {
   data$agem = age_months(data$from, data$to)
 
   expect_equal(data$agem,c(-13L, 0L,11L,12L,23L,35L,47L,48L))
+
+})
+
+
+test_that("Run serology_combinaison()", {
+  out <-
+    expand.grid(rec = c("Positive","Negative",NA_character_),
+                don = c("Positive","Negative",NA_character_),stringsAsFactors = F) |>
+    dplyr::mutate(comb = serology_combinaison(rec,don)) |>
+    dplyr::pull(comb)
+
+  expect_equal(out,c("R+/D+", "R-/D+", NA_character_, "R+/D-", "R-/D-",
+                     NA_character_, NA_character_, NA_character_, NA_character_))
 
 })
 
