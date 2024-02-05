@@ -75,20 +75,23 @@ stcs_remove_emptytab <- function(stcs){
 }
 
 #'@importFrom rlang arg_match
-#'@importFrom stringr str_detect fixed
+#'@importFrom stringr str_detect regex
 #'@importFrom tidyselect all_of
 #'@importFrom dplyr filter pull select
 #'@rdname filter
 #'@export
-stcs_select_organ <- function(stcs, organ = c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel")){
+stcs_select_organrelevance <- function(stcs, organ = c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel")){
   organ <- arg_match(organ,values=c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel"),
                      multiple= TRUE)
   ## Check if we have organs we reject
   if(any(!stcs$organ$organ%in%organ)){warning("Your dataset contains organs not listed in 'organ'. You might loose information.")}
 
+  ## vector to regex
+  organ <- paste0(organ,collapse = "|")
+
   ## filter metadata with the correct organs
   data_select <- stcs[["variablemetadata"]] |>
-    filter(Reduce(f=`|`, x= lapply(organ,\(oi){str_detect(!!sym("organ_relevance"),fixed(oi))}))) |>
+    filter(str_detect(!!sym("organ_relevance"),regex(organ))) |>
     select(all_of(c("dataset","variable")))
 
   ## select variable in meta
@@ -111,8 +114,6 @@ stcs_select_table <- function(stcs, tables){
                      filter(tolower(!!sym("dataset"))%in%tables))
 
 }
-
-
 
 
 

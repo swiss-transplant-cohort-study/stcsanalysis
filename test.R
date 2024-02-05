@@ -11,6 +11,12 @@ library(lubridate)
 dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-01/csv"
 stcs <- stcs_read(dir)
 
+
+stcs |> stcs_select_organrelevance(organ = "Heart")
+
+stcs$transplantation
+
+
 data_patientkey(stcs) |>
   mutate(date = Sys.Date()-200) |>
   categorize_otherdisease(stcs,.days_range = c(-Inf,0))

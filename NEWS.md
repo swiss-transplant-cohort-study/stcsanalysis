@@ -3,6 +3,7 @@
 * Tested on AT from: 2024-02-01
 * Developed AT from: 2024-02-01,
 * add crf_status in patientsurvival
+* add transplantationsurvival
 
 
 # stcsanalysis 0.1.0

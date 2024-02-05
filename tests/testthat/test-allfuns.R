@@ -91,7 +91,7 @@ test_that(paste0(dir_name[i],": selecting and filter"), {
   out <-
     stcs |>
     stcs_filter_patientkey(pk) |>
-    stcs_select_organ(organ= orgs) |>
+    stcs_select_organrelevance(organ= orgs) |>
     stcs_remove_emptytab() |>
     stcs_select_table(tables=c("patient","organ","transplantation")) |>
     stcs_anonymize()|>
@@ -113,13 +113,6 @@ test_that(paste0(dir_name[i],": Run tailored_organ()"), {
 
 })
 
-test_that(paste0(dir_name[i],": Run tailored_patientsurvival()"), {
-
-  out <- tailored_patientsurvival(stcs)
-
-  expect_s3_class(out,"data.frame")
-
-})
 
 test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
 
@@ -129,9 +122,25 @@ test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
 
 })
 
-test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
+test_that(paste0(dir_name[i],": Run tailored_patientsurvival()"), {
+
+  out <- tailored_patientsurvival(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run tailored_psq()"), {
 
   out <- tailored_psq(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run tailored_transplantationsurvival()"), {
+
+  out <- tailored_transplantationsurvival(stcs)
 
   expect_s3_class(out,"data.frame")
 

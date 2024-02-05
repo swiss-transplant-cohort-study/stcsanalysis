@@ -5,6 +5,7 @@
 \alias{tailored_organ}
 \alias{tailored_patientsurvival}
 \alias{tailored_organsurvival}
+\alias{tailored_transplantationsurvival}
 \alias{tailored_psq}
 \title{Tailored analysis tables}
 \usage{
@@ -13,6 +14,8 @@ tailored_organ(stcs)
 tailored_patientsurvival(stcs)
 
 tailored_organsurvival(stcs)
+
+tailored_transplantationsurvival(stcs)
 
 tailored_psq(stcs, silent = FALSE)
 }

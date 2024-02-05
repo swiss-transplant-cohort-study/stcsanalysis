@@ -5,7 +5,7 @@
 \alias{stcs_anonymize}
 \alias{stcs_filter_patientkey}
 \alias{stcs_remove_emptytab}
-\alias{stcs_select_organ}
+\alias{stcs_select_organrelevance}
 \alias{stcs_select_table}
 \title{Filter/select the STCS dataset}
 \usage{
@@ -18,7 +18,7 @@ stcs_filter_patientkey(stcs, patientkeys)
 
 stcs_remove_emptytab(stcs)
 
-stcs_select_organ(
+stcs_select_organrelevance(
   stcs,
   organ = c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel")
 )
