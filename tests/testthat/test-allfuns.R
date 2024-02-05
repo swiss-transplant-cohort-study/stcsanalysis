@@ -147,14 +147,24 @@ test_that(paste0(dir_name[i],": Run tailored_transplantationsurvival()"), {
 })
 
 
-## categorize
+## Categorization ----
 
 test_that(paste0(dir_name[i],": Run categorize_infsite()"), {
 
   out <- stcs$patientdisease |>
-    dplyr::filter(disease_category=="Infection") |>
-    add_var(stcs,"enrollment_date",from = "patient","patientkey") |>
-    categorize_infsite(stcs,.date = "enrollment_date")
+    dplyr::filter(patdiagnosis=="Virus") |>
+    categorize_infsite(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+test_that(paste0(dir_name[i],": Run categorize_pathogenspecies()"), {
+
+  out <- stcs$patientdisease |>
+    dplyr::filter(patdiagnosis=="Virus") |>
+    categorize_pathogenspecies(stcs)
 
   expect_s3_class(out,"data.frame")
 
@@ -164,21 +174,12 @@ test_that(paste0(dir_name[i],": Run categorize_infsite()"), {
 test_that(paste0(dir_name[i],": Run categorize_medication()"), {
 
   out <- stcs$patient |>
-    categorize_medication(stcs,.date = "enrollment_date")
+    categorize_treatment(stcs,.date = "enrollment_date")
 
   expect_s3_class(out,"data.frame")
 
 })
 
-
-test_that(paste0(dir_name[i],": Run categorize_medication()"), {
-
-  out <- stcs$patient |>
-    categorize_otherdisease(stcs,.date = "enrollment_date")
-
-  expect_s3_class(out,"data.frame")
-
-})
 
 
 }

@@ -1,4 +1,4 @@
-#' Extract drug data for recoding
+#' Extract treatment data for recoding
 #'
 #' @param data data.frame. A data frame containing the variables describe in \code{.patientkey} and \code{.date}
 #' @param stcs list. The stcs object.
@@ -7,10 +7,10 @@
 #' @param .date chr. The column name containign the date
 #' @param .days_range numeric. A vector of length selecting the date range around \code{date} to look for medication.
 #'
-#' @return a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"} describing the selected drugs and their occurrence.
+#' @return a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"}.
 #' @importFrom dplyr rename count arrange
 #' @export
-categorize_medication <- function(data, stcs,
+categorize_treatment <- function(data, stcs,
                             .drug_category = c("drug_idpro", "drug_ind", "drug_is", "drug_other"),
                             .patientkey = "patientkey",
                             .date = "date",

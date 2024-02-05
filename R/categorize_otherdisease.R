@@ -8,7 +8,7 @@
 #' @param .days_range numeric. A vector of length selecting the date range around \code{date} to look for medication.
 #'
 #'
-#' @return a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"} describing the selected disease and their occurrence.
+#' @return a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
 #' @importFrom dplyr rename count
 #' @export
 categorize_otherdisease <- function(data, stcs,

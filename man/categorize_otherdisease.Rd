@@ -27,7 +27,7 @@ categorize_otherdisease(
 \item{.days_range}{numeric. A vector of length selecting the date range around \code{date} to look for medication.}
 }
 \value{
-a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"} describing the selected disease and their occurrence.
+a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
 }
 \description{
 Extract Other disease for recoding

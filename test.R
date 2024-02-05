@@ -11,8 +11,14 @@ library(lubridate)
 dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-01/csv"
 stcs <- stcs_read(dir)
 
+data =
+stcs$patientdisease |>
+  categorize_species(stcs)
+
 
 stcs |> stcs_select_organrelevance(organ = "Heart")
+
+
 
 stcs$transplantation
 

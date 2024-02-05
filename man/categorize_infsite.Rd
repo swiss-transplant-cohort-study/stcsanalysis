@@ -2,15 +2,9 @@
 % Please edit documentation in R/categorize_infsite.R
 \name{categorize_infsite}
 \alias{categorize_infsite}
-\title{Extract drug data for recoding}
+\title{Extract infection site data for recoding}
 \usage{
-categorize_infsite(
-  data,
-  stcs,
-  .diseasekey = "diseasekey",
-  .date = "date",
-  .days_range = c(-Inf, Inf)
-)
+categorize_infsite(data, stcs, .diseasekey = "diseasekey")
 }
 \arguments{
 \item{data}{data.frame. A data frame containing the variables describe in \code{.patientkey} and \code{.date}}
@@ -18,14 +12,10 @@ categorize_infsite(
 \item{stcs}{list. The stcs object.}
 
 \item{.diseasekey}{chr. The column name containing diseasekey}
-
-\item{.date}{chr. The column name containing the date}
-
-\item{.days_range}{numeric. A vector of length selecting the date range around \code{date} to look for medication.}
 }
 \value{
-a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"} describing the selected drugs and their occurrence.
+a data frame containing \code{"infsite"},  \code{"comment"}, \code{"n_occurence"}.
 }
 \description{
-Extract drug data for recoding
+Extract infection site data for recoding
 }
