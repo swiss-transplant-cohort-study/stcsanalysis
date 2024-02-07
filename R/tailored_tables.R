@@ -85,7 +85,7 @@ tailored_patientsurvival <- function(stcs){
       stcs[["consent"]] |>
         filter(!!sym("consent_status")=="Withdrawal") |>
         group_by(!!sym("patientkey")) |>
-        summarise("fist_consent_withdrawal_date" = min(!!sym("consent_date")),.groups = "drop"),
+        summarise("last_consent_withdrawal_date" = max(!!sym("consent_date")),.groups = "drop"),
       by = "patientkey",relationship = "one-to-one")
 
 
