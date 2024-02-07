@@ -8,8 +8,14 @@ library(stringr)
 library(lubridate)
 
 
-dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-01/csv"
+dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-06/csv"
 stcs <- stcs_read(dir)
+
+stcs$consent |>
+  add_var(stcs,"enrollment_date") |>
+  filter(consent_status=="Withdrawal") |>
+  select(patientkey,consent_status,ends_with("date")) |>
+  filter(enrollment_date>=consent_date)
 
 data =
 stcs$patientdisease |>
@@ -17,6 +23,37 @@ stcs$patientdisease |>
 
 
 stcs |> stcs_select_organrelevance(organ = "Heart")
+
+
+
+
+
+
+###############
+list_fun <- function(...){
+  l <- list(...)
+  function(...){
+    x <- list(...)
+    x <- unlist(x)
+    if(!all(x%in%names(l))){stop("input should either: ",paste(names(l),collapse = ", "))}
+    if(!is.null(x)){
+      if(length(x)==1){
+        l[[x]]
+      }else{
+        l[x]
+      }
+
+    }else{
+      l
+    }
+  }
+}
+
+
+
+
+
+###############
 
 
 

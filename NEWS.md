@@ -5,6 +5,7 @@
 * add crf_status in patientsurvival
 * add transplantationsurvival
 * add categorize_pathogenspecies()
+* add consent withdrawal in patient survival
 
 
 # stcsanalysis 0.1.0

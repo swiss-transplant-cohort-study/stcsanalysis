@@ -33,7 +33,7 @@ tailored_organ <- function(stcs){
 #'@importFrom tidyselect contains ends_with
 tailored_patientsurvival <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("admin","patient","patientlongitudinal","stop"))
+  mendatory_tailored_tables_error(stcs,c("admin","consent","patient","patientlongitudinal","stop"))
 
   out <-
     stcs[["patient"]] |>
@@ -72,8 +72,7 @@ tailored_patientsurvival <- function(stcs){
         filter(!!sym("crf_status")=="Complete") |>
         group_by(!!sym("patientkey")) |>
         summarise("last_complete_patientlongitudinal_crf_date" = max(!!sym("assdate")),.groups = "drop"),
-      by = "patientkey",relationship = "one-to-one"
-    )|>
+      by = "patientkey",relationship = "one-to-one")|>
     left_join(
       stcs[["stop"]] |>
         mutate("date" = pmax(!!sym("dropoutdate"),!!sym("lastalivedate"),!!sym("deathdate"),!!sym("backstcsdate"),na.rm = T)) |>
@@ -81,8 +80,13 @@ tailored_patientsurvival <- function(stcs){
         filter(!!sym("crf_status")=="Complete") |>
         group_by(!!sym("patientkey")) |>
         summarise("last_complete_stop_crf_date" = max(!!sym("date")),.groups = "drop"),
-      by = "patientkey",relationship = "one-to-one"
-    )
+      by = "patientkey",relationship = "one-to-one")|>
+    left_join(
+      stcs[["consent"]] |>
+        filter(!!sym("consent_status")=="Withdrawal") |>
+        group_by(!!sym("patientkey")) |>
+        summarise("fist_consent_withdrawal_date" = min(!!sym("consent_date")),.groups = "drop"),
+      by = "patientkey",relationship = "one-to-one")
 
 
   if("dob"%in%colnames(stcs$patient)){
