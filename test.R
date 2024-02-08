@@ -11,6 +11,28 @@ library(lubridate)
 dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-06/csv"
 stcs <- stcs_read(dir)
 
+stcs$patientdisease |>
+  categorize_pathogenspecies(stcs,add_infsite = "other+na") |>
+  filter(pathogen_species=="Other viruses") |>
+  filter(is.na(comment))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stcs$variablemetadata
+
 stcs$consent |>
   add_var(stcs,"enrollment_date") |>
   filter(consent_status=="Withdrawal") |>

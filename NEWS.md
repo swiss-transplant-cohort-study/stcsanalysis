@@ -6,6 +6,7 @@
 * add transplantationsurvival
 * add categorize_pathogenspecies()
 * add consent withdrawal in patient survival
+* handle infsite in categorize_pathogenspecies
 
 
 # stcsanalysis 0.1.0

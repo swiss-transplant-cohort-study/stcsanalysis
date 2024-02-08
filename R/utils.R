@@ -19,6 +19,23 @@ vec_names <- function(x, nm = NULL){
 
 
 
+
+#' Merge value and their associated comment
+#'
+#' @param value a vector different values.
+#' @param comment a character vector of associated comment
+#'
+#' @return a character vector of length 1, where values and comments are paste, sorted and separated with \code{" | "}
+#' @export
+paste_valuecomment <- function(value,comment){
+  comment_ind <- !is.na(comment)
+  out <- value
+  out[comment_ind] <- paste(value[comment_ind],comment[comment_ind],sep=":")
+  paste(sort(unique(out)),collapse = " | ")
+}
+
+
+
 ## PRIVATE ----
 
 #' @keywords internal
@@ -67,4 +84,5 @@ toupper_dataset <- function(x,stcs){
   uc[match(x,lc)]
 
 }
+
 
