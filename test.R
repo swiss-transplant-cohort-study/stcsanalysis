@@ -11,6 +11,10 @@ library(lubridate)
 dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-06/csv"
 stcs <- stcs_read(dir)
 
+ps <- tailored_patientsurvival(stcs)
+
+ps |> glimpse()
+
 stcs$patientdisease |>
   categorize_pathogenspecies(stcs,add_infsite = "other+na") |>
   filter(pathogen_species=="Other viruses") |>

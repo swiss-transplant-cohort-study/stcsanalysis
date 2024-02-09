@@ -5,7 +5,7 @@
 \alias{add_var}
 \alias{expand_var_from}
 \alias{new_var_from}
-\title{Generic function to add a column}
+\title{Generic function to add columns}
 \usage{
 add_var(
   data,
@@ -39,5 +39,5 @@ new_var_from(data, stcs, .var, from, by, .filter, relationship)
 A data frame with the new column.
 }
 \description{
-Generic function to add a column
+Generic function to add columns
 }

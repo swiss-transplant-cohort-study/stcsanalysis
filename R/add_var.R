@@ -1,4 +1,4 @@
-#' Generic function to add a column
+#' Generic function to add columns
 #'
 #' @param data A data frame with a STCS key (\code{by}).
 #' @param stcs A list containing the STCS data frame.

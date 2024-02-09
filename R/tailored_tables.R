@@ -8,23 +8,29 @@
 #'@details
 #'
 #'\code{tailored_organ()}: PK: \code{organkey}. Baseline and outcome of organs.
-#'\code{tailored_patientsurvival()}: PK: \code{patientkey}. Main date for survival of the patients.
+#'\code{tailored_organsurvival()}: PK: \code{patientkey}. Main dates to to compute follow-up time of patients.
+#'\code{tailored_patientsurvival()}: PK: \code{patientkey}. Main dates to to compute follow-up time of patients.
+#' 1. \code{patientkey}: Identifier of patients. Source: \code{Patient}.
+#' 2. \code{enrollment_date}: Enrollment date. Source: \code{Patient}.
+#' 3. \code{deathdate}: Death date. Source: \code{Stop}.
+#' 4. \code{first_dropoutdate}: First dropout date. Source: \code{Stop}.
+#' 5. \code{first_dropoutdateaccuracy}: Accuracy of the first dropout date. Source: \code{Stop}.
+#' 6. \code{last_activedropoutdate}: Last dropout date without \code{backstcs}. Source: \code{Stop}.
+#' 7. \code{last_activedropoutdateaccuracy}: Accuracy of the last dropout date without \code{backstcs}. Source: \code{Stop}.
+#' 8. \code{last_patlongkeys}: Identifier of the last patient-assessment. Source: \code{PatientLongitudinal}.
+#' 9. \code{last_assdate}: Date of the last patient-assessment. Source: \code{PatientLongitudinal}.
+#' 10-17. \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{PatientLongitudinal}.
+#' 18. \code{extraction_date}: Extraction date. Source: \code{Admin}.
+#' 19. \code{last_complete_patientlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the patient assessment defined as \code{"Complete"}. Source: \code{PatientLongitudinal}.
+#' 20. \code{last_complete_stop_crf_date}: Date (latest between: \code{deathdate}, \code{dropoutdate}, \code{lastalivedate}, \code{backstcsdate}) of the latest \code{crf_status} defined as \code{"Complete"}. Source: \code{Stop}.
+#' 21. \code{last_consent_withdrawal_date}: Last consent date when the its consent status is \code{"Withdrawal"}. Source \code{Patient}.
+#' 22. \code{confidental data}: Optional.
+#' 23. \code{last_complete_psq_crf_date}: Optional. Date of the latest \code{crf_status} of PSQ defined as \code{"Complete"}. Source: \code{PSQ}.
+#'
 #'\code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
 #'
 #'@name tail_tbl
 
-
-#'@export
-#'@rdname tail_tbl
-tailored_organ <- function(stcs){
-
-  data_organkey(stcs) |>
-    add_var(stcs,c("soaskey","organ","tpxdate"),from = "organ",by = "organkey") |>
-    add_var(stcs,c("patientkey","tpx","soascaseid"),from = "transplantation",by = "soaskey") |>
-    add_var(stcs,c("patid","sex","yob"),from = "patient",by = "patientkey") |>
-    select(all_of(c("organkey","soaskey","patientkey","patid","soascaseid","tpxdate","organ","tpx","sex","yob")))
-
-}
 
 #'@export
 #'@rdname tail_tbl
@@ -82,10 +88,9 @@ tailored_patientsurvival <- function(stcs){
         summarise("last_complete_stop_crf_date" = max(!!sym("date")),.groups = "drop"),
       by = "patientkey",relationship = "one-to-one")|>
     left_join(
-      stcs[["consent"]] |>
-        filter(!!sym("consent_status")=="Withdrawal") |>
-        group_by(!!sym("patientkey")) |>
-        summarise("last_consent_withdrawal_date" = max(!!sym("consent_date")),.groups = "drop"),
+      stcs[["patient"]] |>
+        filter(!!sym("last_consent_status")=="Withdrawal") |>
+        select(all_of(c("patientkey","last_consent_withdrawal_date"="last_consent_date"))),
       by = "patientkey",relationship = "one-to-one")
 
 
@@ -256,4 +261,14 @@ mendatory_tailored_tables_error <- function(stcs, mendatory_tab){
   }
 }
 
-
+# #'@export
+# #'@rdname tail_tbl
+# tailored_organ <- function(stcs){
+#
+#   data_organkey(stcs) |>
+#     add_var(stcs,c("soaskey","organ","tpxdate"),from = "organ",by = "organkey") |>
+#     add_var(stcs,c("patientkey","tpx","soascaseid"),from = "transplantation",by = "soaskey") |>
+#     add_var(stcs,c("patid","sex","yob"),from = "patient",by = "patientkey") |>
+#     select(all_of(c("organkey","soaskey","patientkey","patid","soascaseid","tpxdate","organ","tpx","sex","yob")))
+#
+# }

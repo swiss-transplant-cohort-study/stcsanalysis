@@ -37,7 +37,7 @@ library(stcsanalysis)
 stcs <- stcs_read("dir/to/analysis/tables")
 
 data_patientkey(stcs) |> 
-  add_var(stcs,c("age"))|> 
+  add_var(stcs,c("enrollment_age"))|> 
   expand_var_from(stcs,from="transplantation",by="patientkey",.var="soaskey")|> 
   expand_var_from(stcs,from="organ",by="soaskey",.var="organkey")|> 
   add_var(stcs,c("organ","tpxdate"))|> 
