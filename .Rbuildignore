@@ -5,3 +5,7 @@
 ^test\.R$
 ^dm_core\.R$
 stcspath.txt
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

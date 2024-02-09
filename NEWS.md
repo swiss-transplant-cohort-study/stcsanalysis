@@ -1,4 +1,10 @@
-# stcsanalysis 0.2.0
+# stcsanalysis 0.1.2
+
+* Tested on AT from: 2024-02-01
+* Developed AT from: 2024-02-01,
+* add pkgdown
+
+# stcsanalysis 0.1.1
 
 * Tested on AT from: 2024-02-01
 * Developed AT from: 2024-02-01,
