@@ -19,6 +19,9 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/news/index.html</loc>
   </url>
   <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/add_var.html</loc>
+  </url>
+  <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/age.html</loc>
   </url>
   <url>
@@ -43,12 +46,6 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/egfr_2021.html</loc>
   </url>
   <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/filter.html</loc>
-  </url>
-  <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/generic.html</loc>
-  </url>
-  <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/impute_lastday.html</loc>
   </url>
   <url>
@@ -67,10 +64,16 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/read.html</loc>
   </url>
   <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/select.html</loc>
+  </url>
+  <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/serology_combinaison.html</loc>
   </url>
   <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tail_tbl.html</loc>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/stcs_filter_patientkey.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_table.html</loc>
   </url>
   <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/truemissing.html</loc>
@@ -88,6 +91,6 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/whichp.html</loc>
   </url>
   <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/write_stcs.html</loc>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/write.html</loc>
   </url>
 </urlset>

@@ -38,9 +38,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="read-write-stcs-dataset">Read/write STCS dataset<a class="anchor" aria-label="anchor" href="#read-write-stcs-dataset"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Read or write the STCS dataset</p>
 
       
     </div><div id="" class="section level2">
@@ -50,14 +50,46 @@
 
       <dl><dt>
           
-          <code><a href="age.html">age_int()</a></code> <code><a href="age.html">age_months()</a></code> 
+          <code><a href="read.html">stcs_read()</a></code> <code><a href="read.html">stcs_future_read()</a></code> <code><a href="read.html">stcs_read1()</a></code> 
         </dt>
-        <dd>Calculate the age in years between 2 dates</dd>
+        <dd>Read STCS datastcs</dd>
       </dl><dl><dt>
+          
+          <code><a href="write.html">stcs_write_csv()</a></code> <code><a href="write.html">stcs_write_xlsx()</a></code> 
+        </dt>
+        <dd>Write a list of STCS dataset into CSV file</dd>
+      </dl></div><div class="section level2">
+      <h2 id="tailored-tables">Tailored tables<a class="anchor" aria-label="anchor" href="#tailored-tables"></a></h2>
+      
+      <p class="section-desc"></p><p>Create pre-defined tables</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="tailored_table.html">tailored_patientsurvival()</a></code> <code><a href="tailored_table.html">tailored_organsurvival()</a></code> <code><a href="tailored_table.html">tailored_transplantationsurvival()</a></code> <code><a href="tailored_table.html">tailored_psq()</a></code> 
+        </dt>
+        <dd>Tailored analysis tables</dd>
+      </dl></div><div class="section level2">
+      <h2 id="categorization-of-free-text">Categorization of free-text<a class="anchor" aria-label="anchor" href="#categorization-of-free-text"></a></h2>
+      
+      <p class="section-desc"></p><p>Create tables to help the categorization of free-text entry</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="categorize_infsite.html">categorize_infsite()</a></code> 
         </dt>
-        <dd>Extract infection site data for recoding</dd>
+        <dd>Extract infection site data</dd>
       </dl><dl><dt>
           
           <code><a href="categorize_otherdisease.html">categorize_otherdisease()</a></code> 
@@ -73,76 +105,53 @@
           <code><a href="categorize_treatment.html">categorize_treatment()</a></code> 
         </dt>
         <dd>Extract treatment data for recoding</dd>
+      </dl></div><div class="section level2">
+      <h2 id="manipulation-of-the-full-cohort">Manipulation of the full cohort<a class="anchor" aria-label="anchor" href="#manipulation-of-the-full-cohort"></a></h2>
+      
+      <p class="section-desc"></p><p>Modifiy all SCTCS tables with VariableMetaData</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="stcs_filter_patientkey.html">stcs_filter_patientkey()</a></code> 
+        </dt>
+        <dd>Filter the row of all tables given the patientkey</dd>
       </dl><dl><dt>
+          
+          <code><a href="select.html">stcs_anonymize()</a></code> <code><a href="select.html">stcs_remove_emptytab()</a></code> <code><a href="select.html">stcs_select_organrelevance()</a></code> <code><a href="select.html">stcs_select_table()</a></code> 
+        </dt>
+        <dd>Select variable of the STCS dataset</dd>
+      </dl><dl><dt>
+          
+          <code><a href="validate_metadata.html">validate_metadata()</a></code> 
+        </dt>
+        <dd>Validate the VariableMetadata</dd>
+      </dl></div><div class="section level2">
+      <h2 id="functions-to-create-custom-dataset">Functions to create custom dataset<a class="anchor" aria-label="anchor" href="#functions-to-create-custom-dataset"></a></h2>
+      
+      <p class="section-desc"></p><p>Set of function to help merging variables</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="data_key.html">data_patientkey()</a></code> <code><a href="data_key.html">data_organkey()</a></code> <code><a href="data_key.html">data_soaskey()</a></code> 
         </dt>
         <dd>Get STCS key</dd>
       </dl><dl><dt>
           
-          <code><a href="detect.html">detect_from()</a></code> <code><a href="detect.html">detect_by()</a></code> 
-        </dt>
-        <dd>Detect if the tables/key can be automatically retrieve</dd>
-      </dl><dl><dt>
-          
-          <code><a href="egfr_2021.html">egfr_2021()</a></code> 
-        </dt>
-        <dd>eGFR</dd>
-      </dl><dl><dt>
-          
-          <code><a href="filter.html">stcs_anonymize()</a></code> <code><a href="filter.html">stcs_filter_patientkey()</a></code> <code><a href="filter.html">stcs_remove_emptytab()</a></code> <code><a href="filter.html">stcs_select_organrelevance()</a></code> <code><a href="filter.html">stcs_select_table()</a></code> 
-        </dt>
-        <dd>Filter/select the STCS dataset</dd>
-      </dl><dl><dt>
-          
-          <code><a href="generic.html">add_var()</a></code> <code><a href="generic.html">expand_var_from()</a></code> <code><a href="generic.html">new_var_from()</a></code> 
+          <code><a href="add_var.html">add_var()</a></code> <code><a href="add_var.html">expand_var_from()</a></code> <code><a href="add_var.html">new_var_from()</a></code> 
         </dt>
         <dd>Generic function to add columns</dd>
-      </dl><dl><dt>
-          
-          <code><a href="impute_lastday.html">impute_lastday()</a></code> 
-        </dt>
-        <dd>Impute to the last day of the month/year</dd>
-      </dl><dl><dt>
-          
-          <code><a href="new_coding.html">new_coding()</a></code> 
-        </dt>
-        <dd>Recode a variables given the input from a dataframe</dd>
-      </dl><dl><dt>
-          
-          <code><a href="paste_valuecomment.html">paste_valuecomment()</a></code> 
-        </dt>
-        <dd>Merge value and their associated comment</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pediatric_egfr_2009.html">pediatric_egfr_2009()</a></code> 
-        </dt>
-        <dd>Swchartz bedside pediatric eGFR formula</dd>
-      </dl><dl><dt>
-          
-          <code><a href="read.html">stcs_read()</a></code> <code><a href="read.html">stcs_future_read()</a></code> <code><a href="read.html">stcs_read1()</a></code> 
-        </dt>
-        <dd>Read STCS data</dd>
-      </dl><dl><dt>
-          
-          <code><a href="serology_combinaison.html">serology_combinaison()</a></code> 
-        </dt>
-        <dd>Serology combinaison</dd>
-      </dl><dl><dt>
-          
-          <code><a href="tail_tbl.html">tailored_patientsurvival()</a></code> <code><a href="tail_tbl.html">tailored_organsurvival()</a></code> <code><a href="tail_tbl.html">tailored_transplantationsurvival()</a></code> <code><a href="tail_tbl.html">tailored_psq()</a></code> 
-        </dt>
-        <dd>Tailored analysis tables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="truemissing.html">is_truemissing()</a></code> <code><a href="truemissing.html">truemissing_to_na()</a></code> 
-        </dt>
-        <dd>Confirmed missing values</dd>
-      </dl><dl><dt>
-          
-          <code><a href="validate_metadata.html">validate_metadata()</a></code> 
-        </dt>
-        <dd>Validate the VariableMetadata</dd>
       </dl><dl><dt>
           
           <code><a href="var_available.html">var_available()</a></code> 
@@ -150,9 +159,25 @@
         <dd>Print variables which are available given your current dataset</dd>
       </dl><dl><dt>
           
-          <code><a href="vec_names.html">vec_names()</a></code> 
+          <code><a href="detect.html">detect_from()</a></code> <code><a href="detect.html">detect_by()</a></code> 
         </dt>
-        <dd>Assigned names to a vector</dd>
+        <dd>Detect if the tables/key can be automatically retrieve</dd>
+      </dl></div><div class="section level2">
+      <h2 id="utilitary-function">Utilitary function<a class="anchor" aria-label="anchor" href="#utilitary-function"></a></h2>
+      
+      <p class="section-desc"></p><p>Other functions</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="age.html">age_int()</a></code> <code><a href="age.html">age_months()</a></code> 
+        </dt>
+        <dd>Calculate the age in years between 2 dates</dd>
       </dl><dl><dt>
           
           <code><a href="whichp.html">which.pmin()</a></code> <code><a href="whichp.html">which.pmin_chr()</a></code> 
@@ -160,11 +185,47 @@
         <dd>Indicate the index of the row-wise minimal value</dd>
       </dl><dl><dt>
           
-          <code><a href="write_stcs.html">stcs_write_csv()</a></code> <code><a href="write_stcs.html">stcs_write_xlsx()</a></code> 
+          <code><a href="egfr_2021.html">egfr_2021()</a></code> 
         </dt>
-        <dd>Write a list of STCS dataset into CSV file</dd>
+        <dd>eGFR</dd>
+      </dl><dl><dt>
+          
+          <code><a href="pediatric_egfr_2009.html">pediatric_egfr_2009()</a></code> 
+        </dt>
+        <dd>Swchartz bedside pediatric eGFR formula</dd>
+      </dl><dl><dt>
+          
+          <code><a href="truemissing.html">is_truemissing()</a></code> <code><a href="truemissing.html">truemissing_to_na()</a></code> 
+        </dt>
+        <dd>Confirmed missing values</dd>
+      </dl><dl><dt>
+          
+          <code><a href="serology_combinaison.html">serology_combinaison()</a></code> 
+        </dt>
+        <dd>Serology combinaison</dd>
+      </dl><dl><dt>
+          
+          <code><a href="impute_lastday.html">impute_lastday()</a></code> 
+        </dt>
+        <dd>Impute to the last day of the month/year</dd>
+      </dl><dl><dt>
+          
+          <code><a href="paste_valuecomment.html">paste_valuecomment()</a></code> 
+        </dt>
+        <dd>Merge value and their associated comment</dd>
+      </dl><dl><dt>
+          
+          <code><a href="new_coding.html">new_coding()</a></code> 
+        </dt>
+        <dd>Recode a variables given the input from a dataframe</dd>
+      </dl><dl><dt>
+          
+          <code><a href="vec_names.html">vec_names()</a></code> 
+        </dt>
+        <dd>Assigned names to a vector</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
