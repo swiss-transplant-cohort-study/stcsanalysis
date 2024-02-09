@@ -4,7 +4,17 @@
 #'
 #' @return A data.frame with the requested key.
 #' @name data_key
+#' @family data_key
+#' @examples
+#'\dontrun{
+#' stcs <- stcs_read("path/to/stcs/dataset/")
 #'
+#' data_patientkey(stcs)
+#'
+#' data_organkey(stcs)
+#'
+#' data_soaskey(stcs)
+#'}
 
 
 #' @export

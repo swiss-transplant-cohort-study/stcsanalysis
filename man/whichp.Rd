@@ -24,3 +24,4 @@ Indicate the index of the row-wise minimal value
 \details{
 See original idea https://github.com/radiant-rstats/radiant.data/blob/master/R/radiant.R
 }
+\concept{whichp}

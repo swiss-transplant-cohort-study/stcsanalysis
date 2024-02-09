@@ -23,3 +23,4 @@ A data frame with the new column.
 \description{
 Detect if the tables/key can be automatically retrieve
 }
+\concept{detect}

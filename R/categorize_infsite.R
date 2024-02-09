@@ -1,8 +1,8 @@
-#' Extract infection site data for recoding
+#' Extract infection site data
 #'
 #' @param data data.frame. A data frame containing the variables describe in \code{.patientkey} and \code{.date}
 #' @param stcs list. The stcs object.
-#' @param .diseasekey chr. The column name containing diseasekey
+#' @param .diseasekey chr. The column name containing \code{diseasekey}.
 #'
 #' @return a data frame containing \code{"infsite"},  \code{"comment"}, \code{"n_occurence"}.
 #' @export

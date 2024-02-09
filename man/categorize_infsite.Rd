@@ -2,7 +2,7 @@
 % Please edit documentation in R/categorize_infsite.R
 \name{categorize_infsite}
 \alias{categorize_infsite}
-\title{Extract infection site data for recoding}
+\title{Extract infection site data}
 \usage{
 categorize_infsite(data, stcs, .diseasekey = "diseasekey")
 }
@@ -11,11 +11,11 @@ categorize_infsite(data, stcs, .diseasekey = "diseasekey")
 
 \item{stcs}{list. The stcs object.}
 
-\item{.diseasekey}{chr. The column name containing diseasekey}
+\item{.diseasekey}{chr. The column name containing \code{diseasekey}.}
 }
 \value{
 a data frame containing \code{"infsite"},  \code{"comment"}, \code{"n_occurence"}.
 }
 \description{
-Extract infection site data for recoding
+Extract infection site data
 }

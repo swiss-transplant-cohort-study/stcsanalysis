@@ -7,33 +7,51 @@
 #'
 #'@details
 #'
-#'\code{tailored_organ()}: PK: \code{organkey}. Baseline and outcome of organs.
-#'\code{tailored_organsurvival()}: PK: \code{patientkey}. Main dates to to compute follow-up time of patients.
+#'\code{tailored_organsurvival()}: PK: \code{organkey}. Main dates to to compute follow-up time of organs.
+#'
+#'\itemize{
+#' \item{1.} \code{patientkey}: Identifier of patients. Source: \code{Organ}.
+#' \item{2.} \code{donorkey}: Identifier of donors. Source: \code{Organ}.
+#' \item{3.} \code{soaskey}: Identifier of transplantations. Source: \code{Organ}.
+#' \item{4.} \code{organkey}: Identifier of organs. Source: \code{Organ}.
+#' \item{5.} \code{tpxdate}: Date of transplantation. Source: \code{Organ}.
+#' \item{6.} \code{glo_date}: Graft loss date. Source: \code{Graftloss}.
+#' \item{7.} \code{pnf_date}: Date of PNF (\code{tpxdate} when \code{dgf} is \code{"PNF"}). Source: \code{Organ}.
+#' \item{8.-16.} \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{OrganLongitudinal}.
+#' \item{17.} \code{last_complete_organlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the organ assessment defined as \code{"Complete"}. Source: \code{OrganLongitudinal}.
+#' }
+#'
 #'\code{tailored_patientsurvival()}: PK: \code{patientkey}. Main dates to to compute follow-up time of patients.
-#' 1. \code{patientkey}: Identifier of patients. Source: \code{Patient}.
-#' 2. \code{enrollment_date}: Enrollment date. Source: \code{Patient}.
-#' 3. \code{deathdate}: Death date. Source: \code{Stop}.
-#' 4. \code{first_dropoutdate}: First dropout date. Source: \code{Stop}.
-#' 5. \code{first_dropoutdateaccuracy}: Accuracy of the first dropout date. Source: \code{Stop}.
-#' 6. \code{last_activedropoutdate}: Last dropout date without \code{backstcs}. Source: \code{Stop}.
-#' 7. \code{last_activedropoutdateaccuracy}: Accuracy of the last dropout date without \code{backstcs}. Source: \code{Stop}.
-#' 8. \code{last_patlongkeys}: Identifier of the last patient-assessment. Source: \code{PatientLongitudinal}.
-#' 9. \code{last_assdate}: Date of the last patient-assessment. Source: \code{PatientLongitudinal}.
-#' 10-17. \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{PatientLongitudinal}.
-#' 18. \code{extraction_date}: Extraction date. Source: \code{Admin}.
-#' 19. \code{last_complete_patientlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the patient assessment defined as \code{"Complete"}. Source: \code{PatientLongitudinal}.
-#' 20. \code{last_complete_stop_crf_date}: Date (latest between: \code{deathdate}, \code{dropoutdate}, \code{lastalivedate}, \code{backstcsdate}) of the latest \code{crf_status} defined as \code{"Complete"}. Source: \code{Stop}.
-#' 21. \code{last_consent_withdrawal_date}: Last consent date when the its consent status is \code{"Withdrawal"}. Source \code{Patient}.
-#' 22. \code{confidental data}: Optional.
-#' 23. \code{last_complete_psq_crf_date}: Optional. Date of the latest \code{crf_status} of PSQ defined as \code{"Complete"}. Source: \code{PSQ}.
+#'
+#'\itemize{
+#'
+#' \item{1.} \code{patientkey}: Identifier of patients. Source: \code{Patient}.
+#' \item{2.} \code{enrollment_date}: Enrollment date. Source: \code{Patient}.
+#' \item{3.} \code{deathdate}: Death date. Source: \code{Stop}.
+#' \item{4.} \code{first_dropoutdate}: First dropout date. Source: \code{Stop}.
+#' \item{5.} \code{first_dropoutdateaccuracy}: Accuracy of the first dropout date. Source: \code{Stop}.
+#' \item{6.} \code{last_activedropoutdate}: Last dropout date without \code{backstcs}. Source: \code{Stop}.
+#' \item{7.} \code{last_activedropoutdateaccuracy}: Accuracy of the last dropout date without \code{backstcs}. Source: \code{Stop}.
+#' \item{8.} \code{last_patlongkeys}: Identifier of the last patient-assessment. Source: \code{PatientLongitudinal}.
+#' \item{9.} \code{last_assdate}: Date of the last patient-assessment. Source: \code{PatientLongitudinal}.
+#' \item{10.-17.} \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{PatientLongitudinal}.
+#' \item{18.} \code{extraction_date}: Extraction date. Source: \code{Admin}.
+#' \item{19.} \code{last_complete_patientlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the patient assessment defined as \code{"Complete"}. Source: \code{PatientLongitudinal}.
+#' \item{20.} \code{last_complete_stop_crf_date}: Date (latest between: \code{deathdate}, \code{dropoutdate}, \code{lastalivedate}, \code{backstcsdate}) of the latest \code{crf_status} defined as \code{"Complete"}. Source: \code{Stop}.
+#' \item{21.} \code{last_consent_withdrawal_date}: Last consent date when the its consent status is \code{"Withdrawal"}. Source \code{Patient}.
+#' \item{22.} \code{confidental data}: Optional.
+#' \item{23.} \code{last_complete_psq_crf_date}: Optional. Date of the latest \code{crf_status} of PSQ defined as \code{"Complete"}. Source: \code{PSQ}.
+#'
+#'}
 #'
 #'\code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
 #'
-#'@name tail_tbl
+#'@name tailored_table
+#'@family tailored_table
 
 
 #'@export
-#'@rdname tail_tbl
+#'@rdname tailored_table
 #'@importFrom dplyr slice_max slice_min summarise
 #'@importFrom tidyr pivot_longer
 #'@importFrom tidyselect contains ends_with
@@ -118,7 +136,7 @@ tailored_patientsurvival <- function(stcs){
 
 #'@export
 #'@importFrom stringr fixed
-#'@rdname tail_tbl
+#'@rdname tailored_table
 tailored_organsurvival <- function(stcs){
 
   mendatory_tailored_tables_error(stcs,c("admin","organ","organlongitudinal","graftloss"))
@@ -137,6 +155,13 @@ tailored_organsurvival <- function(stcs){
         group_by(across(all_of(c("organkey","toggle")))) |>
         summarise(last_date = max(!!sym("assdate")),.groups = "drop") |>
         pivot_wider(values_from = !!sym("last_date"),names_from = !!sym("toggle"),names_glue = "last_{toggle}_toggle_date"),
+      by = "organkey",relationship = "one-to-one") |>
+    left_join(
+      stcs[["organlongitudinal"]] |>
+        select(all_of(c("organkey","assdate","crf_status"))) |>
+        filter(!!sym("crf_status")=="Complete") |>
+        group_by(!!sym("organkey")) |>
+        summarise("last_complete_organlongitudinal_crf_date" = max(!!sym("assdate")),.groups = "drop"),
       by = "organkey",relationship = "one-to-one")
 
   out
@@ -147,7 +172,7 @@ tailored_organsurvival <- function(stcs){
 
 
 #'@export
-#'@rdname tail_tbl
+#'@rdname tailored_table
 tailored_transplantationsurvival <- function(stcs){
 
   mendatory_tailored_tables_error(stcs,c("admin","organ","transplantation"))
@@ -195,7 +220,7 @@ tailored_transplantationsurvival <- function(stcs){
 
 #'@export
 #'@importFrom stringr str_starts
-#'@rdname tail_tbl
+#'@rdname tailored_table
 tailored_psq <- function(stcs, silent = FALSE){
 
 
@@ -262,7 +287,7 @@ mendatory_tailored_tables_error <- function(stcs, mendatory_tab){
 }
 
 # #'@export
-# #'@rdname tail_tbl
+# #'@rdname tailored_table
 # tailored_organ <- function(stcs){
 #
 #   data_organkey(stcs) |>

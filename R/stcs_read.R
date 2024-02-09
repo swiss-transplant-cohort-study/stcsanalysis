@@ -1,6 +1,6 @@
-#' Read STCS data
+#' Read STCS datastcs
 #'
-#' @param dir chr. The directory with csv file.
+#' @param dir chr. The directory with .csv files.
 #' @param filename chr. The name of the STCS dataset.
 #' @param delim chr. Default is ",". Passed to \code{read_delim}.
 #' @param lazy lgl. Default is FALSE. Passed to \code{read_delim}.
@@ -11,8 +11,12 @@
 #'
 #' @return a list of stcs tables.
 #' @name read
+#' @family read
+#'@examples
+#'\dontrun{
+#' stcs <- stcs_read("path/to/stcs/dataset/")
+#'}
 #'
-
 
 
 #' @export

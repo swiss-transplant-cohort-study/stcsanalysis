@@ -7,6 +7,7 @@
 #'
 #' @details See original idea https://github.com/radiant-rstats/radiant.data/blob/master/R/radiant.R
 #' @name whichp
+#' @family whichp
 
 
 

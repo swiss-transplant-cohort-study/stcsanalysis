@@ -2,3 +2,51 @@ url: https://swiss-transplant-cohort-study.github.io/stcsanalysis/
 template:
   bootstrap: 5
 
+reference:
+- title: Read/write STCS dataset
+  desc: >
+   Read or write the STCS dataset
+  contents:
+   - has_concept("read")
+   - has_concept("write")
+- title: Tailored tables
+  desc: >
+   Create pre-defined tables
+  contents:
+   - has_concept("tailored_table")
+- title: Categorization of free-text
+  desc: >
+   Create tables to help the categorization of free-text entry
+  contents:
+   - starts_with("categorize_")
+- title: Manipulation of the full cohort
+  desc: >
+   Modifiy all SCTCS tables with VariableMetaData
+  contents:
+   - has_concept("filter")
+   - has_concept("select")
+   - "validate_metadata"
+- title: Functions to create custom dataset
+  desc: >
+   Set of function to help merging variables
+  contents:
+   - has_concept("data_key")
+   - has_concept("add_var")
+   - "var_available"
+   - has_concept("detect")
+- title: Utilitary function
+  desc: >
+   Other functions
+  contents:
+   - has_concept("age")
+   - has_concept("whichp")
+   - "egfr_2021"
+   - "pediatric_egfr_2009"
+   - has_concept("truemissing")
+   - "serology_combinaison"
+   - "impute_lastday"
+   - "paste_valuecomment"
+   - "new_coding"
+   - "vec_names"
+
+

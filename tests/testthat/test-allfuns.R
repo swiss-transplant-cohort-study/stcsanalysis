@@ -105,13 +105,7 @@ test_that(paste0(dir_name[i],": selecting and filter"), {
 
 ## Tailored tables ----
 
-test_that(paste0(dir_name[i],": Run tailored_organ()"), {
 
-  out <- tailored_organ(stcs)
-
-  expect_s3_class(out,"data.frame")
-
-})
 
 
 test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {

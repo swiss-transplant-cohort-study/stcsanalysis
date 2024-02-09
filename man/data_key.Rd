@@ -22,3 +22,15 @@ A data.frame with the requested key.
 \description{
 Get STCS key
 }
+\examples{
+\dontrun{
+stcs <- stcs_read("path/to/stcs/dataset/")
+
+data_patientkey(stcs)
+
+data_organkey(stcs)
+
+data_soaskey(stcs)
+}
+}
+\concept{data_key}

@@ -44,3 +44,4 @@ Handles confirmed missing values
 \code{is_truemissing()}: return a logical
 \code{truemissing_to_na()}: replace confirmed missing by NA's
 }
+\concept{truemissing}

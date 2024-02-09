@@ -5,7 +5,7 @@
 \alias{stcs_read}
 \alias{stcs_future_read}
 \alias{stcs_read1}
-\title{Read STCS data}
+\title{Read STCS datastcs}
 \usage{
 stcs_read(dir, delim = ",", lazy = FALSE, progress = FALSE, na = "", ...)
 
@@ -30,7 +30,7 @@ stcs_read1(
 )
 }
 \arguments{
-\item{dir}{chr. The directory with csv file.}
+\item{dir}{chr. The directory with .csv files.}
 
 \item{delim}{chr. Default is ",". Passed to \code{read_delim}.}
 
@@ -50,5 +50,12 @@ stcs_read1(
 a list of stcs tables.
 }
 \description{
-Read STCS data
+Read STCS datastcs
 }
+\examples{
+\dontrun{
+stcs <- stcs_read("path/to/stcs/dataset/")
+}
+
+}
+\concept{read}

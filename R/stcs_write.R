@@ -7,7 +7,13 @@
 #' @param na character string used for missing values. Passed to \code{write_delim()}. Default is "".
 #' @param ... other arguments passed to \code{write_delim()}.
 #'
-#' @name write_stcs
+#' @name write
+#' @family write
+#' @examples
+#'\dontrun{
+#' stcs_write(dir = "path/to/empty/folder", stcs = stcs)
+#'}
+#'
 NULL
 
 
@@ -16,7 +22,7 @@ NULL
 #' @importFrom readr write_delim
 #' @importFrom dplyr bind_rows tibble
 #' @importFrom lubridate is.POSIXct
-#' @rdname write_stcs
+#' @rdname write
 stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE,na ="", ...){
 
   if(!dir.exists(dir)){
@@ -50,7 +56,7 @@ stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE,na ="", ...){
 
 #' @export
 #' @importFrom openxlsx openxlsx_getOp openxlsx_setOp createWorkbook addWorksheet writeData saveWorkbook
-#' @rdname write_stcs
+#' @rdname write
 stcs_write_xlsx <- function(stcs,dir){
   op0 <- openxlsx_getOp("openxlsx.dateFormat")
 

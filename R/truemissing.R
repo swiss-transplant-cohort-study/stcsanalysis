@@ -10,6 +10,7 @@
 #'
 #'@return a vector of logical
 #'@name truemissing
+#'@family truemissing
 
 
 #'@export

@@ -1,16 +1,26 @@
-#' Filter/select the STCS dataset
+#' Select variable of the STCS dataset
 #'
 #' @param stcs list. A list of STCS tables
 #' @param organ chr. A vector of STCS organ names.
 #' @param tables chr. A vector of STCS tables name.
 #' @param vars2rm chr. A vector of variables to remove.
-#' @param patientkeys chr. A vector of patientkey to keep.
 #'
-#' @return a list of stcs filtered tables.
-#' @name filter
+#' @return a list of modified \code{stcs} tables with updated VariableMetaData.
 #'
+#' @details
+#'
+#' \code{stcs_anonymize()}: remove sensitive variables.
+#'
+#' \code{stcs_remove_emptytab()}: remove empty tables, (if any)
+#'
+#' \code{stcs_select_organrelevance()}: select variable based on their \code{organ_relevance}.
+#'
+#' \code{stcs_select_table()}: select tables.
+#'
+#' @name select
+#' @family select
 
-#'@rdname filter
+#'@rdname select
 #'@export
 stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soasdonorid", "donor_dob")){
   vars2rm <- arg_match(vars2rm, values = c("initials","dob","soascaseid","soasdonorid", "donor_dob"),
@@ -51,22 +61,9 @@ stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soas
   stcs_select_meta(stcs,data_select)
 }
 
-#'@rdname filter
-#'@export
-stcs_filter_patientkey <- function(stcs,patientkeys){
-  patientkeys <- unique(na.omit(patientkeys))
-  donorkeys <- patientkey2donorkey(patientkeys,stcs)
-
-  lapply(stcs,\(x){
-    x |>
-      filter_stcs_tab("patientkey",patientkeys)|>
-      filter_stcs_tab("donorkey",donorkeys)
-  })
 
 
-}
-
-#'@rdname filter
+#'@rdname select
 #'@export
 stcs_remove_emptytab <- function(stcs){
 
@@ -78,7 +75,7 @@ stcs_remove_emptytab <- function(stcs){
 #'@importFrom stringr str_detect regex
 #'@importFrom tidyselect all_of
 #'@importFrom dplyr filter pull select
-#'@rdname filter
+#'@rdname select
 #'@export
 stcs_select_organrelevance <- function(stcs, organ = c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel")){
   organ <- arg_match(organ,values=c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel"),
@@ -99,7 +96,7 @@ stcs_select_organrelevance <- function(stcs, organ = c("Heart", "Islets", "Kidne
 }
 
 
-#'@rdname filter
+#'@rdname select
 #'@export
 stcs_select_table <- function(stcs, tables){
   val0 <- c((stcs[["variablemetadata"]][["dataset"]]) |> unique() |> sort() |> tolower(),"variablemetadata")
@@ -114,12 +111,6 @@ stcs_select_table <- function(stcs, tables){
                      filter(tolower(!!sym("dataset"))%in%tables))
 
 }
-
-
-
-
-
-
 
 
 

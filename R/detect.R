@@ -6,6 +6,7 @@
 #'
 #'@return A data frame with the new column.
 #'@name detect
+#'@family detect
 
 
 

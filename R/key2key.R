@@ -1,4 +1,5 @@
-#'@importFrom stats na.omit
+#' @keywords internal
+#' @importFrom stats na.omit
 patientkey2donorkey <- function(patientkeys,stcs){
   stcs[["transplantation"]] |>
     select(all_of(c("donorkey","patientkey"))) |>

@@ -9,10 +9,22 @@
 #' @param relationship chr. Argument passed to \code{left_join}.
 #'
 #'@return A data frame with the new column.
-#'@name generic
+#'@name add_var
+#'@family add_var
+#'@examples
+#'\dontrun{
+#' stcs <- stcs_read("path/to/stcs/dataset/")
+#'
+#' data_patientkey(stcs) |>
+#'    add_var(stcs,"sex")
+#'
+#' data_patientkey(stcs) |>
+#'   expand_var_from(stcs,"patlongkey",from="patientlongitudinal","patientkey") |>
+#'   add_var(stcs,"bmi")
+#'}
 
 
-#'@rdname generic
+#'@rdname add_var
 #'@export
 add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detect_by(stcs,.var,from), .filter){
   mc <- match.call()
@@ -36,7 +48,7 @@ add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detec
 }
 
 
-#'@rdname generic
+#'@rdname add_var
 #'@export
 expand_var_from <- function(data, stcs, .var,from, by, .filter){
   mc <- match.call()
@@ -49,7 +61,7 @@ expand_var_from <- function(data, stcs, .var,from, by, .filter){
 #'@importFrom dplyr is_grouped_df left_join distinct
 #'@importFrom rlang set_names enquo
 #'@export
-#'@rdname generic
+#'@rdname add_var
 new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
 
   mc <- match.call()

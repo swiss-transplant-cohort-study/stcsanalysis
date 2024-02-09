@@ -11,9 +11,15 @@ library(lubridate)
 dir = "M:/MEDIZIN/STCS/00_CDM/Data 3LC/core/2024-02-06/csv"
 stcs <- stcs_read(dir)
 
-ps <- tailored_patientsurvival(stcs)
+data_patientkey(stcs) |>
+  expand_var_from(stcs,"patlongkey",from="patientlongitudinal","patientkey") |>
+  var_available(stcs)
 
-ps |> glimpse()
+
+ps <- tailored_patientsurvival(stcs)
+os <- tailored_organsurvival(stcs)
+
+os |> glimpse()
 
 stcs$patientdisease |>
   categorize_pathogenspecies(stcs,add_infsite = "other+na") |>
