@@ -1,3 +1,9 @@
+# stcsanalysis 0.1.3
+
+* Tested on AT from: 2024-02-06
+* Developed AT from: 2024-02-06,
+* correction paste_valuecomment
+
 # stcsanalysis 0.1.2
 
 * Tested on AT from: 2024-02-01

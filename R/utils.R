@@ -31,7 +31,12 @@ paste_valuecomment <- function(value,comment){
   comment_ind <- !is.na(comment)
   out <- value
   out[comment_ind] <- paste(value[comment_ind],comment[comment_ind],sep=":")
-  paste(sort(unique(out)),collapse = " | ")
+  out <- sort(unique(out))
+  if(length(out)!=0L){
+    paste(out,collapse = " | ")
+  }else{
+    NA_character_
+  }
 }
 
 
