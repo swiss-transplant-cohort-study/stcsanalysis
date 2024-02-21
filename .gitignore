@@ -4,5 +4,6 @@
 .httr-oauth
 .DS_Store
 dm_core.R
+test.R
 stcspath.txt
 docs
