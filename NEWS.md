@@ -1,3 +1,9 @@
+# stcsanalysis 0.1.4
+
+* Tested on AT from: 2024-02-13
+* Developed AT from: 2024-02-13,
+* add consent_comment in stcs_anonymize()
+
 # stcsanalysis 0.1.3
 
 * Tested on AT from: 2024-02-06

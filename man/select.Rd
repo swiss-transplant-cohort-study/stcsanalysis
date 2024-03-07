@@ -10,7 +10,8 @@
 \usage{
 stcs_anonymize(
   stcs,
-  vars2rm = c("initials", "dob", "soascaseid", "soasdonorid", "donor_dob")
+  vars2rm = c("initials", "dob", "soascaseid", "soasdonorid", "donor_dob",
+    "consent_comment")
 )
 
 stcs_remove_emptytab(stcs)
@@ -44,6 +45,6 @@ Select variable of the STCS dataset
 
 \code{stcs_select_organrelevance()}: select variable based on their \code{organ_relevance}.
 
-\code{stcs_select_table()}: select tables.
+\code{stcs_select_table()}: select given the tables.
 }
 \concept{select}

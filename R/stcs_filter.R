@@ -15,15 +15,15 @@
 #'
 #' \code{stcs_select_organrelevance()}: select variable based on their \code{organ_relevance}.
 #'
-#' \code{stcs_select_table()}: select tables.
+#' \code{stcs_select_table()}: select given the tables.
 #'
 #' @name select
 #' @family select
 
 #'@rdname select
 #'@export
-stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soasdonorid", "donor_dob")){
-  vars2rm <- arg_match(vars2rm, values = c("initials","dob","soascaseid","soasdonorid", "donor_dob"),
+stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soasdonorid", "donor_dob", "consent_comment")){
+  vars2rm <- arg_match(vars2rm, values = c("initials","dob","soascaseid","soasdonorid", "donor_dob", "consent_comment"),
                        multiple= TRUE)
 
 
@@ -55,6 +55,11 @@ stcs_anonymize <- function(stcs, vars2rm = c("initials","dob","soascaseid","soas
   if("donor_dob"%in%vars2rm){
     data_select <- data_select |>
       filter(!(!!sym("dataset")=="donor" & !!sym("variable")=="dob"))
+  }
+
+  if("consent_comment"%in%vars2rm){
+    data_select <- data_select |>
+      filter(!(!!sym("dataset")=="consent" & !!sym("variable")=="consent_comment"))
   }
 
   ## select variable in meta
