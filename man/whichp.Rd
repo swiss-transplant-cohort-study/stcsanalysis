@@ -8,12 +8,14 @@
 \usage{
 which.pmin(..., silent = F)
 
-which.pmin_chr(..., silent = F)
+which.pmin_chr(..., ties = c("warning-first", "first", "collapse"))
 }
 \arguments{
 \item{...}{Vectors of the same type where which.min is applied.}
 
-\item{silent}{a logical indicating if the function should return a warning in case of duplicated minimal.}
+\item{silent}{lgl. Indicate if the function should return a warning in case of duplicated minimal.}
+
+\item{ties}{chr. Method use in case of ties. Either \code{"warning-first"}, default which return a warning a select the name of the first input, OR \code{"first"}, return the first input, OR \code{"collapse"}, collapse the tied input with \code{" | "}.}
 }
 \value{
 an integer vector indicating the row-wise index of the (first) minimal value
