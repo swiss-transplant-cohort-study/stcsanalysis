@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">stcsanalysis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">which.pmin</span><span class="op">(</span><span class="va">...</span>, silent <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">which.pmin_chr</span><span class="op">(</span><span class="va">...</span>, silent <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">which.pmin_chr</span><span class="op">(</span><span class="va">...</span>, ties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"warning-first"</span>, <span class="st">"first"</span>, <span class="st">"collapse"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,7 +57,11 @@
 
 
 <dt>silent</dt>
-<dd><p>a logical indicating if the function should return a warning in case of duplicated minimal.</p></dd>
+<dd><p>lgl. Indicate if the function should return a warning in case of duplicated minimal.</p></dd>
+
+
+<dt>ties</dt>
+<dd><p>chr. Method use in case of ties. Either <code>"warning-first"</code>, default which return a warning a select the name of the first input, OR <code>"first"</code>, return the first input, OR <code>"collapse"</code>, collapse the tied input with <code>" | "</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
