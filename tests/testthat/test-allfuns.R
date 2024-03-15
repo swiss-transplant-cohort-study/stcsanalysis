@@ -247,3 +247,13 @@ test_that("Run serology_combinaison()", {
 
 })
 
+
+test_that("Run which.pmin_chr()", {
+  out <- c(which.pmin_chr(a=1:5,b =5:1,ties="first"),
+           which.pmin_chr(a=1:5,b =5:1,ties="collapse"))
+
+  expect_equal(out,c("a", "a", "a", "b", "b", "a", "a", "a | b", "b", "b"))
+
+})
+
+

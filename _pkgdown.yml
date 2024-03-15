@@ -48,5 +48,6 @@ reference:
    - "paste_valuecomment"
    - "new_coding"
    - "vec_names"
+   - "noinf_min"
 
 

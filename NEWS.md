@@ -1,3 +1,11 @@
+# stcsanalysis 0.1.5
+
+* Tested on AT from: 2024-02-13, 2024-02-06, 2024-02-01, 
+* Developed AT from: 2024-02-13,
+* which.pmin_chr() include ties argument
+* new utils function noinf_min()
+
+
 # stcsanalysis 0.1.4
 
 * Tested on AT from: 2024-02-13

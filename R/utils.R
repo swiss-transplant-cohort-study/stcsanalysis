@@ -40,6 +40,32 @@ paste_valuecomment <- function(value,comment){
 }
 
 
+#' Return minimum without infinity
+#'
+#' @param x a vector different values.
+#'
+#' @return the minimal value. When all inputs are NA. return NA.
+#' @importFrom lubridate is.Date NA_Date_
+#' @export
+noinf_min <- function(x){
+  if(all(is.na(x))){
+    if(is.character(x)){
+      NA_character_
+    }else if(is.Date(x)){
+        NA_Date_
+    }else if(is.integer(x)){
+      NA_integer_
+    }else if(is.numeric(x)){
+      NA_real_
+    }else{
+      NA
+    }
+  }else{
+    min(x,na.rm=T)
+  }
+}
+
+
 
 ## PRIVATE ----
 
@@ -80,6 +106,10 @@ check_input.numeric <- function(x, lb = NULL,ub = NULL, stop_fun = warning){
   }
   x
 }
+
+
+
+
 
 #' @keywords internal
 toupper_dataset <- function(x,stcs){
