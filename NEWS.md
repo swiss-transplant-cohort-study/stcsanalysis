@@ -4,6 +4,7 @@
 * Developed AT from: 2024-02-13,
 * which.pmin_chr() include ties argument
 * new utils function noinf_min()
+* add_var(): debug when by is multiple columns
 
 
 # stcsanalysis 0.1.4

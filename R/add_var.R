@@ -58,8 +58,8 @@ expand_var_from <- function(data, stcs, .var,from, by, .filter){
 }
 
 
-#'@importFrom dplyr is_grouped_df left_join distinct
-#'@importFrom rlang set_names enquo
+#'@importFrom dplyr is_grouped_df left_join distinct if_any
+#'@importFrom rlang set_names enquo syms
 #'@export
 #'@rdname add_var
 new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
@@ -103,7 +103,8 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
     data|>
       left_join(stcs[[from]]|>
                   select(all_of(c(unname(by),.var)))|>
-                  filter(!is.na(!!sym(unname(by)))) |>
+                  filter(!if_any(c(!!!syms(unname(by))),is.na)) |>
+                  #filter(!is.na(!!sym(unname(by)))) |>
                   distinct(),
                 by = by,
                 relationship = relationship)
@@ -113,7 +114,8 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
       left_join(stcs[[from]]|>
                   filter(!!.filter)|>
                   select(all_of(c(unname(by),.var)))|>
-                  filter(!is.na(!!sym(unname(by)))) |>
+                  filter(!if_any(c(!!!syms(unname(by))),is.na)) |>
+                  #filter(!is.na(!!sym(unname(by)))) |>
                   distinct(),
                 by = by,
                 relationship = relationship)
