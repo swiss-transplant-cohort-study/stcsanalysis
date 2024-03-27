@@ -50,8 +50,8 @@
 <span>  <span class="va">stcs</span>,</span>
 <span>  .drug_category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"drug_idpro"</span>, <span class="st">"drug_ind"</span>, <span class="st">"drug_is"</span>, <span class="st">"drug_other"</span><span class="op">)</span>,</span>
 <span>  .patientkey <span class="op">=</span> <span class="st">"patientkey"</span>,</span>
-<span>  .date <span class="op">=</span> <span class="st">"date"</span>,</span>
-<span>  .days_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span></span>
+<span>  .startdate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .stopdate <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,12 +73,12 @@
 <dd><p>chr. The column name containing patientkey</p></dd>
 
 
-<dt>.date</dt>
-<dd><p>chr. The column name containign the date</p></dd>
+<dt>.startdate</dt>
+<dd><p>chr. The column name containing the starting date.</p></dd>
 
 
-<dt>.days_range</dt>
-<dd><p>numeric. A vector of length selecting the date range around <code>date</code> to look for medication.</p></dd>
+<dt>.stopdate</dt>
+<dd><p>chr. The column name containing the stop date.</p></dd>
 
 </dl></div>
     <div class="section level2">
