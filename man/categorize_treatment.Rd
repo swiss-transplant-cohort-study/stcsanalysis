@@ -9,8 +9,8 @@ categorize_treatment(
   stcs,
   .drug_category = c("drug_idpro", "drug_ind", "drug_is", "drug_other"),
   .patientkey = "patientkey",
-  .date = "date",
-  .days_range = c(-Inf, Inf)
+  .startdate = NULL,
+  .stopdate = NULL
 )
 }
 \arguments{
@@ -22,9 +22,9 @@ categorize_treatment(
 
 \item{.patientkey}{chr. The column name containing patientkey}
 
-\item{.date}{chr. The column name containign the date}
+\item{.startdate}{chr. The column name containing the starting date.}
 
-\item{.days_range}{numeric. A vector of length selecting the date range around \code{date} to look for medication.}
+\item{.stopdate}{chr. The column name containing the stop date.}
 }
 \value{
 a data frame containing \code{"drug_category"}, \code{"name"}, \code{"comment"}, \code{"code"}, \code{"n_occurence"}, \code{"range"}.

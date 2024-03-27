@@ -165,10 +165,23 @@ test_that(paste0(dir_name[i],": Run categorize_pathogenspecies()"), {
 })
 
 
-test_that(paste0(dir_name[i],": Run categorize_medication()"), {
+test_that(paste0(dir_name[i],": Run categorize_treatment()"), {
 
   out <- stcs$patient |>
-    categorize_treatment(stcs,.date = "enrollment_date")
+    dplyr::mutate(startdate = enrollment_date-lubridate::days(3),
+                  stopdate = enrollment_date+lubridate::days(3)) |>
+    categorize_treatment(stcs,.startdate = "startdate",.stopdate = "stopdate")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+
+test_that(paste0(dir_name[i],": Run categorize_rejectiontreatment()"), {
+
+  out <- stcs$biopsyrejection |>
+    categorize_rejectiontreatment(stcs)
 
   expect_s3_class(out,"data.frame")
 

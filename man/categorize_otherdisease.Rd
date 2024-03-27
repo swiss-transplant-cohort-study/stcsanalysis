@@ -8,9 +8,9 @@ categorize_otherdisease(
   data,
   stcs,
   .patientkey = "patientkey",
-  .date = "date",
-  .is_pre = NULL,
-  .days_range = c(-Inf, Inf)
+  .startdate = NULL,
+  .stopdate = NULL,
+  .is_pre = NULL
 )
 }
 \arguments{
@@ -18,13 +18,13 @@ categorize_otherdisease(
 
 \item{stcs}{list. The stcs object.}
 
-\item{.patientkey}{chr. The column name containing patientkey}
+\item{.patientkey}{chr. The column name containing patientkey.}
 
-\item{.date}{chr. The column name containign the date}
+\item{.startdate}{chr. The column name containing the starting date.}
+
+\item{.stopdate}{chr. The column name containing the stop date.}
 
 \item{.is_pre}{lgl. Level of the is_pre variable filter. Default is \code{.is_pre = c(TRUE,FALSE)}.}
-
-\item{.days_range}{numeric. A vector of length selecting the date range around \code{date} to look for medication.}
 }
 \value{
 a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.

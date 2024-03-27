@@ -69,6 +69,13 @@ noinf_min <- function(x){
 
 ## PRIVATE ----
 
+check_startstop <- function(start,stop,stop_fun = warning){
+  if(!all(start<=stop)){
+    stop_fun("stop before start.")
+  }
+}
+
+
 #' @keywords internal
 check_input <- function(x,...,stop_fun = warning){
   UseMethod("check_input",x)

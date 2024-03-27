@@ -64,8 +64,7 @@ categorize_pathogenspecies <- function(data, stcs,
   }
 
   out|>
-    count(!!sym("patdiagnosis"),!!sym("pathogen_species"),!!sym("comment"),!!sym("infsite")) |>
-    rename("n_occurence" = !!sym("n"))|>
+    count(!!sym("patdiagnosis"),!!sym("pathogen_species"),!!sym("comment"),!!sym("infsite"),name="n_occurence") |>
     filter(!((is.na(!!sym("pathogen_species"))&is.na(!!sym("comment"))))) |>
     arrange(!!sym("patdiagnosis"),!!sym("pathogen_species"),!!sym("comment"))
 
