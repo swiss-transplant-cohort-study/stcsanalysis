@@ -26,9 +26,20 @@
 #' \item{19.} \code{sumhlamismatch}: Sum of mismatch. Source: \code{Transplantation}.
 #' \item{20.} \code{hlaavailable}: Number of HLA mismatch available. Source: \code{Transplantation}.
 #' \item{21.} \code{procedure_provider}: Procedure provider. Source: \code{Transplantation}.
-#' \item{22.-32.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
-#' \item{33.-43.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
-#' \item{44.-54.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
+#' \item{22.} \code{dontype}: Donor type. Source: \code{Donor}.
+#' \item{23.} \code{donrelsubtype}: Donor subtype. Source: \code{Donor}.
+#' \item{24.} \code{identical_twins}: Identical twins. Source: \code{Donor}.
+#' \item{25.} \code{kpd}: Kidney paired donation. Source: \code{Donor}.
+#' \item{26.} \code{altruistic}: Altruistic donation. Source: \code{Donor}.
+#' \item{27.} \code{don_bg}: Blood-group of the donor. Source: \code{Donor}.
+#' \item{28.} \code{don_sex}: Sex of the donor. Source: \code{Donor}.
+#' \item{29.} \code{doncod}: Cause of donor death. Source: \code{Donor}.
+#' \item{30.} \code{doncod_comment}: Comment on cause of donor death. Source: \code{Donor}.
+#' \item{31.} \code{donage}: Age of donor. Source: \code{Donor}.
+#' \item{32.} \code{donage_complete}: Calculated age of the donor. Source: \code{Donor}.
+#' \item{33.-43.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
+#' \item{44.-54.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
+#' \item{55.-65.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
 #'
 #' }
 #'
@@ -36,13 +47,18 @@
 #'@export
 tailored_transplantationbl <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("transplantation"))
+  mendatory_tailored_tables_error(stcs,c("transplantation","donor"))
   out <-
     stcs[["transplantation"]] |>
     select(
       all_of(c("soaskey","patientkey","donorkey","organ_count","tpx","tpx_resec","pre_tpxspecific_count","tpxspecific_order",
                "tpx_order","tpx_stcsorder","abocomp","hlaamismatch","hlabmismatch","hlacmismatch","hladpbmismatch","hladqbmismatch",
-               "hladrb1mismatch","hladrb35mismatch","sumhlamismatch","hlaavailable","procedure_provider")))
+               "hladrb1mismatch","hladrb35mismatch","sumhlamismatch","hlaavailable","procedure_provider"))) |>
+    left_join(
+      stcs[["donor"]] |>
+        select(all_of(c("donorkey","dontype","donrelsubtype","identical_twins","kpd","altruistic",
+                        "don_bg"="bg","don_sex"="sex","doncod","doncod_comment","donage","donage_complete"))),
+      by = "donorkey",relationship = "many-to-one")
 
 
   if("patientserology"%in%names(stcs)){
