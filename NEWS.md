@@ -6,6 +6,8 @@
 * new utils function noinf_min()
 * add_var(): debug when by is multiple columns
 * change parametrization of categorize function using .startdate, .stopdate.
+* add bl tailored tables: tailored_patientbl(), tailored_transplantationbl()
+* rename serology_combinaison() to serology_combination()
 
 
 # stcsanalysis 0.1.4

@@ -116,6 +116,14 @@ test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
 
 })
 
+test_that(paste0(dir_name[i],": Run tailored_patientbl()"), {
+
+  out <- tailored_patientbl(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
 test_that(paste0(dir_name[i],": Run tailored_patientsurvival()"), {
 
   out <- tailored_patientsurvival(stcs)
@@ -132,6 +140,15 @@ test_that(paste0(dir_name[i],": Run tailored_psq()"), {
 
 })
 
+
+test_that(paste0(dir_name[i],": Run tailored_transplantationbl()"), {
+
+  out <- tailored_transplantationbl(stcs)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
 test_that(paste0(dir_name[i],": Run tailored_transplantationsurvival()"), {
 
   out <- tailored_transplantationsurvival(stcs)
@@ -139,6 +156,8 @@ test_that(paste0(dir_name[i],": Run tailored_transplantationsurvival()"), {
   expect_s3_class(out,"data.frame")
 
 })
+
+
 
 
 ## Categorization ----
@@ -248,11 +267,11 @@ test_that("Run age_months()", {
 })
 
 
-test_that("Run serology_combinaison()", {
+test_that("Run serology_combination()", {
   out <-
     expand.grid(rec = c("Positive","Negative",NA_character_),
                 don = c("Positive","Negative",NA_character_),stringsAsFactors = F) |>
-    dplyr::mutate(comb = serology_combinaison(rec,don)) |>
+    dplyr::mutate(comb = serology_combination(rec,don)) |>
     dplyr::pull(comb)
 
   expect_equal(out,c("R+/D+", "R-/D+", NA_character_, "R+/D-", "R-/D-",

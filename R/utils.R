@@ -69,6 +69,8 @@ noinf_min <- function(x){
 
 ## PRIVATE ----
 
+
+
 check_startstop <- function(start,stop,stop_fun = warning){
   if(!all(start<=stop)){
     stop_fun("stop before start.")
@@ -114,8 +116,12 @@ check_input.numeric <- function(x, lb = NULL,ub = NULL, stop_fun = warning){
   x
 }
 
-
-
+#' @keywords internal
+mendatory_tailored_tables_error <- function(stcs, mendatory_tab){
+  if(any(!mendatory_tab%in%names(stcs))){
+    stop("The following tables are mendatory: ",paste(mendatory_tab,collapse=", "),".")
+  }
+}
 
 
 #' @keywords internal

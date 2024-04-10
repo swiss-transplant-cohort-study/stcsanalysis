@@ -1,4 +1,4 @@
-#' Serology combinaison
+#' Serology combination
 #'
 #' Recode the serology recipient-donor into: "R+/D+", "R+/D-", "R-/D+", "R-/D-"
 #'
@@ -8,7 +8,7 @@
 #' @return a character vector.
 #' @importFrom dplyr case_match
 #' @export
-serology_combinaison <- function(rec_serology, don_serology){
+serology_combination <- function(rec_serology, don_serology){
   rec_serology <- check_input(rec_serology,c("Positive","Negative",NA_character_))
   don_serology <- check_input(don_serology,c("Positive","Negative",NA_character_))
 

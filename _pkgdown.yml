@@ -13,7 +13,7 @@ reference:
   desc: >
    Create pre-defined tables
   contents:
-   - has_concept("tailored_table")
+   - starts_with("tailored_")
 - title: Categorization of free-text
   desc: >
    Create tables to help the categorization of free-text entry
@@ -43,7 +43,7 @@ reference:
    - "egfr_2021"
    - "pediatric_egfr_2009"
    - has_concept("truemissing")
-   - "serology_combinaison"
+   - "serology_combination"
    - "impute_lastday"
    - "paste_valuecomment"
    - "new_coding"
