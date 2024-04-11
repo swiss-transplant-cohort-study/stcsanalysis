@@ -21,7 +21,6 @@
 #' }
 #
 #'
-#'@name tailored_table
 #'@export
 #'@importFrom stringr fixed
 tailored_organsurvival <- function(stcs){

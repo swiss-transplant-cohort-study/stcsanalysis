@@ -43,7 +43,6 @@
 #'
 #' }
 #'
-#'@name tailored_table
 #'@export
 tailored_transplantationbl <- function(stcs){
 

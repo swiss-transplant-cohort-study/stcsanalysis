@@ -30,7 +30,6 @@
 #'
 #'}
 #'
-#'@name tailored_table
 #'@export
 #'@importFrom dplyr slice_max slice_min summarise
 #'@importFrom tidyr pivot_longer

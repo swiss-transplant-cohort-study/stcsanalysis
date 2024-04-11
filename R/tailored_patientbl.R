@@ -23,7 +23,6 @@
 #' \item{12.-26.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
 #' }
 #'
-#'@name tailored_table
 #'@export
 tailored_patientbl <- function(stcs){
 

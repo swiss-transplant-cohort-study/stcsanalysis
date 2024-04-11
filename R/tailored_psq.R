@@ -10,7 +10,6 @@
 #'
 #'\code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
 #'
-#'@name tailored_table
 #'@export
 #'@importFrom stringr str_starts
 tailored_psq <- function(stcs, silent = FALSE){

@@ -22,7 +22,6 @@
 #'
 #' }
 #'
-#'@name tailored_table
 #'@export
 tailored_transplantationsurvival <- function(stcs){
 
