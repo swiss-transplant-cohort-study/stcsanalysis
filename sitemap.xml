@@ -79,7 +79,22 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/stcs_filter_patientkey.html</loc>
   </url>
   <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_table.html</loc>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_organsurvival.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_patientbl.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_patientsurvival.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_psq.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_transplantationbl.html</loc>
+  </url>
+  <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/tailored_transplantationsurvival.html</loc>
   </url>
   <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/truemissing.html</loc>
