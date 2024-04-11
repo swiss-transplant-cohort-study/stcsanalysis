@@ -1,4 +1,4 @@
-#' Tailored analysis tables
+#' Tailored wide PSQ table
 #'
 #'@param stcs A list containing the STCS data frame.
 #'@param silent lgl. Specify if warning should be returned.

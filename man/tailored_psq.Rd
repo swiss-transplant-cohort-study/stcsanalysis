@@ -2,7 +2,7 @@
 % Please edit documentation in R/tailored_psq.R
 \name{tailored_psq}
 \alias{tailored_psq}
-\title{Tailored analysis tables}
+\title{Tailored wide PSQ table}
 \usage{
 tailored_psq(stcs, silent = FALSE)
 }
@@ -15,7 +15,7 @@ tailored_psq(stcs, silent = FALSE)
 A data frame.
 }
 \description{
-Tailored analysis tables
+Tailored wide PSQ table
 }
 \details{
 \code{tailored_psq()}: PK: \code{patlongkey}. All PSQ forms in wide format.
