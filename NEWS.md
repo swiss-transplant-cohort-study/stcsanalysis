@@ -8,6 +8,7 @@
 * change parametrization of categorize function using .startdate, .stopdate.
 * add bl tailored tables: tailored_patientbl(), tailored_transplantationbl()
 * rename serology_combinaison() to serology_combination()
+* add categorize_organevent(), categorize_organintervention()
 
 
 # stcsanalysis 0.1.4

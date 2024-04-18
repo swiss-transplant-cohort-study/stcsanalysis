@@ -208,6 +208,29 @@ test_that(paste0(dir_name[i],": Run categorize_rejectiontreatment()"), {
 
 
 
+test_that(paste0(dir_name[i],": Run categorize_organevent()"), {
+
+  out <- stcs$organ |>
+    dplyr::mutate(startdate = tpxdate-lubridate::days(3),
+                  stopdate = tpxdate+lubridate::days(30)) |>
+    categorize_organevent(stcs,.startdate = "startdate",.stopdate = "stopdate")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+test_that(paste0(dir_name[i],": Run categorize_organintervention()"), {
+
+  out <- stcs$organ |>
+    dplyr::mutate(startdate = tpxdate-lubridate::days(3),
+                  stopdate = tpxdate+lubridate::days(30)) |>
+    categorize_organintervention(stcs,.startdate = "startdate",.stopdate = "stopdate")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
 }
 
 # NOT BASED ON STCS ----
