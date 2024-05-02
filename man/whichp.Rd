@@ -6,7 +6,7 @@
 \alias{which.pmin_chr}
 \title{Indicate the index of the row-wise minimal value}
 \usage{
-which.pmin(..., silent = F)
+which.pmin(..., silent = FALSE)
 
 which.pmin_chr(..., ties = c("warning-first", "first", "collapse"))
 }

@@ -10,20 +10,20 @@
 #'
 #' @export
 #' @importFrom dplyr case_when
-egfr_2021 <- function(crea_mumoll,age,sex){
-  age <- check_input(age,0,140)
-  crea_mumoll <- check_input(crea_mumoll,0+.Machine$double.eps,4000)
-  sex <- check_input(sex,c("Male","Female"))
+egfr_2021 <- function(crea_mumoll, age, sex){
+  age <- check_input(age, 0, 140)
+  crea_mumoll <- check_input(crea_mumoll, 0+.Machine$double.eps, 4000)
+  sex <- check_input(sex, c("Male", "Female"))
 
 
   ## from https://www.kidney.org/content/ckd-epi-creatinine-equation-2021
   #eGFRcr = 142 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.200 x 0.9938Age x 1.012 [if female]
-  k <- case_when(sex=="Female"~0.7,sex=="Male"~0.9)
-  alpha <- case_when(sex=="Female"~-.241,sex=="Male"~-.302)
-  corr_sex <- case_when(sex=="Female"~1.012,sex=="Male"~1)
+  k <- case_when(sex=="Female"~0.7, sex=="Male"~0.9)
+  alpha <- case_when(sex=="Female"~-.241, sex=="Male"~-.302)
+  corr_sex <- case_when(sex=="Female"~1.012, sex=="Male"~1)
   # convert to mg/dl
   crea_mgdl <- crea_mumoll/88.42
-  142*pmin(crea_mgdl/k,1)^alpha*pmax(crea_mgdl/k,1)^(-1.2)*0.9938^age*corr_sex
+  142*pmin(crea_mgdl/k, 1)^alpha*pmax(crea_mgdl/k, 1)^(-1.2)*0.9938^age*corr_sex
 }
 
 
@@ -38,9 +38,9 @@ egfr_2021 <- function(crea_mumoll,age,sex){
 #' @references Schwartz, G. J., Schneider, M. F., Maier, P. S., Moxey-Mims, M., Dharnidharka, V. R., Warady, B. A., ... & Muñoz, A. (2012). Improved equations estimating GFR in children with chronic kidney disease using an immunonephelometric determination of cystatin C. Kidney international, 82(4), 445-453.
 #'
 #' @export
-pediatric_egfr_2009 <- function(crea_mumoll,height){
-  height <- check_input(height,20,2.2)
-  crea_mumoll <- check_input(crea_mumoll,0+.Machine$double.eps,4000)
+pediatric_egfr_2009 <- function(crea_mumoll, height){
+  height <- check_input(height, 20, 2.2)
+  crea_mumoll <- check_input(crea_mumoll, 0+.Machine$double.eps, 4000)
   # sex <- check_input(sex,c("Male","Female"))
 
   crea_mgdl <- crea_mumoll/88.42

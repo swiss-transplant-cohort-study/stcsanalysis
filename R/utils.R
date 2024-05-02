@@ -27,13 +27,13 @@ vec_names <- function(x, nm = NULL){
 #'
 #' @return a character vector of length 1, where values and comments are paste, sorted and separated with \code{" | "}
 #' @export
-paste_valuecomment <- function(value,comment){
+paste_valuecomment <- function(value, comment){
   comment_ind <- !is.na(comment)
   out <- value
-  out[comment_ind] <- paste(value[comment_ind],comment[comment_ind],sep=":")
+  out[comment_ind] <- paste(value[comment_ind], comment[comment_ind], sep=":")
   out <- sort(unique(out))
   if(length(out)!=0L){
-    paste(out,collapse = " | ")
+    paste(out, collapse = " | ")
   }else{
     NA_character_
   }
@@ -52,7 +52,7 @@ noinf_min <- function(x){
     if(is.character(x)){
       NA_character_
     }else if(is.Date(x)){
-        NA_Date_
+      NA_Date_
     }else if(is.integer(x)){
       NA_integer_
     }else if(is.numeric(x)){
@@ -61,7 +61,7 @@ noinf_min <- function(x){
       NA
     }
   }else{
-    min(x,na.rm=T)
+    min(x, na.rm=TRUE)
   }
 }
 
@@ -71,7 +71,7 @@ noinf_min <- function(x){
 
 
 
-check_startstop <- function(start,stop,stop_fun = warning){
+check_startstop <- function(start, stop, stop_fun = warning){
   if(!all(start<=stop)){
     stop_fun("stop before start.")
   }
@@ -79,8 +79,8 @@ check_startstop <- function(start,stop,stop_fun = warning){
 
 
 #' @keywords internal
-check_input <- function(x,...,stop_fun = warning){
-  UseMethod("check_input",x)
+check_input <- function(x, ..., stop_fun = warning){
+  UseMethod("check_input", x)
 }
 
 
@@ -88,8 +88,8 @@ check_input <- function(x,...,stop_fun = warning){
 check_input.character <- function(x, level = NULL, stop_fun = warning){
   mc <- match.call()
   if(!is.null(level)){
-    if(!all(x%in%level,na.rm=T)){
-      stop_fun(paste0("Found ",deparse(mc$x)," different from ",paste(unique(level),collapse=", "),". They are convert into NA's"))
+    if(!all(x%in%level, na.rm = TRUE)){
+      stop_fun(paste0("Found ", deparse(mc$x), " different from ", paste(unique(level), collapse=", "), ". They are convert into NA's"))
       x[!x%in%level] <- NA_character_
     }
 
@@ -100,17 +100,17 @@ check_input.character <- function(x, level = NULL, stop_fun = warning){
 
 
 #' @keywords internal
-check_input.numeric <- function(x, lb = NULL,ub = NULL, stop_fun = warning){
+check_input.numeric <- function(x, lb = NULL, ub = NULL, stop_fun = warning){
   mc <- match.call()
   if(!is.null(lb)){
-    if(any(x<lb,na.rm = T)){
-      stop_fun(paste0("Found ",deparse(mc$x),"<",lb))
+    if(any(x<lb, na.rm = TRUE)){
+      stop_fun(paste0("Found ", deparse(mc$x), "<", lb))
     }
   }
 
   if(!is.null(ub)){
-    if(any(x>ub,na.rm = T)){
-      stop_fun(paste0("Found ",deparse(mc$x),">",ub))
+    if(any(x>ub, na.rm = TRUE)){
+      stop_fun(paste0("Found ", deparse(mc$x), ">", ub))
     }
   }
   x
@@ -119,17 +119,17 @@ check_input.numeric <- function(x, lb = NULL,ub = NULL, stop_fun = warning){
 #' @keywords internal
 mendatory_tailored_tables_error <- function(stcs, mendatory_tab){
   if(any(!mendatory_tab%in%names(stcs))){
-    stop("The following tables are mendatory: ",paste(mendatory_tab,collapse=", "),".")
+    stop("The following tables are mendatory: ", paste(mendatory_tab, collapse=", "), ".")
   }
 }
 
 
 #' @keywords internal
-toupper_dataset <- function(x,stcs){
+toupper_dataset <- function(x, stcs){
   x <- tolower(x)
-  uc <- c(stcs$variablemetadata$dataset |> unique(),"VariableMetadata")
+  uc <- c(unique(stcs$variablemetadata$dataset), "VariableMetadata")
   lc <- tolower(uc)
-  uc[match(x,lc)]
+  uc[match(x, lc)]
 
 }
 

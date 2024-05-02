@@ -6,7 +6,7 @@
 \alias{stcs_write_xlsx}
 \title{Write a list of STCS dataset into CSV file}
 \usage{
-stcs_write_csv(stcs, dir, delim = ",", progress = FALSE, na = "", ...)
+stcs_write_csv(stcs, dir, delim = ", ", progress = FALSE, na = "", ...)
 
 stcs_write_xlsx(stcs, dir)
 }
@@ -15,7 +15,7 @@ stcs_write_xlsx(stcs, dir)
 
 \item{dir}{chr. Path of the directory containing the exported files data. Dir is created if it does not exists.}
 
-\item{delim}{the column delimiting character passed to \code{write_delim()}. Default is ",".}
+\item{delim}{the column delimiting character passed to \code{write_delim()}. Default is ", ".}
 
 \item{progress}{Function or lgl. Argument pass to \code{write_delim()} Default is FALSE.}
 

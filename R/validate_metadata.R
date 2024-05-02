@@ -12,15 +12,15 @@ validate_metadata <- function(stcs){
 
   out <-
     tibble("dataset_l"= names(stcs[tolower(names(stcs))!="variablemetadata"]),
-          "variable" = lapply(stcs[tolower(names(stcs))!="variablemetadata"],colnames)) |>
+           "variable" = lapply(stcs[tolower(names(stcs))!="variablemetadata"], colnames)) |>
     unnest(!!sym("variable")) |>
     mutate("in_dataset" = TRUE) |>
     full_join(
       stcs[["variablemetadata"]] |>
-        select(all_of(c("dataset","variable"))) |>
+        select(all_of(c("dataset", "variable"))) |>
         mutate("dataset_l" = tolower(!!sym("dataset")),
                "in_metadata" = TRUE),
-      by = c("dataset_l","variable")) |>
+      by = c("dataset_l", "variable")) |>
     select(-all_of(c("dataset_l"))) |>
     filter(!(!!sym("in_dataset")&!!sym("in_metadata")))
 

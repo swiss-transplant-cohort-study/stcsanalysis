@@ -3,18 +3,16 @@
 \name{read}
 \alias{read}
 \alias{stcs_read}
-\alias{stcs_future_read}
 \alias{stcs_read1}
 \title{Read STCS datastcs}
 \usage{
-stcs_read(dir, delim = ",", lazy = FALSE, progress = FALSE, na = "", ...)
-
-stcs_future_read(
+stcs_read(
   dir,
-  delim = ",",
+  delim = ", ",
   lazy = FALSE,
   progress = FALSE,
   na = "",
+  locale = readr::locale(tz = "Europe/Zurich"),
   ...
 )
 
@@ -22,23 +20,26 @@ stcs_read1(
   dir,
   filename,
   col_types = NULL,
-  delim = ",",
+  delim = ", ",
   lazy = FALSE,
   progress = FALSE,
   na = "",
+  locale = readr::locale(tz = "Europe/Zurich"),
   ...
 )
 }
 \arguments{
 \item{dir}{chr. The directory with .csv files.}
 
-\item{delim}{chr. Default is ",". Passed to \code{read_delim}.}
+\item{delim}{chr. Default is ", ". Passed to \code{read_delim}.}
 
 \item{lazy}{lgl. Default is FALSE. Passed to \code{read_delim}.}
 
 \item{progress}{lgl. Default is FALSE. Passed to \code{read_delim}.}
 
 \item{na}{chr. Default is "". Passed to \code{read_delim}.}
+
+\item{locale}{from \code{lubridate::locale()}.}
 
 \item{...}{other arguments passed to \code{read_delim}.}
 

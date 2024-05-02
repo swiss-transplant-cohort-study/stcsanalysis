@@ -17,7 +17,7 @@ impute_lastday <- function(date, dateaccuracy){
     dateaccuracy=="Exact date"~date,
     is.na(dateaccuracy)~date,
     is_truemissing(dateaccuracy)~date,
-    dateaccuracy=="Day uncertain"~make_date(year(date),month(date),1L)+months(1L)-days(1L),
-    dateaccuracy=="Day/Month uncertain"~make_date(year(date),1L,1L)+years(1L)-days(1L),
+    dateaccuracy=="Day uncertain"~make_date(year(date), month(date), 1L)+months(1L)-days(1L),
+    dateaccuracy=="Day/Month uncertain"~make_date(year(date), 1L, 1L)+years(1L)-days(1L),
     dateaccuracy=="Estimated date"~date)
 }

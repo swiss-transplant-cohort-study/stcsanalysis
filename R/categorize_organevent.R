@@ -11,29 +11,32 @@
 #' @importFrom dplyr rename count arrange
 #' @export
 categorize_organevent <- function(data, stcs,
-                                  .organevent_category = c("Allograftdisease","Complications","Underlyingdisease"),
+                                  .organevent_category = c("Allograftdisease", "Complications", "Underlyingdisease"),
                                   .startdate = NULL,
                                   .stopdate = NULL,
                                   .organkey = "organkey"){
 
 
-  .organevent_category <- match.arg(.organevent_category,
-                                    c("Allograftdisease","Complications","Underlyingdisease"),
-                                    TRUE)
+  .organevent_category <- match.arg(.organevent_category, several.ok = TRUE)
+
+  check_startstop(data[[.startdate]], data[[.stopdate]])
+
+
+
   data |>
-    select(all_of(c("organkey"=.organkey,"startdate" = .startdate, "stopdate" =.stopdate))) |>
+    select(all_of(c("organkey"=.organkey, "startdate" = .startdate, "stopdate" =.stopdate))) |>
     distinct() |>
     inner_join(
       stcs[["organevent"]] |>
-        select(all_of(c("organkey","organevent_category","organevent","organevent_date","organevent_dateaccuracy","organevent_comment"))) |>
+        select(all_of(c("organkey", "organevent_category", "organevent", "organevent_date", "organevent_dateaccuracy", "organevent_comment"))) |>
         filter(!!sym("organevent_category")%in%.organevent_category),
       by = "organkey",
       relationship = "one-to-many") |>
     filter(is.na(!!sym("organevent_date"))|is_truemissing(!!sym("organevent_date"))|!!sym("organevent_date")<=!!sym("stopdate"))|>
-    filter(is.na(!!sym("organevent_date"))|is_truemissing(!!sym("organevent_date"))|impute_lastday(!!sym("organevent_date"),!!sym("organevent_dateaccuracy"))>=!!sym("startdate"))|>
-    count(!!sym("organevent_category"),!!sym("organevent"),!!sym("organevent_comment"),name ="n_occurence")|>
-    mutate("range" = paste0(.startdate," to ",.stopdate)) |>
-    arrange(!!sym("organevent_category"),!!sym("organevent"),!!sym("organevent_comment"))
+    filter(is.na(!!sym("organevent_date"))|is_truemissing(!!sym("organevent_date"))|impute_lastday(!!sym("organevent_date"), !!sym("organevent_dateaccuracy"))>=!!sym("startdate"))|>
+    count(!!sym("organevent_category"), !!sym("organevent"), !!sym("organevent_comment"), name ="n_occurence")|>
+    mutate("range" = paste0(.startdate, " to ", .stopdate)) |>
+    arrange(!!sym("organevent_category"), !!sym("organevent"), !!sym("organevent_comment"))
 
 }
 

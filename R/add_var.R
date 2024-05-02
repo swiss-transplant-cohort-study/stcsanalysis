@@ -26,18 +26,18 @@
 
 #'@rdname add_var
 #'@export
-add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detect_by(stcs,.var,from), .filter){
+add_var <- function(data, stcs, .var, from = detect_from(stcs, .var), by = detect_by(stcs, .var, from), .filter) {
   mc <- match.call()
 
 
-  if(is.null(mc[["from"]])){
+  if(is.null(mc[["from"]])) {
     mc[["from"]] <- from
   }
 
-  if(is.null(mc[["by"]])&!is.null(by)){
+  if(is.null(mc[["by"]])&!is.null(by)) {
     mc[["by"]] <- by
   }
-  mc[["relationship"]]="many-to-one"
+  mc[["relationship"]] <- "many-to-one"
 
 
   mc[[1]] <- quote(stcsanalysis::new_var_from)
@@ -50,9 +50,9 @@ add_var <- function(data, stcs, .var, from = detect_from(stcs,.var),  by = detec
 
 #'@rdname add_var
 #'@export
-expand_var_from <- function(data, stcs, .var,from, by, .filter){
+expand_var_from <- function(data, stcs, .var, from, by, .filter) {
   mc <- match.call()
-  mc[["relationship"]]="many-to-many"
+  mc[["relationship"]] <- "many-to-many"
   mc[[1]] <- quote(stcsanalysis::new_var_from)
   eval(mc, envir = parent.frame())
 }
@@ -62,7 +62,7 @@ expand_var_from <- function(data, stcs, .var,from, by, .filter){
 #'@importFrom rlang set_names enquo syms
 #'@export
 #'@rdname add_var
-new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
+new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship) {
 
   mc <- match.call()
 
@@ -71,21 +71,21 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
   stopifnot("'data' must NOT be grouped. Use dplyr::ungroup()." = !is_grouped_df(data))
 
   ## check dataset exist
-  if(is.null(stcs[[from]])){stop(paste0(from," must be a dataset in 'stcs'."))}
+  if(is.null(stcs[[from]])){stop(paste0(from, " must be a dataset in 'stcs'."))}
 
 
   ## .var
   .var <- vec_names(.var)
 
   ## check variable exist
-  if(!all(.var%in%colnames(stcs[[from]]))){stop(paste0(.var," must be a variable in 'stcs[[",from,"]]'."))}
+  if(!all(.var%in%colnames(stcs[[from]]))){stop(paste0(.var, " must be a variable in 'stcs[[", from, "]]'."))}
 
   ## check variable
-  if(any(names(.var)%in%colnames(data))){stop(paste0(.var,"/names(...) must be NOT be in 'data'."))}
+  if(any(names(.var)%in%colnames(data))){stop(paste0(.var, "/names(...) must be NOT be in 'data'."))}
 
   ## return admin (special without by)
   if(from=="admin"){
-    data[[names(.var)]] = stcs[["admin"]][[.var]]
+    data[[names(.var)]] <- stcs[["admin"]][[.var]]
     return(data)
   }
 
@@ -94,16 +94,16 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
   by <- vec_names(by)
 
   ## check by
-  if(!all(by%in%colnames(stcs[[from]]))){stop(paste0(by," must be a variable in 'stcs[[",from,"]]'."))}
-  if(!all(names(by)%in%colnames(data))){stop(paste0(by,"/names(...) must be a variable in 'data'."))}
+  if(!all(by%in%colnames(stcs[[from]]))){stop(paste0(by, " must be a variable in 'stcs[[", from, "]]'."))}
+  if(!all(names(by)%in%colnames(data))){stop(paste0(by, "/names(...) must be a variable in 'data'."))}
 
 
 
   if(is.null(mc[[".filter"]])){
     data|>
       left_join(stcs[[from]]|>
-                  select(all_of(c(unname(by),.var)))|>
-                  filter(!if_any(c(!!!syms(unname(by))),is.na)) |>
+                  select(all_of(c(unname(by), .var)))|>
+                  filter(!if_any(c(!!!syms(unname(by))), is.na)) |>
                   #filter(!is.na(!!sym(unname(by)))) |>
                   distinct(),
                 by = by,
@@ -113,8 +113,8 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
     data|>
       left_join(stcs[[from]]|>
                   filter(!!.filter)|>
-                  select(all_of(c(unname(by),.var)))|>
-                  filter(!if_any(c(!!!syms(unname(by))),is.na)) |>
+                  select(all_of(c(unname(by), .var)))|>
+                  filter(!if_any(c(!!!syms(unname(by))), is.na)) |>
                   #filter(!is.na(!!sym(unname(by)))) |>
                   distinct(),
                 by = by,
@@ -122,6 +122,3 @@ new_var_from <- function(data, stcs, .var, from,  by, .filter, relationship){
   }
 
 }
-
-
-

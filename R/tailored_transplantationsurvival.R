@@ -25,11 +25,11 @@
 #'@export
 tailored_transplantationsurvival <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("admin","organ","transplantation"))
+  mendatory_tailored_tables_error(stcs, c("admin", "organ", "transplantation"))
 
   out <-
     stcs[["transplantation"]] |>
-    select(all_of(c("soaskey","patientkey","donorkey","listing_date","removal_date","tpxspecific_order","tpx_order","tpx"))) |>
+    select(all_of(c("soaskey", "patientkey", "donorkey", "listing_date", "removal_date", "tpxspecific_order", "tpx_order", "tpx"))) |>
     left_join(
       stcs[["organ"]] |>
         group_by(!!sym("soaskey")) |>
@@ -40,14 +40,14 @@ tailored_transplantationsurvival <- function(stcs){
     out |>
     left_join(out |>
                 filter(!is.na(!!sym("soas_tpxdate"))) |>
-                select(all_of(c("patientkey","next_tpx_tpxdate"="soas_tpxdate","tpx_order"))) |>
+                select(all_of(c("patientkey", "next_tpx_tpxdate"="soas_tpxdate", "tpx_order"))) |>
                 mutate("tpx_order" = !!sym("tpx_order")-1L),
-              by = c("patientkey","tpx_order"),relationship = "one-to-one") |>
+              by = c("patientkey", "tpx_order"), relationship = "one-to-one") |>
     left_join(out |>
                 filter(!is.na(!!sym("soas_tpxdate"))) |>
-                select(all_of(c("patientkey","next_tpxspecific_tpxdate"="soas_tpxdate","tpxspecific_order","tpx"))) |>
+                select(all_of(c("patientkey", "next_tpxspecific_tpxdate"="soas_tpxdate", "tpxspecific_order", "tpx"))) |>
                 mutate("tpxspecific_order" = !!sym("tpxspecific_order")-1L),
-              by = c("patientkey","tpxspecific_order","tpx"),relationship = "one-to-one") |>
+              by = c("patientkey", "tpxspecific_order", "tpx"), relationship = "one-to-one") |>
     select(-all_of(c("tpxspecific_order", "tpx_order", "tpx")))
 
 
@@ -56,11 +56,11 @@ tailored_transplantationsurvival <- function(stcs){
       out |>
       left_join(
         stcs[["biosample"]] |>
-          select(all_of(c("soaskey","sin_date","crf_status"))) |>
+          select(all_of(c("soaskey", "sin_date", "crf_status"))) |>
           filter(!!sym("crf_status")=="Complete") |>
           group_by(!!sym("soaskey")) |>
-          summarise("last_complete_biosample_crf_date" = max(!!sym("sin_date")),.groups = "drop"),
-        by = "soaskey",relationship = "one-to-one")
+          summarise("last_complete_biosample_crf_date" = max(!!sym("sin_date")), .groups = "drop"),
+        by = "soaskey", relationship = "one-to-one")
   }
 
   out

@@ -20,15 +20,15 @@ tailored_psq <- function(stcs, silent = FALSE){
                     "psq2workcap", "psq3activity", "psq3household", "psq3occupation",
                     "psq3sport")
 
-  mendatory_tailored_tables_error(stcs,"psq")
+  mendatory_tailored_tables_error(stcs, "psq")
 
 
   if(any(!optional_tab%in%names(stcs))&!silent){
-    warning("tailored_psq() is not complete. You will missing data from ",paste(optional_tab[!optional_tab%in%names(stcs)],collapse=", "))
+    warning("tailored_psq() is not complete. You will missing data from ", paste(optional_tab[!optional_tab%in%names(stcs)], collapse=", "))
   }
 
-  Reduce(\(x,y){left_join(x,y,by = c("patlongkey","patientkey"),relationship = "one-to-one")},
-         lapply(stcs[str_starts(names(stcs),"psq")],psq_wide))
+  Reduce(\(x, y){left_join(x, y, by = c("patlongkey", "patientkey"), relationship = "one-to-one")},
+         lapply(stcs[str_starts(names(stcs), "psq")], psq_wide))
 
 }
 
@@ -39,7 +39,7 @@ tailored_psq <- function(stcs, silent = FALSE){
 #' @importFrom dplyr ungroup group_by n across
 #' @importFrom tidyselect where
 #' @importFrom stringr str_pad
-psq_wide <- function(x, .key = c("patientkey","patlongkey")){
+psq_wide <- function(x, .key = c("patientkey", "patlongkey")){
 
   stopifnot("The data frame must contains a psqkey." = all(.key %in%colnames(x)))
   stopifnot("The data frame must not contains a variable named rowid."= !".rowid"%in%colnames(x))
@@ -61,7 +61,7 @@ psq_wide <- function(x, .key = c("patientkey","patlongkey")){
                                 pad="0")) |>
       group_by(across(all_of(.key))) |>
       pivot_wider(names_from = !!sym(".rowid"),
-                  values_from = -all_of(c(.key,".rowid")),
+                  values_from = -all_of(c(.key, ".rowid")),
                   names_glue = "{.value}_{.rowid}") |>
       ungroup() |>
       select(-where(\(x){all(is.na(x))}))

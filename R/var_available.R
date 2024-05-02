@@ -8,7 +8,7 @@
 #' @return inputed data
 #' @importFrom purrr walk2
 #' @export
-var_available <- function(data,stcs){
+var_available <- function(data, stcs){
   allkeys <-
     stcs[["variablemetadata"]] |>
     pull("dataset_pk") |>
@@ -16,20 +16,20 @@ var_available <- function(data,stcs){
     unique()
 
   for(i in seq_along(allkeys)){
-    ki_sep <- str_split_1(allkeys[i],pattern = ", ")
+    ki_sep <- str_split_1(allkeys[i], pattern = ", ")
     if(all(ki_sep%in%colnames(data))){
 
       out <-
         stcs[["variablemetadata"]] |>
         filter(!!sym("dataset_pk")==allkeys[i]) |>
         filter(!(!!sym("variable")%in%colnames(data))) |>
-        select(all_of(c("dataset","variable"))) |>
+        select(all_of(c("dataset", "variable"))) |>
         nest("variable"=!!sym("variable")) |>
         mutate("dataset" = tolower(!!sym("dataset")))
-      cat("Associate to key:",allkeys[i],"\n")
-      walk2(out[["dataset"]],out[["variable"]],\(x,y){
-        cat(" - In table:",x,"\n")
-        cat(sort(y[["variable"]]),sep = ", ",fill = T,labels="  ")
+      cat("Associate to key:", allkeys[i], "\n")
+      walk2(out[["dataset"]], out[["variable"]], \(x, y){
+        cat(" - In table:", x, "\n")
+        cat(sort(y[["variable"]]), sep = ", ", fill = TRUE, labels="  ")
         cat("\n")
 
       })

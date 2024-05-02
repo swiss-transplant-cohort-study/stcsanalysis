@@ -184,6 +184,31 @@ test_that(paste0(dir_name[i],": Run categorize_pathogenspecies()"), {
 })
 
 
+test_that(paste0(dir_name[i],": Run categorize_otherdisease()"), {
+
+  out <- stcs$patient |>
+    dplyr::mutate(startdate = enrollment_date-lubridate::days(50),
+                  stopdate = enrollment_date+lubridate::days(50)) |>
+    categorize_otherdisease(stcs,.startdate = "startdate",.stopdate = "stopdate")
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
+test_that(paste0(dir_name[i],": Run categorize_otherdisease(), pre"), {
+
+  out <- stcs$patient |>
+    dplyr::mutate(startdate = enrollment_date-lubridate::days(5),
+                  stopdate = enrollment_date+lubridate::days(50)) |>
+    categorize_otherdisease(stcs,.startdate = "startdate",.stopdate = "stopdate",
+                            .is_pre = FALSE)
+
+  expect_s3_class(out,"data.frame")
+
+})
+
+
 test_that(paste0(dir_name[i],": Run categorize_treatment()"), {
 
   out <- stcs$patient |>
@@ -308,6 +333,75 @@ test_that("Run which.pmin_chr()", {
            which.pmin_chr(a=1:5,b =5:1,ties="collapse"))
 
   expect_equal(out,c("a", "a", "a", "b", "b", "a", "a", "a | b", "b", "b"))
+
+})
+
+test_that("Run noinf_min()", {
+  out <- c(noinf_min(c(NA,NA)),
+           noinf_min(c(NA,4)))
+
+  expect_equal(out,c(NA,4))
+
+})
+
+test_that("Run paste_valuecomment()", {
+  out <- c(paste_valuecomment(c("other","disease A"),c("comment 1", NA)),
+           paste_valuecomment(NA,NA))
+
+  expect_equal(out,c("disease A | other:comment 1",NA))
+
+})
+
+
+test_that("Run is_truemissing()", {
+out <-
+  list(fct = factor(c("Missing","Other")),
+           chr= c("Missing","Other"),
+           date = c(lubridate::make_date(1700L,1L,1L),
+                    lubridate::make_date(1700L,1L,2L)),
+           int = c(-9999L,9998L),
+           dbl = c(-9999,9999.00001),
+           dttm = c(as.POSIXct("1700-01-01 00:00:00", tz = "Europe/Zurich"),
+                    as.POSIXct("1700-01-01 00:00:01", tz = "Europe/Zurich")),
+           lgl = c(TRUE,FALSE)) |>
+  lapply(is_truemissing)
+
+expect_equal(out,  list(fct =c(TRUE,FALSE),
+                        chr= c(TRUE,FALSE),
+                        date = c(TRUE,FALSE),
+                        int = c(TRUE,FALSE),
+                        dbl = c(TRUE,FALSE),
+                        dttm = c(TRUE,FALSE),
+                        lgl = c(FALSE,FALSE)))
+
+
+})
+
+
+
+test_that("Run truemissing_to_na()", {
+  out <-
+    list(fct = factor(c("Missing","Other")),
+         chr= c("Missing","Other"),
+         date = c(lubridate::make_date(1700L,1L,1L),
+                  lubridate::make_date(1700L,1L,2L)),
+         int = c(-9999L,9998L),
+         dbl = c(-9999,9999.00001),
+         dttm = c(as.POSIXct("1700-01-01 00:00:00", tz = "Europe/Zurich"),
+                  as.POSIXct("1700-01-01 00:00:01", tz = "Europe/Zurich")),
+         lgl = c(TRUE,FALSE)) |>
+    lapply(truemissing_to_na)
+
+  expect_equal(out,  list(fct = factor(c(NA_character_,"Other"), levels=c("Missing","Other")),
+                          chr= c(NA_character_,"Other"),
+                          date = c(lubridate::NA_Date_,
+                                   lubridate::make_date(1700L,1L,2L)),
+                          int = c(NA_integer_,9998L),
+                          dbl = c(NA_real_,9999.00001),
+                          dttm = c(as.POSIXct(NA_character_, tz = "Europe/Zurich"),
+                                   as.POSIXct("1700-01-01 00:00:01", tz = "Europe/Zurich")),
+                          lgl = c(TRUE,FALSE)))
+
 
 })
 

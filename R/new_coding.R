@@ -15,7 +15,7 @@
 #'
 #' @export
 #' @importFrom dplyr anti_join
-new_coding <- function(...,data,.new_var = "new_var"){
+new_coding <- function(..., data, .new_var = "new_var"){
 
   dotargs <- list(...)
 
@@ -23,7 +23,7 @@ new_coding <- function(...,data,.new_var = "new_var"){
 
   ## standardize unnamed to all ""
   if(all(is.null(names(dotargs)))){
-    names(dotargs) = rep("",length(dotargs))
+    names(dotargs) <- rep("", length(dotargs))
   }
 
 
@@ -37,7 +37,7 @@ new_coding <- function(...,data,.new_var = "new_var"){
     nl <- names(data)
     torename <- names(dotargs)==""
 
-    nl <- nl[!nl%in%c(names(dotargs),.new_var)]
+    nl <- nl[!nl%in%c(names(dotargs), .new_var)]
     names(dotargs)[torename] <- nl
 
   }
@@ -51,24 +51,24 @@ new_coding <- function(...,data,.new_var = "new_var"){
 
 
   ## Clean recoding dataframe
-  data <- data[c(names(dotargs),.new_var)]
+  data <- data[c(names(dotargs), .new_var)]
 
   dups <- duplicated(data)
 
   if(any(dups)){
     warning("Duplicates in the recoding data frame are removed.")
-    data <- data[!dups,,drop=FALSE]
+    data <- data[!dups, , drop=FALSE]
   }
 
   ## check if join will create NA's
-  match_na <- anti_join(dotargs,data[,names(dotargs),drop=F], by = names(dotargs))
+  match_na <- anti_join(dotargs, data[, names(dotargs), drop=FALSE], by = names(dotargs))
   if(nrow(match_na)>0L){
     warning("Recoding data is not complete for all input, NA's are created in the recoding.")
   }
 
   (dotargs |>
-    left_join(data, by = names(dotargs),
-              relationship = "many-to-one"))[[.new_var]]
+      left_join(data, by = names(dotargs),
+                relationship = "many-to-one"))[[.new_var]]
 
 }
 

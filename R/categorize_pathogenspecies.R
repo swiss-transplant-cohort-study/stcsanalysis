@@ -15,15 +15,16 @@
 #'
 #' @export
 categorize_pathogenspecies <- function(data, stcs,
-                                       .diseasekey = "diseasekey", add_infsite = c("no","all","other","other+na")){
+                                       .diseasekey = "diseasekey",
+                                       add_infsite = c("no", "all", "other", "other+na")){
 
-  add_infsite <- match.arg(add_infsite, c("no","all","other","other+na"))
+  add_infsite <- match.arg(add_infsite)
 
-  infpath <- c("Bacteria","Fungi","Parasites","Pathogen unknown","Virus")
+  infpath <- c("Bacteria", "Fungi", "Parasites", "Pathogen unknown", "Virus")
   out <-
     data |>
     select(all_of(c("diseasekey" = .diseasekey))) |>
-    add_var(stcs,"patdiagnosis",from = "patientdisease",by ="diseasekey")
+    add_var(stcs, "patdiagnosis", from = "patientdisease", by ="diseasekey")
 
   if(any(!out$patdiagnosis%in%infpath)){warning("Some .diseasekey are not infections.")}
   out <-
@@ -32,7 +33,7 @@ categorize_pathogenspecies <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["infectionpathogen"]] |>
-        select(all_of(c("diseasekey","pathogen_species","comment"))),
+        select(all_of(c("diseasekey", "pathogen_species", "comment"))),
       by = "diseasekey",
       relationship = "one-to-many")
 
@@ -41,15 +42,15 @@ categorize_pathogenspecies <- function(data, stcs,
       out |>
       mutate("infsite" = NA_character_)
   }else{
-    other_path <- c("Other bacteria","Other fungi","Other parasites","Other viruses")
+    other_path <- c("Other bacteria", "Other fungi", "Other parasites", "Other viruses")
     out <-
       out |>
       left_join(
         stcs[["infectionsite"]] |>
           filter(!!sym("diseasekey")%in%out$diseasekey) |>
           group_by(!!sym("diseasekey")) |>
-          summarise("infsite" = paste_valuecomment(!!sym("infsite"),!!sym("comment"))),
-        by = "diseasekey",relationship = "many-to-one")
+          summarise("infsite" = paste_valuecomment(!!sym("infsite"), !!sym("comment"))),
+        by = "diseasekey", relationship = "many-to-one")
     if(add_infsite=="other"){
       out <-
         out |>
@@ -64,9 +65,9 @@ categorize_pathogenspecies <- function(data, stcs,
   }
 
   out|>
-    count(!!sym("patdiagnosis"),!!sym("pathogen_species"),!!sym("comment"),!!sym("infsite"),name="n_occurence") |>
+    count(!!sym("patdiagnosis"), !!sym("pathogen_species"), !!sym("comment"), !!sym("infsite"), name="n_occurence") |>
     filter(!((is.na(!!sym("pathogen_species"))&is.na(!!sym("comment"))))) |>
-    arrange(!!sym("patdiagnosis"),!!sym("pathogen_species"),!!sym("comment"))
+    arrange(!!sym("patdiagnosis"), !!sym("pathogen_species"), !!sym("comment"))
 
 }
 

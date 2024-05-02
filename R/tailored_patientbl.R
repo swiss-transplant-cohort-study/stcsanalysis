@@ -26,20 +26,20 @@
 #'@export
 tailored_patientbl <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("patient","patientlongitudinal"))
+  mendatory_tailored_tables_error(stcs, c("patient", "patientlongitudinal"))
 
   out <-
     stcs[["patient"]] |>
-    select(all_of(c("patientkey","patid","enrollment_age","sex","bg","ethnicity","ethnicity_comment","pre_tpx_count","pre_organ_count"))) |>
+    select(all_of(c("patientkey", "patid", "enrollment_age", "sex", "bg", "ethnicity", "ethnicity_comment", "pre_tpx_count", "pre_organ_count"))) |>
     left_join(
       stcs[["patientlongitudinal"]] |>
         filter(!!sym("type")=="bl") |>
-        select(all_of(c("patientkey","weight","height"))),
-      by = "patientkey",relationship = "one-to-one")
+        select(all_of(c("patientkey", "weight", "height"))),
+      by = "patientkey", relationship = "one-to-one")
 
   if("patienthla"%in%names(stcs)){
     out |>
-      left_join(stcs[["patienthla"]], by = "patientkey",relationship = "one-to-one")
+      left_join(stcs[["patienthla"]], by = "patientkey", relationship = "one-to-one")
 
   }
 

@@ -9,11 +9,11 @@
 categorize_infsite <- function(data, stcs,
                                .diseasekey = "diseasekey"){
 
-  infpath <- c("Bacteria","Fungi","Parasites","Pathogen unknown","Virus")
+  infpath <- c("Bacteria", "Fungi", "Parasites", "Pathogen unknown", "Virus")
   out <-
     data |>
     select(all_of(c("diseasekey" = .diseasekey))) |>
-    add_var(stcs,"patdiagnosis",from = "patientdisease",by ="diseasekey")
+    add_var(stcs, "patdiagnosis", from = "patientdisease", by ="diseasekey")
 
   if(any(!out$patdiagnosis%in%infpath)){warning("Some .diseasekey are not infections.")}
 
@@ -22,13 +22,13 @@ categorize_infsite <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["infectionsite"]] |>
-        select(all_of(c("diseasekey","infsite","comment"))),
+        select(all_of(c("diseasekey", "infsite", "comment"))),
       by = "diseasekey",
       relationship = "one-to-many") |>
-    count(!!sym("infsite"),!!sym("comment")) |>
+    count(!!sym("infsite"), !!sym("comment")) |>
     rename("n_occurence" = !!sym("n"))|>
     filter(!((is.na(!!sym("infsite"))&is.na(!!sym("comment"))))) |>
-    arrange(!!sym("infsite"),!!sym("comment"))
+    arrange(!!sym("infsite"), !!sym("comment"))
 
 }
 

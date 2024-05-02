@@ -8,7 +8,7 @@
 #' @importFrom dplyr rename count arrange
 #' @export
 categorize_rejectiontreatment <- function(data, stcs,
-                                 .biorejkey = "biorejkey"){
+                                          .biorejkey = "biorejkey"){
 
 
 
@@ -17,11 +17,11 @@ categorize_rejectiontreatment <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["rejectiontreatment"]] |>
-        select(all_of(c("biorejkey","rjtreat","rjtreat_comment"))),
+        select(all_of(c("biorejkey", "rjtreat", "rjtreat_comment"))),
       by = "biorejkey",
       relationship = "one-to-many") |>
-    count(!!sym("rjtreat"),!!sym("rjtreat_comment"),name ="n_occurence")|>
-    arrange(!!sym("rjtreat"),!!sym("rjtreat_comment"))
+    count(!!sym("rjtreat"), !!sym("rjtreat_comment"), name ="n_occurence")|>
+    arrange(!!sym("rjtreat"), !!sym("rjtreat_comment"))
 
 }
 

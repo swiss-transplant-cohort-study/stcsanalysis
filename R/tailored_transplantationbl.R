@@ -46,18 +46,18 @@
 #'@export
 tailored_transplantationbl <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("transplantation","donor"))
+  mendatory_tailored_tables_error(stcs, c("transplantation", "donor"))
   out <-
     stcs[["transplantation"]] |>
     select(
-      all_of(c("soaskey","patientkey","donorkey","organ_count","tpx","tpx_resec","pre_tpxspecific_count","tpxspecific_order",
-               "tpx_order","tpx_stcsorder","abocomp","hlaamismatch","hlabmismatch","hlacmismatch","hladpbmismatch","hladqbmismatch",
-               "hladrb1mismatch","hladrb35mismatch","sumhlamismatch","hlaavailable","procedure_provider"))) |>
+      all_of(c("soaskey", "patientkey", "donorkey", "organ_count", "tpx", "tpx_resec", "pre_tpxspecific_count", "tpxspecific_order",
+               "tpx_order", "tpx_stcsorder", "abocomp", "hlaamismatch", "hlabmismatch", "hlacmismatch", "hladpbmismatch", "hladqbmismatch",
+               "hladrb1mismatch", "hladrb35mismatch", "sumhlamismatch", "hlaavailable", "procedure_provider"))) |>
     left_join(
       stcs[["donor"]] |>
-        select(all_of(c("donorkey","dontype","donrelsubtype","identical_twins","kpd","altruistic",
-                        "don_bg"="bg","don_sex"="sex","doncod","doncod_comment","donage","donage_complete"))),
-      by = "donorkey",relationship = "many-to-one")
+        select(all_of(c("donorkey", "dontype", "donrelsubtype", "identical_twins", "kpd", "altruistic",
+                        "don_bg"="bg", "don_sex"="sex", "doncod", "doncod_comment", "donage", "donage_complete"))),
+      by = "donorkey", relationship = "many-to-one")
 
 
   if("patientserology"%in%names(stcs)){
@@ -65,8 +65,8 @@ tailored_transplantationbl <- function(stcs){
       out |>
       left_join(
         stcs[["patientserology"]] |>
-          select(all_of(c("soaskey","test","result"))) |>
-          pivot_wider(names_from = "test",values_from = "result",names_prefix = "rec_"),
+          select(all_of(c("soaskey", "test", "result"))) |>
+          pivot_wider(names_from = "test", values_from = "result", names_prefix = "rec_"),
         by = "soaskey", relationship = "one-to-one")
 
   }
@@ -77,19 +77,19 @@ tailored_transplantationbl <- function(stcs){
       out |>
       left_join(
         stcs[["donorserology"]] |>
-          pivot_wider(names_from = "test",values_from = "result",names_prefix = "don_"),
+          pivot_wider(names_from = "test", values_from = "result", names_prefix = "don_"),
         by = "donorkey", relationship = "many-to-one")
 
   }
 
-  if(all(c("donorserology","patientserology")%in%names(stcs))){
+  if(all(c("donorserology", "patientserology")%in%names(stcs))){
 
     out <-
       out |>
       left_join(
         stcs[["patientserology"]] |>
           left_join(stcs[["donorserology"]] |>
-                      select(all_of(c("donorkey","test","don_result"="result"))),
+                      select(all_of(c("donorkey", "test", "don_result"="result"))),
                     by=c("donorkey", "test"), relationship = "many-to-one") |>
           mutate("combi" = serology_combination(truemissing_to_na(!!sym("result")), truemissing_to_na(!!sym("don_result")))) |>
           select(all_of(c("soaskey", "test", "combi"))) |>

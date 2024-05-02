@@ -25,30 +25,30 @@
 #'@importFrom stringr fixed
 tailored_organsurvival <- function(stcs){
 
-  mendatory_tailored_tables_error(stcs,c("admin","organ","organlongitudinal","graftloss"))
+  mendatory_tailored_tables_error(stcs, c("admin", "organ", "organlongitudinal", "graftloss"))
 
 
   out <-
     stcs[["organ"]] |>
-    select(all_of(c("patientkey","donorkey","soaskey","organkey","tpxdate"))) |>
-    add_var(stcs,.var = c("glo_date"="date"),from = "graftloss",by = "organkey") |>
-    add_var(stcs,.var = c("pnf_date"="tpxdate"),from = "organ",by = "organkey",.filter = !!sym("dgf")=="PNF")|>
+    select(all_of(c("patientkey", "donorkey", "soaskey", "organkey", "tpxdate"))) |>
+    add_var(stcs, .var = c("glo_date"="date"), from = "graftloss", by = "organkey") |>
+    add_var(stcs, .var = c("pnf_date"="tpxdate"), from = "organ", by = "organkey", .filter = !!sym("dgf")=="PNF")|>
     left_join(
       stcs[["organlongitudinal"]] |>
-        select(all_of(c("organkey","assdate")),ends_with(fixed("_toggle"))) |>
-        mutate(across(contains("_toggle"),truemissing_to_na)) |>
-        pivot_longer(ends_with("_toggle"),values_to = "toggle_value",names_to = "toggle", names_pattern = "(.*)_toggle",values_drop_na = T) |>
-        group_by(across(all_of(c("organkey","toggle")))) |>
-        summarise(last_date = max(!!sym("assdate")),.groups = "drop") |>
-        pivot_wider(values_from = !!sym("last_date"),names_from = !!sym("toggle"),names_glue = "last_{toggle}_toggle_date"),
-      by = "organkey",relationship = "one-to-one") |>
+        select(all_of(c("organkey", "assdate")), ends_with(fixed("_toggle"))) |>
+        mutate(across(contains("_toggle"), truemissing_to_na)) |>
+        pivot_longer(ends_with("_toggle"), values_to = "toggle_value", names_to = "toggle", names_pattern = "(.*)_toggle", values_drop_na = TRUE) |>
+        group_by(across(all_of(c("organkey", "toggle")))) |>
+        summarise(last_date = max(!!sym("assdate")), .groups = "drop") |>
+        pivot_wider(values_from = !!sym("last_date"), names_from = !!sym("toggle"), names_glue = "last_{toggle}_toggle_date"),
+      by = "organkey", relationship = "one-to-one") |>
     left_join(
       stcs[["organlongitudinal"]] |>
-        select(all_of(c("organkey","assdate","crf_status"))) |>
+        select(all_of(c("organkey", "assdate", "crf_status"))) |>
         filter(!!sym("crf_status")=="Complete") |>
         group_by(!!sym("organkey")) |>
-        summarise("last_complete_organlongitudinal_crf_date" = max(!!sym("assdate")),.groups = "drop"),
-      by = "organkey",relationship = "one-to-one")
+        summarise("last_complete_organlongitudinal_crf_date" = max(!!sym("assdate")), .groups = "drop"),
+      by = "organkey", relationship = "one-to-one")
 
   out
 

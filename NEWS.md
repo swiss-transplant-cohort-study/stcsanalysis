@@ -9,6 +9,8 @@
 * add bl tailored tables: tailored_patientbl(), tailored_transplantationbl()
 * rename serology_combinaison() to serology_combination()
 * add categorize_organevent(), categorize_organintervention()
+* set tz = "Europe/Zurich", for date time.
+* remove future_stcs_read() and dependency to future, listenv
 
 
 # stcsanalysis 0.1.4

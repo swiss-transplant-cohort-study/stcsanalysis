@@ -14,14 +14,14 @@
 
 #' @export
 #' @rdname whichp
-which.pmin <- function(...,silent = F){
+which.pmin <- function(..., silent = FALSE){
   if(!silent){
     if(any(apply(cbind(...), 1, \(x){
       if(all(is.na(x))){
         NA}else{
-          sum(x==min(x,na.rm=T),na.rm=T)>1
+          sum(x==min(x, na.rm = TRUE), na.rm = TRUE)>1
         }
-    }),na.rm = T)){
+    }), na.rm = TRUE)){
       warning("Ties at minimum")
     }
   }
@@ -33,21 +33,21 @@ which.pmin <- function(...,silent = F){
 #' @export
 #' @importFrom rlang dots_list
 #' @rdname whichp
-which.pmin_chr <- function(...,ties = c("warning-first","first","collapse")){
+which.pmin_chr <- function(..., ties = c("warning-first", "first", "collapse")){
   ties <- match.arg(ties)
 
-  dots <- dots_list(...,.named = T)
+  dots <- dots_list(..., .named = TRUE)
   vn <- names(dots)
 
   switch(ties,
-         "warning-first" ={vn[which.pmin(...,silent=F)]},
-         "first"= {vn[which.pmin(...,silent=T)]},
+         "warning-first" ={vn[which.pmin(..., silent = FALSE)]},
+         "first"= {vn[which.pmin(..., silent = TRUE)]},
          "collapse" = {
-           sapply(apply(cbind(...),1,\(x)which(x==noinf_min(x))),\(xi){
+           sapply(apply(cbind(...), 1, \(x)which(x==noinf_min(x))), \(xi){
              if(all(is.na(xi))){
                NA_character_
              }else{
-               paste(vn[xi],collapse = " | ")
+               paste(vn[xi], collapse = " | ")
              }
            })
          })

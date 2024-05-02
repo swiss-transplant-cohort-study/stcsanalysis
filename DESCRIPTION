@@ -10,8 +10,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     dplyr,
-    future,
-    listenv,
     lubridate,
     openxlsx,
     purrr,
