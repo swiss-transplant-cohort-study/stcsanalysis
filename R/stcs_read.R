@@ -2,7 +2,7 @@
 #'
 #' @param dir chr. The directory with .csv files.
 #' @param filename chr. The name of the STCS dataset.
-#' @param delim chr. Default is ", ". Passed to \code{read_delim}.
+#' @param delim chr. Default is ",". Passed to \code{read_delim}.
 #' @param lazy lgl. Default is FALSE. Passed to \code{read_delim}.
 #' @param progress lgl. Default is FALSE. Passed to \code{read_delim}.
 #' @param na chr. Default is "". Passed to \code{read_delim}.
@@ -28,7 +28,7 @@
 #' @importFrom rlang sym
 #' @importFrom tidyr nest
 #' @importFrom tidyselect all_of
-stcs_read <- function(dir, delim=", ", lazy = FALSE, progress = FALSE, na = "",
+stcs_read <- function(dir, delim=",", lazy = FALSE, progress = FALSE, na = "",
                       locale = readr::locale(tz = "Europe/Zurich"), ...){
 
   stopifnot("dir must exists" = dir.exists(dir))
@@ -49,7 +49,7 @@ stcs_read <- function(dir, delim=", ", lazy = FALSE, progress = FALSE, na = "",
   out[["variablemetadata"]] <- variablemetadata
 
   if(!out[["admin"]][["core_version"]]%in%c("0.0.0")){
-    warning("The version of the stcsanalysis package is not adapted to the version of the data. Check 'https://github.com/swiss-transplant-cohort-study/stcsanalysis'.")
+    warning("The version of stcsanalysis is not adapted to the version of the core tables. Check 'https://github.com/swiss-transplant-cohort-study/stcsanalysis'.")
   }
 
   out
@@ -60,7 +60,7 @@ stcs_read <- function(dir, delim=", ", lazy = FALSE, progress = FALSE, na = "",
 #' @export
 #' @rdname read
 #' @importFrom readr read_delim
-stcs_read1 <- function(dir, filename, col_types=NULL, delim=", ", lazy=FALSE, progress=FALSE, na="", locale = readr::locale(tz = "Europe/Zurich"), ...){
+stcs_read1 <- function(dir, filename, col_types=NULL, delim=",", lazy=FALSE, progress=FALSE, na="", locale = readr::locale(tz = "Europe/Zurich"), ...){
 
   read_delim(file = file.path(dir, filename), col_types =col_types, delim = delim, lazy=lazy, progress=progress, na=na, ...=...)
 

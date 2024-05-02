@@ -8,7 +8,7 @@
 \usage{
 stcs_read(
   dir,
-  delim = ", ",
+  delim = ",",
   lazy = FALSE,
   progress = FALSE,
   na = "",
@@ -20,7 +20,7 @@ stcs_read1(
   dir,
   filename,
   col_types = NULL,
-  delim = ", ",
+  delim = ",",
   lazy = FALSE,
   progress = FALSE,
   na = "",
@@ -31,7 +31,7 @@ stcs_read1(
 \arguments{
 \item{dir}{chr. The directory with .csv files.}
 
-\item{delim}{chr. Default is ", ". Passed to \code{read_delim}.}
+\item{delim}{chr. Default is ",". Passed to \code{read_delim}.}
 
 \item{lazy}{lgl. Default is FALSE. Passed to \code{read_delim}.}
 
