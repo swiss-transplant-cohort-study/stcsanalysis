@@ -25,6 +25,9 @@
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/age.html</loc>
   </url>
   <url>
+    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/categorize_diagnosis.html</loc>
+  </url>
+  <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/categorize_infsite.html</loc>
   </url>
   <url>
@@ -32,9 +35,6 @@
   </url>
   <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/categorize_organintervention.html</loc>
-  </url>
-  <url>
-    <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/categorize_otherdisease.html</loc>
   </url>
   <url>
     <loc>https://swiss-transplant-cohort-study.github.io/stcsanalysis/reference/categorize_pathogenspecies.html</loc>

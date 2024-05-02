@@ -58,24 +58,28 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The stcsanalysis package contains function to handle the STCS analysis tables.</p>
+<p>The stcsanalysis package contains function to handle the STCS analysis tables (AT).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of stcsanalysis like so:</p>
+<p>Choose the correct version of stcsanalysis depending on the version of AT:</p>
+<p>For the latest version (0.0.1) of the AT , you can install stcsanalysis like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"swiss-transplant-cohort-study/stcsanalysis"</span><span class="op">)</span></span></code></pre></div>
+<p>For version 0.0.0 of the AT, you can install stcsanalysis like so:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"swiss-transplant-cohort-study/stcsanalysis@at-version-0.0.0"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>You can create a table using:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://swiss-transplant-cohort-study.github.io/stcsanalysis/">stcsanalysis</a></span><span class="op">)</span></span>
 <span><span class="va">stcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read.html">stcs_read</a></span><span class="op">(</span><span class="st">"dir/to/analysis/tables"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/data_key.html">data_patientkey</a></span><span class="op">(</span><span class="va">stcs</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="reference/add_var.html">add_var</a></span><span class="op">(</span><span class="va">stcs</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span><span class="op">)</span><span class="op">)</span><span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="reference/add_var.html">add_var</a></span><span class="op">(</span><span class="va">stcs</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"enrollment_age"</span><span class="op">)</span><span class="op">)</span><span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="reference/add_var.html">expand_var_from</a></span><span class="op">(</span><span class="va">stcs</span>,from<span class="op">=</span><span class="st">"transplantation"</span>,by<span class="op">=</span><span class="st">"patientkey"</span>,.var<span class="op">=</span><span class="st">"soaskey"</span><span class="op">)</span><span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="reference/add_var.html">expand_var_from</a></span><span class="op">(</span><span class="va">stcs</span>,from<span class="op">=</span><span class="st">"organ"</span>,by<span class="op">=</span><span class="st">"soaskey"</span>,.var<span class="op">=</span><span class="st">"organkey"</span><span class="op">)</span><span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="reference/add_var.html">add_var</a></span><span class="op">(</span><span class="va">stcs</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"organ"</span>,<span class="st">"tpxdate"</span><span class="op">)</span><span class="op">)</span><span class="op">|&gt;</span> </span>
