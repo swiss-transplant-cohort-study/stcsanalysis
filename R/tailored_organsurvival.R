@@ -32,7 +32,7 @@ tailored_organsurvival <- function(stcs){
     stcs[["organ"]] |>
     select(all_of(c("patientkey", "donorkey", "soaskey", "organkey", "tpxdate"))) |>
     add_var(stcs, .var = c("glo_date"="date"), from = "graftloss", by = "organkey") |>
-    add_var(stcs, .var = c("pnf_date"="tpxdate"), from = "organ", by = "organkey", .filter = !!sym("dgf")=="PNF")|>
+    add_var(stcs, .var = c("pnf_date"="date"), from = "graftloss", by = "organkey", .filter = !!sym("pnfpgd_ind"))|>
     left_join(
       stcs[["organlongitudinal"]] |>
         select(all_of(c("organkey", "assdate")), ends_with(fixed("_toggle"))) |>

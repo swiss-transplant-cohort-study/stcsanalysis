@@ -1,3 +1,12 @@
+# stcsanalysis 0.1.6
+
+* Tested on AT from: 2024-05-01, 
+* Developed AT from: 2024-05-01,
+* correction for AT 0.0.1: pnf_date in tailored_organsurvival(), 
+* correction for AT 0.0.1: handle new disease_category in categorize_diagnosis(), 
+
+
+
 # stcsanalysis 0.1.5
 
 * Tested on AT from: 2024-02-13, 2024-02-06, 2024-02-01, 

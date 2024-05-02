@@ -1,4 +1,4 @@
-#' Extract Other disease for recoding
+#' Extract diagnosis for recoding
 #'
 #' @param data data.frame. A data frame containing the variables describe in \code{.patientkey} and \code{.date}
 #' @param stcs list. The stcs object.
@@ -11,7 +11,7 @@
 #' @return a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
 #' @importFrom dplyr rename count
 #' @export
-categorize_otherdisease <- function(data, stcs,
+categorize_diagnosis <- function(data, stcs,
                                     .patientkey = "patientkey",
                                     .startdate = NULL,
                                     .stopdate = NULL,
@@ -21,7 +21,7 @@ categorize_otherdisease <- function(data, stcs,
 
 
   if(!is.null(.is_pre)){
-    categorize_otherdisease_pre(data=data, stcs=stcs,
+    categorize_diagnosis_pre(data=data, stcs=stcs,
                                 .patientkey=.patientkey,
                                 .startdate=.startdate,
                                 .stopdate=.stopdate,
@@ -29,7 +29,7 @@ categorize_otherdisease <- function(data, stcs,
 
 
   }else{
-    categorize_otherdisease_nopre(data=data, stcs=stcs,
+    categorize_diagnosis_nopre(data=data, stcs=stcs,
                                   .patientkey=.patientkey,
                                   .startdate=.startdate,
                                   .stopdate=.stopdate)
@@ -39,7 +39,7 @@ categorize_otherdisease <- function(data, stcs,
 }
 
 
-categorize_otherdisease_pre <- function(data, stcs,
+categorize_diagnosis_pre <- function(data, stcs,
                                         .patientkey,
                                         .startdate,
                                         .stopdate,
@@ -52,7 +52,7 @@ categorize_otherdisease_pre <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["patientdisease"]] |>
-        filter(!!sym("disease_category")=="Other") |>
+        filter(is.na(!!sym("disease_category"))) |>
         filter(!!sym("is_pre")%in%.is_pre) |>
         select(all_of(c("patientkey", "date", "dateaccuracy", "disease_category", "is_pre", "patdiagnosis"))),
       by = "patientkey",
@@ -65,7 +65,7 @@ categorize_otherdisease_pre <- function(data, stcs,
     arrange(!!sym("disease_category"), !!sym("patdiagnosis"))
 }
 
-categorize_otherdisease_nopre  <- function(data, stcs,
+categorize_diagnosis_nopre  <- function(data, stcs,
                                            .patientkey,
                                            .startdate,
                                            .stopdate){
@@ -74,7 +74,7 @@ categorize_otherdisease_nopre  <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["patientdisease"]] |>
-        filter(!!sym("disease_category")=="Other") |>
+        filter(is.na(!!sym("disease_category"))) |>
         select(all_of(c("patientkey", "date", "dateaccuracy", "disease_category", "patdiagnosis"))),
       by = "patientkey",
       relationship = "many-to-many") |>
