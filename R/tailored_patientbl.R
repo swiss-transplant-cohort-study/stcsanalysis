@@ -20,7 +20,8 @@
 #' \item{9.} \code{pre_organ_count}: Number of pre-STSC organ. Source: \code{Patient}.
 #' \item{10.} \code{weight}: Weight of patient at enrollment. Source: \code{PatientLongitudinal}.
 #' \item{11.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
-#' \item{12.-26.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
+#' \item{12.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
+#' \item{13.-27.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
 #' }
 #'
 #'@export
@@ -34,7 +35,7 @@ tailored_patientbl <- function(stcs){
     left_join(
       stcs[["patientlongitudinal"]] |>
         filter(!!sym("type")=="bl") |>
-        select(all_of(c("patientkey", "weight", "height"))),
+        select(all_of(c("patientkey", "weight", "height", "bmi"))),
       by = "patientkey", relationship = "one-to-one")
 
   if("patienthla"%in%names(stcs)){

@@ -27,6 +27,10 @@ vec_names <- function(x, nm = NULL){
 #'
 #' @return a character vector of length 1, where values and comments are paste, sorted and separated with \code{" | "}
 #' @export
+#' @examples
+#' paste_valuecomment(c("other", "disease A"), c("comment 1", NA))
+#' paste_valuecomment(NA, NA)
+#'
 paste_valuecomment <- function(value, comment){
   comment_ind <- !is.na(comment)
   out <- value
@@ -47,6 +51,10 @@ paste_valuecomment <- function(value, comment){
 #' @return the minimal value. When all inputs are NA. return NA.
 #' @importFrom lubridate is.Date NA_Date_
 #' @export
+#' @examples
+#' noinf_min(c(NA, NA))
+#' noinf_min(c(NA, 4))
+#'
 noinf_min <- function(x){
   if(all(is.na(x))){
     if(is.character(x)){

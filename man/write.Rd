@@ -6,7 +6,7 @@
 \alias{stcs_write_xlsx}
 \title{Write a list of STCS dataset into CSV file}
 \usage{
-stcs_write_csv(stcs, dir, delim = ", ", progress = FALSE, na = "", ...)
+stcs_write_csv(stcs, dir, delim = ",", progress = FALSE, na = "", ...)
 
 stcs_write_xlsx(stcs, dir)
 }

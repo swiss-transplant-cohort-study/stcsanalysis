@@ -48,7 +48,7 @@ stcs_read <- function(dir, delim=",", lazy = FALSE, progress = FALSE, na = "",
   out <- out[["data"]]
   out[["variablemetadata"]] <- variablemetadata
 
-  if(!out[["admin"]][["core_version"]]%in%c("0.0.1")){
+  if(!out[["admin"]][["core_version"]]%in%c("0.0.1","0.0.2","0.0.3")){
     warning("The version of stcsanalysis is not adapted to the version of the core tables. Check 'https://github.com/swiss-transplant-cohort-study/stcsanalysis'.")
   }
 

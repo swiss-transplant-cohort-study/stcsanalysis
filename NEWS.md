@@ -1,10 +1,10 @@
 # stcsanalysis 0.1.6
 
-* Tested on AT from: 2024-05-01, 
-* Developed AT from: 2024-05-01,
+* Tested on AT from: 2024-05-01, 2024-05-14, 2024-05-21, 2024-06-17 
 * correction for AT 0.0.1: pnf_date in tailored_organsurvival(), 
 * correction for AT 0.0.1: handle new disease_category in categorize_diagnosis(), 
-
+* add variable in  tailored_organsurvival(): next_tpxdate, next_organspecific_tpxdate
+* add variable in tailored_organbl(): bmi
 
 
 # stcsanalysis 0.1.5

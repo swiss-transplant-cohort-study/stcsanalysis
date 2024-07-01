@@ -30,6 +30,7 @@ Tailored analysis tables with baseline patient data.
 \item{9.} \code{pre_organ_count}: Number of pre-STSC organ. Source: \code{Patient}.
 \item{10.} \code{weight}: Weight of patient at enrollment. Source: \code{PatientLongitudinal}.
 \item{11.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
-\item{12.-26.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
+\item{12.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
+\item{13.-27.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
 }
 }

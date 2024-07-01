@@ -10,6 +10,15 @@
 #'
 #' @export
 #' @importFrom dplyr case_when
+#'
+#' @examples
+#' data <-
+#'    expand.grid(crea = c(50, 200, 1000),
+#'                age = c(20, 60),
+#'                sex= c("Female", "Male"), stringsAsFactors = FALSE)
+#' data$egfr <- egfr_2021(data$crea, data$age, data$sex)
+#'
+#'
 egfr_2021 <- function(crea_mumoll, age, sex){
   age <- check_input(age, 0, 140)
   crea_mumoll <- check_input(crea_mumoll, 0+.Machine$double.eps, 4000)

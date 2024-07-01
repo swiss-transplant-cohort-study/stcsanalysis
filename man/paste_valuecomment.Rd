@@ -17,3 +17,8 @@ a character vector of length 1, where values and comments are paste, sorted and 
 \description{
 Merge value and their associated comment
 }
+\examples{
+paste_valuecomment(c("other", "disease A"), c("comment 1", NA))
+paste_valuecomment(NA, NA)
+
+}

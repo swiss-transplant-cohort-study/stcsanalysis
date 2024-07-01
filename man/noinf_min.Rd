@@ -15,3 +15,8 @@ the minimal value. When all inputs are NA. return NA.
 \description{
 Return minimum without infinity
 }
+\examples{
+noinf_min(c(NA, NA))
+noinf_min(c(NA, 4))
+
+}

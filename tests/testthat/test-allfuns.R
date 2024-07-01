@@ -343,7 +343,7 @@ test_that("Run age_months()", {
                 to = as.Date(c("2019-1-28","2020-2-28","2021-2-28","2021-3-1","2022-2-28","2023-2-28","2024-2-28","2024-2-29")))
   data$agem = age_months(data$from, data$to)
 
-  expect_equal(data$agem,c(-13L, 0L,11L,12L,23L,35L,47L,48L))
+  expect_equal(data$agem,c(-13L, 0L, 11L, 12L, 23L, 35L, 47L, 48L))
 
 })
 

@@ -19,6 +19,15 @@ eGFR in mL/min/1.73m\eqn{^2} as described in https://www.kidney.org/content/ckd-
 \description{
 eGFR
 }
+\examples{
+data <-
+   expand.grid(crea = c(50, 200, 1000),
+               age = c(20, 60),
+               sex= c("Female", "Male"), stringsAsFactors = FALSE)
+data$egfr <- egfr_2021(data$crea, data$age, data$sex)
+
+
+}
 \references{
 Inker, L. A., Eneanya, N. D., Coresh, J., Tighiouart, H., Wang, D., Sang, Y., ... & Levey, A. S. (2021). New creatinine-and cystatin C–based equations to estimate GFR without race. New England Journal of Medicine, 385(19), 1737-1749.
 }

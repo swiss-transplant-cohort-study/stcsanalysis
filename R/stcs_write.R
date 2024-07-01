@@ -23,7 +23,7 @@ NULL
 #' @importFrom dplyr bind_rows tibble
 #' @importFrom lubridate is.POSIXct
 #' @rdname write
-stcs_write_csv <- function(stcs, dir, delim = ", ", progress=FALSE, na ="", ...){
+stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE, na ="", ...){
 
   if(!dir.exists(dir)){
     dir.create(dir)

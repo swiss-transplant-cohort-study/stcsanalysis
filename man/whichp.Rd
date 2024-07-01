@@ -26,4 +26,10 @@ Indicate the index of the row-wise minimal value
 \details{
 See original idea https://github.com/radiant-rstats/radiant.data/blob/master/R/radiant.R
 }
+\examples{
+
+which.pmin(a=1:5,b =5:1,silent = TRUE)
+which.pmin_chr(a=1:5,b =5:1,ties="first")
+which.pmin_chr(a=1:5,b =5:1,ties="collapse")
+}
 \concept{whichp}

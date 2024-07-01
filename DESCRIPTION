@@ -1,7 +1,7 @@
 Package: stcsanalysis
 Type: Package
 Title: Data wrangling tools for the STCS analysis tables
-Version: 0.1.5
+Version: 0.1.6
 Author: Jaromil Frossard
 Maintainer: Jaromil Frossard <jaromil.frossard@usb.ch>
 Description: Data wrangling tools for the STCS analysis tables.
