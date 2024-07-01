@@ -27,7 +27,7 @@ categorize_diagnosis(
 \item{.is_pre}{lgl. Level of the is_pre variable filter. Default is \code{.is_pre = c(TRUE,FALSE)}.}
 }
 \value{
-a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
+a data frame containing \code{"diagnosis_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
 }
 \description{
 Extract diagnosis for recoding

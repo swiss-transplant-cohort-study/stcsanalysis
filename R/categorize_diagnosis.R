@@ -8,7 +8,7 @@
 #' @param .is_pre lgl. Level of the is_pre variable filter. Default is \code{.is_pre = c(TRUE,FALSE)}.
 #'
 #'
-#' @return a data frame containing \code{"disease_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
+#' @return a data frame containing \code{"diagnosis_category"}, \code{"is_pre"}, \code{"patdiagnosis"}, \code{"n_occurence"}, \code{"range"}.
 #' @importFrom dplyr rename count
 #' @export
 categorize_diagnosis <- function(data, stcs,
@@ -52,17 +52,16 @@ categorize_diagnosis_pre <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["patientdisease"]] |>
-        filter(is.na(!!sym("disease_category"))) |>
         filter(!!sym("is_pre")%in%.is_pre) |>
-        select(all_of(c("patientkey", "date", "dateaccuracy", "disease_category", "is_pre", "patdiagnosis"))),
+        select(all_of(c("patientkey", "date", "dateaccuracy", "diagnosis_category", "is_pre", "patdiagnosis"))),
       by = "patientkey",
       relationship = "many-to-many") |>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")<=!!sym("stopdate"))|>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")>=!!sym("startdate"))|>
-    count(!!sym("disease_category"), !!sym("is_pre"), !!sym("patdiagnosis"), name = "n_occurence") |>
+    count(!!sym("diagnosis_category"), !!sym("is_pre"), !!sym("patdiagnosis"), name = "n_occurence") |>
     mutate("range" = paste0(.startdate, " to ", .stopdate)) |>
     filter(!is.na(!!sym("patdiagnosis"))) |>
-    arrange(!!sym("disease_category"), !!sym("patdiagnosis"))
+    arrange(!!sym("diagnosis_category"), !!sym("patdiagnosis"))
 }
 
 categorize_diagnosis_nopre  <- function(data, stcs,
@@ -74,15 +73,14 @@ categorize_diagnosis_nopre  <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["patientdisease"]] |>
-        filter(is.na(!!sym("disease_category"))) |>
-        select(all_of(c("patientkey", "date", "dateaccuracy", "disease_category", "patdiagnosis"))),
+        select(all_of(c("patientkey", "date", "dateaccuracy", "diagnosis_category", "patdiagnosis"))),
       by = "patientkey",
       relationship = "many-to-many") |>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")<=!!sym("stopdate"))|>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")>=!!sym("startdate"))|>
-    count(!!sym("disease_category"), !!sym("patdiagnosis"), name = "n_occurence") |>
+    count(!!sym("diagnosis_category"), !!sym("patdiagnosis"), name = "n_occurence") |>
     mutate("range" = paste0(.startdate, " to ", .stopdate)) |>
     filter(!is.na(!!sym("patdiagnosis")))|>
-    arrange(!!sym("disease_category"), !!sym("patdiagnosis"))
+    arrange(!!sym("diagnosis_category"), !!sym("patdiagnosis"))
 
 }

@@ -5,6 +5,7 @@
 * correction for AT 0.0.1: handle new disease_category in categorize_diagnosis(), 
 * add variable in  tailored_organsurvival(): next_tpxdate, next_organspecific_tpxdate
 * add variable in tailored_organbl(): bmi
+* correction in category_diagnosis.
 
 
 # stcsanalysis 0.1.5
