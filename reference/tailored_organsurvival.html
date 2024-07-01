@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">stcsanalysis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,13 +65,15 @@
     <p><code>tailored_organsurvival()</code>: PK: <code>organkey</code>.</p>
 <ul><li><p>1. <code>patientkey</code>: Identifier of patients. Source: <code>Organ</code>.</p></li>
 <li><p>2. <code>donorkey</code>: Identifier of donors. Source: <code>Organ</code>.</p></li>
-<li><p>3. <code>soaskey</code>: Identifier of transplantations. Source: <code>Organ</code>.</p></li>
+<li><p>3. <code>soaskey</code>: Identifier of transplantation. Source: <code>Organ</code>.</p></li>
 <li><p>4. <code>organkey</code>: Identifier of organs. Source: <code>Organ</code>.</p></li>
 <li><p>5. <code>tpxdate</code>: Date of transplantation. Source: <code>Organ</code>.</p></li>
 <li><p>6. <code>glo_date</code>: Graft loss date. Source: <code>Graftloss</code>.</p></li>
 <li><p>7. <code>pnf_date</code>: Date of PNF (<code>tpxdate</code> when <code>dgf</code> is <code>"PNF"</code>). Source: <code>Organ</code>.</p></li>
-<li><p>8.-16. <code>last_[...]_toggle_date</code>: Assessment date of the last mentioned filled toggle (keep: <code>"Yes"</code>, <code>"No"</code>, removed: <code>"Missing"</code>, <code>NA</code>). Source: <code>OrganLongitudinal</code>.</p></li>
-<li><p>17. <code>last_complete_organlongitudinal_crf_date</code>: Assessment date of the latest <code>crf_status</code> of the organ assessment defined as <code>"Complete"</code>. Source: <code>OrganLongitudinal</code>.</p></li>
+<li><p>8. <code>next_tpxdate</code>: Next <code>tpxdate</code> (<code>tpxdate</code> with <code>organ_order</code>+1)</p></li>
+<li><p>9. <code>next_organspecific_tpxdate</code>: Next <code>tpxdate</code> of the same organ (<code>tpxdate</code> with <code>organspecific_order</code>+1)</p></li>
+<li><p>10.-18. <code>last_[...]_toggle_date</code>: Assessment date of the last mentioned filled toggle (keep: <code>"Yes"</code>, <code>"No"</code>, removed: <code>"Missing"</code>, <code>NA</code>). Source: <code>OrganLongitudinal</code>.</p></li>
+<li><p>19. <code>last_complete_organlongitudinal_crf_date</code>: Assessment date of the latest <code>crf_status</code> of the organ assessment defined as <code>"Complete"</code>. Source: <code>OrganLongitudinal</code>.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
