@@ -14,14 +14,15 @@
 #' \item{3.} \code{enrollment_age}: Patient age at enrollment. Source: \code{Patient}.
 #' \item{4.} \code{sex}: Patient sex. Source: \code{Patient}.
 #' \item{5.} \code{bg}: Patient blood group. Source: \code{Patient}.
-#' \item{6.} \code{ethnicity}: Patient ethnicity. Source: \code{Patient}.
-#' \item{7.} \code{ethnicity_comment}: Comment on \code{patient_ethnicity}. Source: \code{Patient}.
-#' \item{8.} \code{pre_tpx_count}: Number of pre-STSC transplantation. Source: \code{Patient}.
-#' \item{9.} \code{pre_organ_count}: Number of pre-STSC organ. Source: \code{Patient}.
-#' \item{10.} \code{weight}: Weight of patient at enrollment. Source: \code{PatientLongitudinal}.
-#' \item{11.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
+#' \item{6.} \code{istreat}: Past IS treatment. Source: \code{Patient}.
+#' \item{7.} \code{ethnicity}: Patient ethnicity. Source: \code{Patient}.
+#' \item{8.} \code{ethnicity_comment}: Comment on \code{patient_ethnicity}. Source: \code{Patient}.
+#' \item{9.} \code{pre_tpx_count}: Number of pre-STSC transplantation. Source: \code{Patient}.
+#' \item{10.} \code{pre_organ_count}: Number of pre-STSC organ. Source: \code{Patient}.
+#' \item{11.} \code{weight}: Weight of patient at enrollment. Source: \code{PatientLongitudinal}.
 #' \item{12.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
-#' \item{13.-27.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
+#' \item{13.} \code{height}: Height of patient at enrollment. Source: \code{PatientLongitudinal}.
+#' \item{14.-28.} \code{hla...}: (Optional) Patient HLA. Source: \code{PatientHLA}.
 #' }
 #'
 #'@export
@@ -31,7 +32,7 @@ tailored_patientbl <- function(stcs){
 
   out <-
     stcs[["patient"]] |>
-    select(all_of(c("patientkey", "patid", "enrollment_age", "sex", "bg", "ethnicity", "ethnicity_comment", "pre_tpx_count", "pre_organ_count"))) |>
+    select(all_of(c("patientkey", "patid", "enrollment_age", "sex", "bg","istreat", "ethnicity", "ethnicity_comment", "pre_tpx_count", "pre_organ_count"))) |>
     left_join(
       stcs[["patientlongitudinal"]] |>
         filter(!!sym("type")=="bl") |>
