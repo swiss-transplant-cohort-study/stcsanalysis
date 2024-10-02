@@ -1,3 +1,10 @@
+# stcsanalysis 0.1.7
+
+* include tailored_tables()
+* change write_stcs_csv() to allow every
+* remove reference to diagnosis_category
+* categorization breaks for AT before: 2024-08-30
+
 # stcsanalysis 0.1.6
 
 * Tested on AT from: 2024-05-01, 2024-05-14, 2024-05-21, 2024-06-17 

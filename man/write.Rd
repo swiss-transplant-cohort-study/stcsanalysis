@@ -3,12 +3,9 @@
 \name{write}
 \alias{write}
 \alias{stcs_write_csv}
-\alias{stcs_write_xlsx}
 \title{Write a list of STCS dataset into CSV file}
 \usage{
 stcs_write_csv(stcs, dir, delim = ",", progress = FALSE, na = "", ...)
-
-stcs_write_xlsx(stcs, dir)
 }
 \arguments{
 \item{stcs}{a list of STCS datasets}

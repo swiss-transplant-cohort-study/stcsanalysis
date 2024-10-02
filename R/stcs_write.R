@@ -28,15 +28,26 @@ stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE, na ="", ...){
   if(!dir.exists(dir)){
     dir.create(dir)
   }
+
   stopifnot("dir must be empty" = length(list.files(dir))==0L)
 
-  tb_csv <-
-    stcs[["variablemetadata"]] |>
-    select(all_of(c("dataset"))) |>
-    distinct() |>
-    mutate("csv"= paste0(!!sym("dataset"), ".csv"),
-           "dataset" = tolower(!!sym("dataset"))) |>
-    bind_rows(tibble("dataset"="variablemetadata", "csv"="VariableMetadata.csv"))
+
+  if(!is.null(stcs[["variablemetadata"]])){
+    tb_csv <-
+      stcs[["variablemetadata"]] |>
+      select(all_of(c("dataset"))) |>
+      distinct() |>
+      mutate("csv"= paste0(!!sym("dataset"), ".csv"),
+             "dataset" = tolower(!!sym("dataset"))) |>
+      bind_rows(tibble("dataset"="variablemetadata", "csv"="VariableMetadata.csv"))
+  }else{
+    tb_csv <-
+      tibble(
+        "dataset"=names(stcs)) |>
+      mutate("csv" = paste0(!!sym("dataset"), ".csv"))
+  }
+
+
 
 
   for(i in seq_len(nrow(tb_csv))){
@@ -51,52 +62,5 @@ stcs_write_csv <- function(stcs, dir, delim = ",", progress=FALSE, na ="", ...){
   }
 
 }
-
-
-
-#' @export
-#' @importFrom openxlsx openxlsx_getOp openxlsx_setOp createWorkbook addWorksheet writeData saveWorkbook
-#' @rdname write
-stcs_write_xlsx <- function(stcs, dir){
-  op0 <- openxlsx_getOp("openxlsx.dateFormat")
-
-  openxlsx_setOp("openxlsx.dateFormat", "yyyy-mm-dd")
-
-  if(!dir.exists(dir)){
-    dir.create(dir)
-  }
-  stopifnot("dir must be empty" = length(list.files(dir))==0L)
-
-  tb_xlsx <-
-    stcs[["variablemetadata"]] |>
-    select(all_of(c("dataset"))) |>
-    distinct() |>
-    mutate(
-      "sheet" = !!sym("dataset"),
-      "xlsx"= paste0(!!sym("dataset"), ".xlsx"),
-      "dataset" = tolower(!!sym("dataset"))) |>
-    bind_rows(tibble("dataset"="variablemetadata", "sheet"="VariableMetadata", "xlsx"="VariableMetadata.xlsx"))
-
-
-  for(i in seq_len(nrow(tb_xlsx))){
-
-    fi <- tb_xlsx[["xlsx"]][i]
-    wb <- createWorkbook()
-    addWorksheet(wb, sheetName = tb_xlsx[["sheet"]][i])
-    writeData(wb, sheet = tb_xlsx[["sheet"]][i], x=stcs[[tb_xlsx[["dataset"]][i]]])
-
-    saveWorkbook(wb, file = file.path(dir, fi), overwrite = TRUE)
-
-  }
-
-  openxlsx_setOp("openxlsx.dateFormat",  op0)
-
-
-
-}
-
-
-
-
 
 

@@ -53,15 +53,15 @@ categorize_diagnosis_pre <- function(data, stcs,
     inner_join(
       stcs[["patientdisease"]] |>
         filter(!!sym("is_pre")%in%.is_pre) |>
-        select(all_of(c("patientkey", "date", "dateaccuracy", "diagnosis_category", "is_pre", "patdiagnosis"))),
+        select(all_of(c("patientkey", "date", "dateaccuracy", "is_pre", "patdiagnosis"))),
       by = "patientkey",
       relationship = "many-to-many") |>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")<=!!sym("stopdate"))|>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")>=!!sym("startdate"))|>
-    count(!!sym("diagnosis_category"), !!sym("is_pre"), !!sym("patdiagnosis"), name = "n_occurence") |>
+    count(!!sym("is_pre"), !!sym("patdiagnosis"), name = "n_occurence") |>
     mutate("range" = paste0(.startdate, " to ", .stopdate)) |>
     filter(!is.na(!!sym("patdiagnosis"))) |>
-    arrange(!!sym("diagnosis_category"), !!sym("patdiagnosis"))
+    arrange(!!sym("patdiagnosis"))
 }
 
 categorize_diagnosis_nopre  <- function(data, stcs,
@@ -73,14 +73,14 @@ categorize_diagnosis_nopre  <- function(data, stcs,
     distinct() |>
     inner_join(
       stcs[["patientdisease"]] |>
-        select(all_of(c("patientkey", "date", "dateaccuracy", "diagnosis_category", "patdiagnosis"))),
+        select(all_of(c("patientkey", "date", "dateaccuracy", "patdiagnosis"))),
       by = "patientkey",
       relationship = "many-to-many") |>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")<=!!sym("stopdate"))|>
     filter(is.na(!!sym("date"))|is_truemissing(!!sym("date"))|!!sym("date")>=!!sym("startdate"))|>
-    count(!!sym("diagnosis_category"), !!sym("patdiagnosis"), name = "n_occurence") |>
+    count( !!sym("patdiagnosis"), name = "n_occurence") |>
     mutate("range" = paste0(.startdate, " to ", .stopdate)) |>
     filter(!is.na(!!sym("patdiagnosis")))|>
-    arrange(!!sym("diagnosis_category"), !!sym("patdiagnosis"))
+    arrange(!!sym("patdiagnosis"))
 
 }

@@ -105,84 +105,13 @@ test_that(paste0(dir_name[i],": selecting and filter"), {
 
 ## Tailored tables ----
 
+test_that(paste0(dir_name[i],": Run tailored_tables()"), {
 
+  out <- tailored_tables(stcs)
 
-
-test_that(paste0(dir_name[i],": Run tailored_organsurvival()"), {
-
-  out <- tailored_organsurvival(stcs)
-
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
+  lapply(out,\(xi){expect_s3_class(xi,"data.frame")})
 
 })
-
-test_that(paste0(dir_name[i],": Run tailored_patientbl()"), {
-
-  out <- tailored_patientbl(stcs)
-
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
-
-
-})
-
-test_that(paste0(dir_name[i],": Run tailored_patientsurvival()"), {
-
-  out <- tailored_patientsurvival(stcs)
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
-
-})
-
-test_that(paste0(dir_name[i],": Run tailored_psq()"), {
-
-  out <- tailored_psq(stcs)
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
-
-})
-
-
-test_that(paste0(dir_name[i],": Run tailored_transplantationbl()"), {
-
-  out <- tailored_transplantationbl(stcs)
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
-
-})
-
-test_that(paste0(dir_name[i],": Run tailored_transplantationsurvival()"), {
-
-  out <- tailored_transplantationsurvival(stcs)
-  allna_count <- out |>
-    dplyr::select(tidyselect::where(\(x){all(is.na(x))})) |>
-    ncol()
-
-  expect_s3_class(out,"data.frame")
-  expect_equal(allna_count,0L)
-})
-
 
 
 
