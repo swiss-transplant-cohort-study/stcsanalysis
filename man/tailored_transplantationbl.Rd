@@ -21,16 +21,16 @@ Tailored analysis tables with with baseline transplantation data.
 
 \itemize{
 
-\item{1.} \code{soaskey}: Identifier of transplantations. Source: \code{Transplantation}.
+\item{1.} \code{soaskey}: Identifier of transplantation. Source: \code{Transplantation}.
 \item{2.} \code{patientkey}: Identifier of patients. Source: \code{Transplantation}.
 \item{3.} \code{donorkey}: Identifier of donors. Source: \code{Transplantation}.
 \item{4.} \code{organ_count}: Number of organs in the tpx. Source: \code{Transplantation}.
 \item{5.} \code{tpx}: List of organs. Source: \code{Transplantation}.
 \item{6.} \code{tpx_resec}: transplantation level Re, Sec. Source: \code{Transplantation}.
 \item{7.} \code{pre_tpxspecific_count}: Number of pre-transplantation (\code{tpx} specific). Source: \code{Transplantation}.
-\item{8.} \code{tpxspecific_order}: Order of transplantion (\code{tpx} specific). Source : \code{Transplantation}.
-\item{9.} \code{tpx_order}: Order of transplantion. Source: \code{Transplantation}.
-\item{10.} \code{tpx_stcsorder}: Order of transplantion within the STCS. Source: \code{Transplantation}.
+\item{8.} \code{tpxspecific_order}: Order of transplantation (\code{tpx} specific). Source : \code{Transplantation}.
+\item{9.} \code{tpx_order}: Order of transplantation. Source: \code{Transplantation}.
+\item{10.} \code{tpx_stcsorder}: Order of transplantation within the STCS. Source: \code{Transplantation}.
 \item{11.} \code{abocomp}: Blood groups compatibility. Source: \code{Transplantation}.
 \item{12.-18.} \code{hla...mismatch}: HLA mismatch. Source: \code{Transplantation}.
 \item{19.} \code{sumhlamismatch}: Sum of mismatch. Source: \code{Transplantation}.
@@ -47,9 +47,10 @@ Tailored analysis tables with with baseline transplantation data.
 \item{30.} \code{doncod_comment}: Comment on cause of donor death. Source: \code{Donor}.
 \item{31.} \code{donage}: Age of donor. Source: \code{Donor}.
 \item{32.} \code{donage_complete}: Calculated age of the donor. Source: \code{Donor}.
-\item{33.-43.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
-\item{44.-54.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
-\item{55.-65.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
+\item{33.} \code{donheight}: Donor height. Source: \code{Donor}.
+\item{34.-44.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
+\item{45.-55.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
+\item{56.-66.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
 
 }
 }

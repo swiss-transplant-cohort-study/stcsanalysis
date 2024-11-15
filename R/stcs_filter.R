@@ -86,7 +86,9 @@ stcs_select_organrelevance <- function(stcs, organ = c("Heart", "Islets", "Kidne
   organ <- arg_match(organ, values=c("Heart", "Islets", "Kidney", "Liver", "Lung", "Pancreas", "Small bowel"),
                      multiple= TRUE)
   ## Check if we have organs we reject
-  if(any(!stcs$organ$organ%in%organ)){warning("Your dataset contains organs not listed in 'organ'. You might loose information.")}
+  if(any(!stcs$organ$organ%in%organ)){
+    organ_notin <- paste0(unique(stcs$organ$organ)[!unique(stcs$organ$organ)%in%organ], collapse=", ")
+    warning("The 'stcs' object contains ",organ_notin ," which are not included in 'organ' (",paste(unique(organ),collapse = ", "),"). Information are lost as ",organ_notin,"-specific variable are removed.")}
 
   ## vector to regex
   organ <- paste0(organ, collapse = "|")

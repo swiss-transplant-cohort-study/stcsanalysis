@@ -1,3 +1,8 @@
+# stcsanalysis 0.1.8
+
+* stcs_select_organrelevance(): improve warning message.
+* add donheight in tailored_transplantationbl()
+
 # stcsanalysis 0.1.7
 
 * include tailored_tables()
