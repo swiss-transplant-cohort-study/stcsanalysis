@@ -33,24 +33,26 @@ stcs_read <- function(dir, delim=",", lazy = FALSE, progress = FALSE, na = "",
 
   stopifnot("dir must exists" = dir.exists(dir))
 
-  variablemetadata <- stcs_read1(dir, "VariableMetaData.csv", col_types= cols(.default = col_character()), delim=delim, lazy=lazy, progress=progress, na=na, locale = locale, ...=...)
+  variablemetadata <- stcs_read1(dir, "VariableMetaData.csv", col_types = cols(.default = col_character()), delim = delim, lazy = lazy, progress = progress, na = na, locale = locale, ...=...)
 
   out <-
     variablemetadata |>
     select(all_of(c("dataset", "variable", "datatype"))) |>
-    nest(data=c(!!sym("variable"), !!sym("datatype")))|>
+    nest(data = c(!!sym("variable"), !!sym("datatype")))|>
     filter(tolower(!!sym("dataset"))!="variablemetadata") |>
     mutate("data" = pmap(list(!!sym("dataset"), !!sym("data")), \(fi, di){
       ct <- get_stcs_coltypes(variable = di$variable, datatype =  di$datatype)
-      stcs_read1(dir = dir, filename = paste0(fi, ".csv"), col_types  = ct, delim=delim, lazy=lazy, progress=progress, na=na, locale=locale, ...=...)
+      stcs_read1(dir = dir, filename = paste0(fi, ".csv"), col_types  = ct,
+                 delim = delim, lazy = lazy, progress = progress, na = na,
+                 locale = locale, ...=...)
     }))
   names(out[["data"]]) <- tolower(out[["dataset"]])
   out <- out[["data"]]
   out[["variablemetadata"]] <- variablemetadata
 
-  # if(!out[["admin"]][["core_version"]]%in%c("0.0.1","0.0.2","0.0.3")){
-  #   warning("The version of stcsanalysis is not adapted to the version of the core tables. Check 'https://github.com/swiss-transplant-cohort-study/stcsanalysis'.")
-  # }
+  if(out[["admin"]][["core_version"]]<c("0.0.5")){
+    warning("The version of the dataset is older than {stcsanalysis}. Get the version of {stcsanalsis} that match your data on:\nhttps://github.com/swiss-transplant-cohort-study/stcsanalysis.")
+  }
 
   out
 
@@ -60,10 +62,8 @@ stcs_read <- function(dir, delim=",", lazy = FALSE, progress = FALSE, na = "",
 #' @export
 #' @rdname read
 #' @importFrom readr read_delim
-stcs_read1 <- function(dir, filename, col_types=NULL, delim=",", lazy=FALSE, progress=FALSE, na="", locale = readr::locale(tz = "Europe/Zurich"), ...){
-
-  read_delim(file = file.path(dir, filename), col_types =col_types, delim = delim, lazy=lazy, progress=progress, na=na, ...=...)
-
+stcs_read1 <- function(dir, filename, col_types = NULL, delim = ",", lazy = FALSE, progress = FALSE, na = "", locale = readr::locale(tz = "Europe/Zurich"), ...) {
+  read_delim(file = file.path(dir, filename), col_types = col_types, delim = delim, lazy = lazy, progress = progress, na = na, ... = ...)
 }
 
 

@@ -41,31 +41,28 @@ tailored_patientsurvival <- function(stcs){
   out <-
     stcs[["patient"]] |>
     select(all_of(c("patientkey", "enrollment_date"))) |>
-    add_var(stcs, .var = "deathdate", from ="stop", by = "patientkey", .filter = !is.na(!!sym("deathdate"))) |>
+    add_var(stcs, .var = c("deathdate"="date"), from ="stop", by = "patientkey", .filter = !!sym("out")=="Death") |>
     left_join(
       stcs[["stop"]] |>
-        filter(!is.na(!!sym("dropoutdate"))) |>
-        group_by(!!sym("patientkey")) |>
-        slice_min(!!sym("dropoutdate")) |>
-        select(all_of(c("patientkey", "first_dropoutdate"="dropoutdate", "first_dropoutdateaccuracy"="dropoutdateaccuracy"))),
+        filter(!!sym("out") == "Dropout") |>
+        slice_min(!!sym("date"), by = !!sym("patientkey")) |>
+        select(all_of(c("patientkey", "first_dropoutdate"="date", "first_dropoutdateaccuracy"="dateaccuracy"))),
       by = "patientkey", relationship = "one-to-one") |>
-    add_var(stcs, .var = c("last_activedropoutdate"="dropoutdate", "last_activedropoutdateaccuracy"="dropoutdateaccuracy"),
-            from ="stop", by = "patientkey", .filter = is.na(!!sym("backstcsdate"))&!is.na(!!sym("dropoutdate"))) |>
+    add_var(stcs, .var = c("last_activedropoutdate"="date", "last_activedropoutdateaccuracy"="dateaccuracy"),
+            from ="stop", by = "patientkey", .filter = is.na(!!sym("backstcsdate"))&!!sym("out")=="Dropout") |>
     left_join(
       stcs[["patientlongitudinal"]] |>
         select(all_of(c("patientkey", "assdate", "patlongkey"))) |>
-        group_by(!!sym("patientkey")) |>
-        slice_max(!!sym("assdate")) |>
+        slice_max(!!sym("assdate"), by = !!sym("patientkey")) |>
         summarise("last_patlongkeys" = paste(!!sym("patlongkey"), collapse = ", "),
-                  "last_assdate"=unique(!!sym("assdate"))),
+                  "last_assdate"=unique(!!sym("assdate")), .by = !!sym("patientkey")),
       by = "patientkey", relationship = "one-to-one") |>
     left_join(
       stcs[["patientlongitudinal"]] |>
         select(all_of(c("patientkey", "assdate")), contains("_toggle")) |>
         mutate(across(contains("_toggle"), truemissing_to_na)) |>
         pivot_longer(ends_with("_toggle"), values_to = "toggle_value", names_to = "toggle", names_pattern = "(.*)_toggle", values_drop_na = TRUE) |>
-        group_by(across(all_of(c("patientkey", "toggle")))) |>
-        summarise(last_date = max(!!sym("assdate")), .groups = "drop") |>
+        summarise(last_date = max(!!sym("assdate")), .by = c(!!sym("patientkey"), !!sym("toggle"))) |>
         pivot_wider(values_from = !!sym("last_date"), names_from = !!sym("toggle"), names_glue = "last_{toggle}_toggle_date"),
       by = "patientkey", relationship = "one-to-one") |>
     add_var(stcs, "extraction_date", from = "admin") |>
@@ -73,16 +70,14 @@ tailored_patientsurvival <- function(stcs){
       stcs[["patientlongitudinal"]] |>
         select(all_of(c("patientkey", "assdate", "crf_status"))) |>
         filter(!!sym("crf_status")=="Complete") |>
-        group_by(!!sym("patientkey")) |>
-        summarise("last_complete_patientlongitudinal_crf_date" = max(!!sym("assdate")), .groups = "drop"),
+        summarise("last_complete_patientlongitudinal_crf_date" = max(!!sym("assdate")), .by = !!sym("patientkey")),
       by = "patientkey", relationship = "one-to-one")|>
     left_join(
       stcs[["stop"]] |>
-        mutate("date" = pmax(!!sym("dropoutdate"), !!sym("lastalivedate"), !!sym("deathdate"), !!sym("backstcsdate"), na.rm = TRUE)) |>
+        mutate("date" = pmax(!!sym("date"), !!sym("lastalivedate"), !!sym("backstcsdate"), na.rm = TRUE)) |>
         select(all_of(c("patientkey", "date", "crf_status"))) |>
         filter(!!sym("crf_status")=="Complete") |>
-        group_by(!!sym("patientkey")) |>
-        summarise("last_complete_stop_crf_date" = max(!!sym("date")), .groups = "drop"),
+        summarise("last_complete_stop_crf_date" = max(!!sym("date")), .by = !!sym("patientkey")),
       by = "patientkey", relationship = "one-to-one")|>
     left_join(
       stcs[["patient"]] |>
@@ -104,8 +99,7 @@ tailored_patientsurvival <- function(stcs){
         stcs[["psq"]] |>
           select(all_of(c("patientkey", "psq_date", "crf_status"))) |>
           filter(!!sym("crf_status")=="Complete") |>
-          group_by(!!sym("patientkey")) |>
-          summarise("last_complete_psq_crf_date" = max(!!sym("psq_date")), .groups = "drop"),
+          summarise("last_complete_psq_crf_date" = max(!!sym("psq_date")), .by = !!sym("patientkey")),
         by = "patientkey", relationship = "one-to-one")
   }
 

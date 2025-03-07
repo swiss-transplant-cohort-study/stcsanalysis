@@ -1,3 +1,7 @@
+# stcsanalysis 0.1.9
+
+* adaptation for AT 0.0.5
+
 # stcsanalysis 0.1.8
 
 * stcs_select_organrelevance(): improve warning message.

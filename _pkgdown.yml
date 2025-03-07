@@ -14,11 +14,6 @@ reference:
    Create pre-defined tables
   contents:
    - starts_with("tailored_")
-- title: Categorization of free-text
-  desc: >
-   Create tables to help the categorization of free-text entry
-  contents:
-   - starts_with("categorize_")
 - title: Manipulation of the full cohort
   desc: >
    Modifiy all SCTCS tables with VariableMetaData
@@ -46,7 +41,6 @@ reference:
    - "serology_combination"
    - "impute_lastday"
    - "paste_valuecomment"
-   - "new_coding"
    - "vec_names"
    - "noinf_min"
 
