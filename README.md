@@ -14,11 +14,18 @@ tables (AT).
 Choose the correct version of stcsanalysis depending on the version of
 AT:
 
-For the latest version (0.0.1) of the AT , you can install stcsanalysis
-like so:
+For the latest version (from 0.0.5) of the AT , you can install
+stcsanalysis like so:
 
 ``` r
 remotes::install_github("swiss-transplant-cohort-study/stcsanalysis")
+```
+
+For version 0.0.4 (and earlier) of the AT, you can install stcsanalysis
+like so:
+
+``` r
+remotes::install_github("swiss-transplant-cohort-study/stcsanalysis@at-version-0.0.4")
 ```
 
 For version 0.0.0 of the AT, you can install stcsanalysis like so:
@@ -29,16 +36,12 @@ remotes::install_github("swiss-transplant-cohort-study/stcsanalysis@at-version-0
 
 ## Example
 
-You can create a table using:
+Access the tailored tables using:
 
 ``` r
 library(stcsanalysis)
 stcs <- stcs_read("dir/to/analysis/tables")
 
-data_patientkey(stcs) |> 
-  add_var(stcs,c("enrollment_age"))|> 
-  expand_var_from(stcs,from="transplantation",by="patientkey",.var="soaskey")|> 
-  expand_var_from(stcs,from="organ",by="soaskey",.var="organkey")|> 
-  add_var(stcs,c("organ","tpxdate"))|> 
-  add_var(stcs,"deathdate",from = "stop", by = "patientkey",.filter = !is.na(deathdate))
+patient_bl <- tailored_patientbl(stcs)
+patient_surv <- tailored_patientsurvival(stcs)
 ```
