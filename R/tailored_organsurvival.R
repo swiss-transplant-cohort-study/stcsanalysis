@@ -16,10 +16,9 @@
 #' \item{5.} \code{tpxdate}: Date of transplantation. Source: \code{Organ}.
 #' \item{6.} \code{glo_date}: Graft loss date. Source: \code{Graftloss}.
 #' \item{7.} \code{pnf_date}: Date of PNF (\code{tpxdate} when \code{dgf} is \code{"PNF"}). Source: \code{Organ}.
-#' \item{8.} \code{next_tpxdate}: Next \code{tpxdate} (\code{tpxdate} with \code{organ_order}+1)
-#' \item{9.} \code{next_organspecific_tpxdate}: Next \code{tpxdate} of the same organ (\code{tpxdate} with \code{organspecific_order}+1)
-#' \item{10.-18.} \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{OrganLongitudinal}.
-#' \item{19.} \code{last_complete_organlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the organ assessment defined as \code{"Complete"}. Source: \code{OrganLongitudinal}.
+#' \item{8.} \code{next_organspecific_tpxdate}: Next \code{tpxdate} of the same organ (\code{tpxdate} with \code{organspecific_order}+1)
+#' \item{9.-17.} \code{last_[...]_toggle_date}: Assessment date of the last mentioned filled toggle (keep: \code{"Yes"}, \code{"No"}, removed: \code{"Missing"}, \code{NA}). Source: \code{OrganLongitudinal}.
+#' \item{18.} \code{last_complete_organlongitudinal_crf_date}: Assessment date of the latest \code{crf_status} of the organ assessment defined as \code{"Complete"}. Source: \code{OrganLongitudinal}.
 #' }
 #
 #'
@@ -32,7 +31,7 @@ tailored_organsurvival <- function(stcs){
 
   out <-
     stcs[["organ"]] |>
-    select(all_of(c("patientkey", "donorkey", "soaskey", "organkey", "tpxdate","organ","organ_order","organspecific_order"))) |>
+    select(all_of(c("patientkey", "donorkey", "soaskey", "organkey", "tpxdate","organ","organspecific_order"))) |>
     add_var(stcs, .var = c("glo_date"="date"), from = "graftloss", by = "organkey") |>
     add_var(stcs, .var = c("pnf_date"="date"), from = "graftloss", by = "organkey", .filter = !!sym("pnfpgd_ind"))
 
@@ -40,14 +39,10 @@ tailored_organsurvival <- function(stcs){
   out <-
     out |>
     left_join(out |>
-                select(all_of(c("patientkey", "next_tpxdate"="tpxdate", "organ_order"))) |>
-                mutate("organ_order" = !!sym("organ_order")-1L),
-              by = c("patientkey", "organ_order"), relationship = "one-to-one") |>
-    left_join(out |>
                 select(all_of(c("patientkey", "next_organspecific_tpxdate"="tpxdate", "organspecific_order", "organ"))) |>
                 mutate("organspecific_order" = !!sym("organspecific_order")-1L),
               by = c("patientkey", "organspecific_order", "organ"), relationship = "one-to-one") |>
-    select(-all_of(c("organspecific_order", "organ_order", "organ")))
+    select(-all_of(c("organspecific_order", "organ")))
 
   out <-
     out |>
