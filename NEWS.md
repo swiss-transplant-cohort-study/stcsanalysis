@@ -1,5 +1,10 @@
 # stcsanalysis 0.1.9
 
+* tailored_organsurvival(): remove "next_tpxdate" as it depends on the inconsistent "organ_order" variable.
+* stcs_read(): check version using package_version()
+
+# stcsanalysis 0.1.9
+
 * adaptation for AT 0.0.5
 
 # stcsanalysis 0.1.8

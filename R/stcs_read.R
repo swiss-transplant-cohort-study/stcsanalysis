@@ -1,6 +1,8 @@
 #' Read STCS datastcs
 #'
-#' @param dir chr. The directory with .csv files.
+#' Read files define in "VariableMetaData.csv"
+#'
+#' @param dir chr. The directory with ".csv" files.
 #' @param filename chr. The name of the STCS dataset.
 #' @param delim chr. Default is ",". Passed to \code{read_delim}.
 #' @param lazy lgl. Default is FALSE. Passed to \code{read_delim}.
@@ -10,7 +12,7 @@
 #' @param locale from \code{lubridate::locale()}.
 #' @param ... other arguments passed to \code{read_delim}.
 #'
-#' @return a list of stcs tables.
+#' @return a list of STCS tables.
 #' @name read
 #' @family read
 #'@examples
@@ -50,7 +52,7 @@ stcs_read <- function(dir, delim=",", lazy = FALSE, progress = FALSE, na = "",
   out <- out[["data"]]
   out[["variablemetadata"]] <- variablemetadata
 
-  if(out[["admin"]][["core_version"]]<c("0.0.5")){
+  if(package_version(out[["admin"]][["core_version"]])<package_version(c("0.0.5"))){
     warning("The version of the dataset is older than {stcsanalysis}. Get the version of {stcsanalsis} that match your data on:\nhttps://github.com/swiss-transplant-cohort-study/stcsanalysis.")
   }
 

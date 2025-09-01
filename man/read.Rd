@@ -29,7 +29,7 @@ stcs_read1(
 )
 }
 \arguments{
-\item{dir}{chr. The directory with .csv files.}
+\item{dir}{chr. The directory with ".csv" files.}
 
 \item{delim}{chr. Default is ",". Passed to \code{read_delim}.}
 
@@ -48,10 +48,10 @@ stcs_read1(
 \item{col_types}{Variables type. Passed to \code{read_delim}. See \code{cols}.}
 }
 \value{
-a list of stcs tables.
+a list of STCS tables.
 }
 \description{
-Read STCS datastcs
+Read files define in "VariableMetaData.csv"
 }
 \examples{
 \dontrun{
