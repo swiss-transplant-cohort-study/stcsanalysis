@@ -130,6 +130,8 @@ stcs_select_meta <- function(stcs, data){
   ## save orginial meta variable
 
   meta0 <- stcs[["variablemetadata"]]
+  value0 <- stcs[["valuemetadata"]]
+
   ## save variable names
   nms <- names(stcs)[names(stcs)!="variablemetadata"]
 
@@ -166,6 +168,18 @@ stcs_select_meta <- function(stcs, data){
       by = c("short_name"="dataset", "variable"), relationship = "one-to-one"
     ) |>
     select(-all_of("short_name"))
+
+
+  if(!is.null(value0) & "valuemetadata" %in% tolower(data[["dataset"]]) ){
+    stcs[["valuemetadata"]] <-
+      value0 |>
+      inner_join(
+        select(stcs[["variablemetadata"]], all_of(c("dataset","variable"))) |>
+          distinct(),
+        by = c("dataset","variable"), relationship = "many-to-one")
+  }
+
+
 
   stcs
 
