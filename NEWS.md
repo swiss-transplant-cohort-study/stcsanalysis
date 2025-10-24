@@ -1,4 +1,8 @@
-# stcsanalysis 0.1.9
+# stcsanalysis 0.1.11
+
+* stcs_select_table(): handle filter of for the valuemetadata
+
+# stcsanalysis 0.1.10
 
 * tailored_organsurvival(): remove "next_tpxdate" as it depends on the inconsistent "organ_order" variable.
 * stcs_read(): check version using package_version()
