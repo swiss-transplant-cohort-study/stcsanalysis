@@ -41,7 +41,9 @@ reference:
    - "serology_combination"
    - "impute_lastday"
    - "paste_valuecomment"
+   - "closest_value"
+   - "merge_intervals"
+   - "minimal_key"
    - "vec_names"
    - "noinf_min"
-
 
