@@ -5,5 +5,4 @@
 .DS_Store
 test.R
 stcspath.txt
-docs
 inst/doc
