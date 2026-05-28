@@ -4,12 +4,12 @@
 \alias{pediatric_egfr_2009}
 \title{Swchartz bedside pediatric eGFR formula}
 \usage{
-pediatric_egfr_2009(crea_mumoll, height)
+pediatric_egfr_2009(crea_mumoll, height_cm)
 }
 \arguments{
 \item{crea_mumoll}{Numeric. Creatinin in \eqn{\mu}mol/l}
 
-\item{height}{Numeric. Height in meters.}
+\item{height_cm}{Numeric. Height in centimeters.}
 }
 \value{
 eGFR in mL/min/1.73m\eqn{^2} as described in https://pubmed.ncbi.nlm.nih.gov/19158356/. It corresponds to the bedside formula: 0.413*height_cm/crea_mgdl. The conversion factor of creatinin is 1 (\eqn{\mu}mol/l) = 88.42 (mg/dL).

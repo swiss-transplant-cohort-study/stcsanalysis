@@ -8,7 +8,7 @@ if(file.exists(file.path("..","..","stcspath.txt"))){
 }else if(file.exists(file.path("..","..","..","stcsanalysis","stcspath.txt"))){
   dir <- readLines(file.path("..","..","..","stcsanalysis","stcspath.txt"))
 }else{
-  dir <-readLines("H:/project/stcsanalysis/stcspath.txt")
+  dir <- readLines("H:/project/stcsanalysis/stcspath.txt")
 }
 
 dir <- stringr::str_trim(dir)
@@ -40,7 +40,7 @@ pk <-
   unique()
 
 stcs <-
-  stcs_filter_patientkey(stcs,pk) |>
+  stcs_filter_patientkey(stcs, pk) |>
   validate_metadata()
 
 
@@ -158,19 +158,22 @@ test_that("Run age_months()", {
 
 })
 
+## Serology ----
 
 test_that("Run serology_combination()", {
   out <-
-    expand.grid(rec = c("Positive","Negative",NA_character_),
-                don = c("Positive","Negative",NA_character_),stringsAsFactors = F) |>
-    dplyr::mutate(comb = serology_combination(rec,don)) |>
+    expand.grid(don = c("Positive", "Negative", NA_character_),
+                rec = c("Positive", "Negative", NA_character_),
+                stringsAsFactors = F) |>
+    dplyr::mutate(comb = serology_combination(rec, don)) |>
     dplyr::pull(comb)
 
-  expect_equal(out,c("R+/D+", "R-/D+", NA_character_, "R+/D-", "R-/D-",
-                     NA_character_, NA_character_, NA_character_, NA_character_))
+  expect_equal(out,c("D+/R+", "D-/R+", "/R+", "D+/R-", "D-/R-",
+                     "/R-", "D+/", "D-/", NA_character_))
 
 })
 
+## which.pmin_chr ----
 
 test_that("Run which.pmin_chr()", {
   out <- c(which.pmin_chr(a=1:5,b =5:1,ties="first"),
@@ -180,21 +183,8 @@ test_that("Run which.pmin_chr()", {
 
 })
 
-test_that("Run noinf_min()", {
-  out <- c(noinf_min(c(NA,NA)),
-           noinf_min(c(NA,4)))
 
-  expect_equal(out,c(NA,4))
-
-})
-
-test_that("Run paste_valuecomment()", {
-  out <- c(paste_valuecomment(c("other","disease A"),c("comment 1", NA)),
-           paste_valuecomment(NA,NA))
-
-  expect_equal(out,c("disease A | other:comment 1",NA))
-
-})
+## TRUE Missing ----
 
 
 test_that("Run is_truemissing()", {
@@ -249,4 +239,67 @@ test_that("Run truemissing_to_na()", {
 
 })
 
+## Other utils ----
+
+test_that("Run noinf_min()", {
+  out <- c(noinf_min(c(NA,NA)),
+           noinf_min(c(NA,4)))
+
+  expect_equal(out,c(NA,4))
+
+})
+
+test_that("Run paste_valuecomment()", {
+  out <- c(paste_valuecomment(c("other","disease A"),c("comment 1", NA)),
+           paste_valuecomment(NA,NA))
+
+  expect_equal(out,c("disease A | other:comment 1",NA))
+
+})
+
+test_that("Run impute_lastday()", {
+  out <- impute_lastday(as.Date(c("2025-06-25", "2025-06-25", "2025-06-25", "2025-06-25")),
+                        c("Exact date", "Day uncertain", "Day/Month uncertain", "Estimated date"))
+
+  expect_equal(out, as.Date(c("2025-06-25", "2025-06-30", "2025-12-31", "2025-06-25")))
+
+})
+
+
+test_that("Run closest_value()", {
+
+  out <- closest_value(c(-200, 10, 150, 200, 2000))
+
+  expect_equal(out, c(0, 0, 186, 186, 1826))
+
+})
+
+test_that("Run merge_intervals()", {
+  t0 <- as.Date(c("2020-01-01", "2020-01-01", "2020-02-01", "2020-03-01"))
+  t1 <- as.Date(c("2020-01-5", "2020-01-10", "2020-02-29", "2020-03-10"))
+  out <- rbind(
+    merge_intervals(t0, t1),
+    merge_intervals(t0, t1, 1) )
+
+  expect <- data.frame(
+    x0 = as.Date(c("2020-01-01", "2020-02-01", "2020-03-01", "2020-01-01", "2020-02-01")),
+    x1 = as.Date(c("2020-01-10", "2020-02-29", "2020-03-10", "2020-01-10", "2020-03-10")))
+
+  expect_equal(out, expect)
+
+})
+
+
+
+test_that("Run minimal_key()", {
+
+  df <- data.frame(
+    id = c(1, 2, 3, 4),
+    grp = c("a", "a", "b", "a"),
+    val = c(10, 20, 30, 30))
+
+  out <- minimal_key(df)
+  expect_equal(out, list(list("id"),list(c("grp","val"))))
+
+})
 

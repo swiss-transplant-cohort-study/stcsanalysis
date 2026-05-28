@@ -40,20 +40,20 @@ egfr_2021 <- function(crea_mumoll, age, sex){
 #' Swchartz bedside pediatric eGFR formula
 #'
 #' @param crea_mumoll Numeric. Creatinin in \eqn{\mu}mol/l
-#' @param height Numeric. Height in meters.
+#' @param height_cm Numeric. Height in centimeters.
 #'
 #' @return eGFR in mL/min/1.73m\eqn{^2} as described in https://pubmed.ncbi.nlm.nih.gov/19158356/. It corresponds to the bedside formula: 0.413*height_cm/crea_mgdl. The conversion factor of creatinin is 1 (\eqn{\mu}mol/l) = 88.42 (mg/dL).
 #'
 #' @references Schwartz, G. J., Schneider, M. F., Maier, P. S., Moxey-Mims, M., Dharnidharka, V. R., Warady, B. A., ... & Muñoz, A. (2012). Improved equations estimating GFR in children with chronic kidney disease using an immunonephelometric determination of cystatin C. Kidney international, 82(4), 445-453.
 #'
 #' @export
-pediatric_egfr_2009 <- function(crea_mumoll, height){
-  height <- check_input(height, 20, 2.2)
-  crea_mumoll <- check_input(crea_mumoll, 0+.Machine$double.eps, 4000)
+pediatric_egfr_2009 <- function(crea_mumoll, height_cm){
+  height_cm <- check_input(height_cm, 20, 220)
+  crea_mumoll <- check_input(crea_mumoll, 0 + .Machine$double.eps, 4000)
   # sex <- check_input(sex,c("Male","Female"))
 
   crea_mgdl <- crea_mumoll/88.42
-  0.413*height/crea_mgdl
+  0.413*height_cm/crea_mgdl
 
 }
 

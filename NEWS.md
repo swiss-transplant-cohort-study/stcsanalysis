@@ -1,3 +1,13 @@
+# stcsanalysis 0.1.12
+
+* serology_combination(): correction (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/9)
+* tailored_transplantation(): removing donage (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/7)
+* adding closest_value(), from (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/10)
+* adding merge_intervals(), from (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/8)
+* adding minimal_key() from (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/12)
+* adding vignette introduction.
+* pediatric_egfr_2009(): correction of height arguments. Explicit in cm.
+
 # stcsanalysis 0.1.11
 
 * stcs_select_table(): handle filter of for the valuemetadata

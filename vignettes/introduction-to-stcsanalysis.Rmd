@@ -1,0 +1,344 @@
+---
+title: "Introduction to stcsanalysis"
+output: rmarkdown::html_vignette
+author: "Jaromil Frossard"
+vignette: >
+  %\VignetteIndexEntry{Introduction to stcsanalysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+stcsat_dir <- tail(readLines("H:/project/stcsanalysis/stcspath.txt"), 1)
+```
+
+
+# 0. Introduction
+
+This tutorial presents the main functionality of the `{stcsanalysis}` package. It shows how tailored tables and utility functions work together to help data-management and statistical analysis.
+
+# 1. Installation
+
+The appropriate version of `{stcsanalysis}` depends on the version of the AT. The latest version of the `{stcsanalysis}` like so:
+
+```{r install, eval = FALSE}
+remotes::install_github("swiss-transplant-cohort-study/stcsanalysis")
+```
+
+# 2. Load package and data
+
+First, `{stcsanalysis}` and other data analysis packages are loaded:
+
+```{r pkg}
+library(stcsanalysis)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+library(survival)
+```
+
+
+Once the path to the STCS data-cut is assigned to `stcsat_dir` (eg: `stcsat_dir = "path/to/stcs/data-cut/folder/csv/"`), the data can be loaded as follows:
+
+```{r load_stcs}
+stcs <- stcs_read(stcsat_dir)
+```
+
+# 3. Data-cut overview
+
+## 3.1 `stcs` object
+
+The `stcs` object is a named list of `tibble` objects. The names of the loaded tables can be retrieved as follows: 
+
+```{r stcs_names}
+names(stcs)
+```
+
+
+NOTE: Data-cuts contain a subset of the previous tables, according to the project I/E criteria and aims.
+
+A specific table can be retrieved using the `$` sign: 
+
+```{r pat}
+stcs$patient |> 
+  slice(0L)
+```
+
+
+In addition, there are 3 special tables that contain meta-information: Admin, VariableMetaData and ValueMetaData. 
+
+## 3.2 The Admin table
+
+The Admin table contains information about the STCS export: 
+
+```{r admin}
+stcs$admin
+```
+
+
+## 3.3 VariableMetaData
+
+The VariableMetaData table contains information on each variable within each table:
+
+```{r varmeta}
+stcs$variablemetadata
+```
+
+The column `dataset_pk` is of particular interest as it contains the unique identifier (eg: Primary Key) of each row of the table. For instance, `patientkey` and `consent_date` are, together, a unique identifier of the rows of `stcs$consent`:
+
+```{r pk}
+stcs$variablemetadata |> 
+  select(dataset,dataset_pk) |> 
+  distinct()
+```
+
+
+## 3.4 ValueMetaData
+
+The ValueMetaData table contains information on each value (tables under construction):
+
+```{r valmeta}
+stcs$valuemetadata
+```
+
+# 4 Tailored tables
+
+Tailored-tables are additional pre-programmed tables with derived variables.
+
+## 4.1 Baseline variable (BL)
+
+For baseline characteristics:
+
+```{r tailbl}
+patbl <- tailored_patientbl(stcs)
+txbl <- tailored_transplantationbl(stcs)
+# contains serology combination and HLA-mismatches
+txbl |> 
+  slice(0)
+```
+NOTE: The variables of the tailored tables depend on the data-cut. For instance HLA-mismatches will only be available if the `stcs$patienthla` and `stcs$donorhla` tables are available in the data-cut. 
+
+NOTE: The `stcs$organ` contains most organ-level baseline variable. In addition, "Baseline" has a different meaning for patients (time of enrollment/first STCS transplantation) and for transplants (time of transplantation).
+
+## 4.2 Events post BL
+
+"Survival" tailored tables contain important post-baseline dates, useful for time-to-event/survival analysis:
+
+```{r tailsurv}
+patsurv <- tailored_patientsurvival(stcs)
+orgsurv <- tailored_organsurvival(stcs)
+txsurv <- tailored_transplantationsurvival(stcs)
+```
+
+
+## 4.3 Wide PSQ
+
+In the data-cut, the PSQ tables are provided in long-format, allowing a full representation of the data. A merged version, in wide format, is available as follows:
+
+```{r tailsurv2}
+wpsq <- tailored_psq(stcs)
+```
+
+# 5 Creating custom data-set
+
+In the next example, a diagnostic-level (`diseasekey`) dataset is created by including patient-level (`patientkey`) variables. First, we select identifiers from `stcs$patientdisease`. Then, the `var_available()` function displays which variables might be merged, given the `-key` in the data.
+
+```{r var_av}
+stcs$patientdisease |>
+  select(diseasekey,  patientkey, patdiagnosis, date) |>
+  var_available(stcs)
+```
+
+For each key (eg: `patientkey`, `diseasekey` and `patientkey, date`), the list of variable which can be join the the current data is displayed. Note the variables of the `stcs$stop` are proposed as  `patientkey, date` is the unique identifier of `stcs$stop` and both variable name are available in the dataset. However, both `date` does not represent the same type of events (diagnostic VS stop), hence, merging using those two dates would not make sense.
+
+Once variables are chosen, `add_var()` is used to include it in the data. As `patientkey` is available in our data-set, all variables from `stcs$patient` might be added/join to our current data-set. Here, we simply add `enrollment_age`:
+
+```{r addv}
+stcs$patientdisease |> 
+  select(diseasekey,  patientkey, patdiagnosis, date) |>
+  add_var(stcs, c("enrollment_age")) |> 
+  slice(0L)
+```
+
+If the variable-name appears in several tables, the name of the table must be specified using the `from =` argument.
+
+```{r addv2}
+# It produces an error as sex and bg are available for donor:
+# stcs$patientdisease |> 
+#   select(diseasekey,  patientkey, patdiagnosis, date) |>
+#   add_var(stcs, c("enrollment_age", "sex", "bg")) |> 
+#   slice(0L)
+
+stcs$patientdisease |>
+  select(diseasekey,  patientkey, patdiagnosis, date) |>
+  add_var(stcs, c("enrollment_age", "rec_sex" = "sex", "bg"), from = "patient") |>
+  slice(0L)
+```
+
+# 6 Helper functions
+
+## 6.1 Missing type 
+
+The `is_truemissing()` function is used to detect the Missing type and Missing can be set to `NA` using `truemissing_to_na()`.
+
+```{r missing}
+v_chr <- c("data", "Missing", "again data")
+v_dbl <- c(1, 2, -9999, -9998)
+v_dt <- c(as.Date("1700-01-01"), as.Date("2020-12-25"))
+
+is_truemissing(v_chr)
+is_truemissing(v_dbl)
+is_truemissing(v_dt)
+```
+
+To set it as `NA`:
+
+```{r missing_na}
+truemissing_to_na(v_chr)
+truemissing_to_na(v_dbl)
+truemissing_to_na(v_dt)
+```
+
+NOTE: The STCS does not contains Missing type for logical data-type.
+
+## 6.2 Value - comment pairs
+
+The `paste_valuecomment()` function is used to handle the "value - comment" pairs:
+
+```{r pvc}
+paste_valuecomment(c("value1", "value2"), c(NA, "comment2"))
+```
+
+For instance, it can be used to have infection-level data-set while keeping the infection-site information:
+
+```{r pvc2}
+stcs$infectionsite |> 
+  slice(1:100) |> 
+  summarise(
+    infsite_n = n(),
+    aggr_infiste = paste_valuecomment(infsite, comment),
+    .by = diseasekey) |> 
+  arrange(desc(infsite_n)) |> 
+  slice(0)
+```
+
+
+## 6.3 Merging intervals
+
+The `stcs$medicationtreatment` contains interval data. Depending on the relevant categorization, they might overlap and merging it would be the first analysis step. In the following example, all periods of induction drugs are merged by patients. It would be useful to compute for instance the number of days with induction during the first months:
+
+```{r merg_int}
+# warning: this processing does not consider inaccuracy of date.
+stcs$medicationtreatment |>
+  filter(drug_category == "drug_ind") |>
+  # NA stop-date are considered as ongoing treatment
+  mutate(medication_startdate = replace_na(medication_stopdate, stcs$admin$extraction_date)) |>
+  # Missing/NA stop and stop date are considered as data-entry error
+  filter(!is.na(truemissing_to_na(medication_startdate))) |>
+  filter(!is_truemissing(medication_stopdate)) |>
+  filter(medication_stopdate >= medication_startdate) |>
+  reframe(
+    merge_intervals(medication_startdate, medication_stopdate, .lag = 1),
+    .by = patientkey
+  ) |>
+  slice(0)
+```
+
+## 6.4 Protocol date
+
+Only the actual date of assessment `assdate` is recorded in the STCS, however aligning the date to the expected date from the protocol is often useful. As there is an assessment at baseline, M6, Y1, Y2, ..., one can use `closest_value()` for aligning the effective time to the protocol time. It can be done as follow:
+
+
+```{r pp}
+stcs$patientlongitudinal |> 
+  left_join(
+    summarise(stcs$organ, 
+              tpxdate = min(tpxdate),
+              .by = patientkey),
+    by = "patientkey",
+    relationship = "many-to-one"
+  ) |> 
+  select(patientkey, patlongkey, assdate, tpxdate) |> 
+  mutate(eff_days = as.integer(assdate -tpxdate),
+         pp_days = closest_value(eff_days, 
+                                 target = round(c(0, 186, 365.25*c(1:25))))) |> 
+  slice(0)
+```
+
+NOTE: They might be several assessments for the same `pp_days` as some events (eg: transplantation, death) trigger an assessment.
+
+## 6.5 First event
+
+The time-to-(first)-event variables are derived using `base::pmin()` (for the time) together with `which.pmin_chr()` (for the event). Here is simple example using 3 types of event:
+
+```{r pmin}
+# time of event 
+eventA <- c(1, 2, 3, 2)
+eventB <- c(2, 1.5, NA, 2)
+eventC <- c(NA, NA, 2, 3)
+
+# time of first event 
+pmin(eventA, eventA, eventC, na.rm = TRUE)
+# Which event come first? 
+## In case of ties, display all.
+which.pmin_chr(A = eventA, B = eventB, C = eventC, ties = "collapse")
+## In case of ties, choose according to the order in the function.
+which.pmin_chr(A = eventA, B = eventB, C = eventC, ties = "first")
+which.pmin_chr(B = eventB, A = eventA, C = eventC, ties = "first")
+```
+
+
+# 7 Use case: Kaplan-Meier
+
+Combining the previous functions, the Kaplan-Meier estimator of the patient survival is derived as follow:
+
+```{r km}
+tb_km <- 
+  # Use the tailored "survival" table
+  patsurv |> 
+  select(patientkey, enrollment_date, first_dropoutdate, 
+         last_assdate, last_consent_withdrawal_date, deathdate,
+         extraction_date) |> 
+  # Only select patients with consent (last known value)
+  add_var(stcs, "last_consent_status") |> 
+  filter(last_consent_status == "Present") |> 
+  # Last-assessment should not censored the terminal event
+  mutate(last_assdate = replace(last_assdate, !is.na(deathdate), NA)) |> 
+  # Compute time to death, censoring for dropout, last-assessment, 
+  # consent withdrawal and STCS data extraction date.
+  mutate(
+    event_date = pmin(
+      deathdate, first_dropoutdate, last_assdate, 
+      last_consent_withdrawal_date, extraction_date,  
+      na.rm = TRUE),
+    event_chr = which.pmin_chr(
+      death = deathdate, cens = first_dropoutdate, cens = last_assdate,
+      cens = last_consent_withdrawal_date, cens = extraction_date,
+      ties = "first")) |> 
+  mutate(event_01 = as.integer(event_chr == "death"),
+         event_days = as.integer(event_date -enrollment_date))
+
+km <- survfit(Surv(event_days, event_01) ~ 1, data = tb_km)
+plot(km)
+```
+
+
+
+<!-- 
+✔ Setting active project to '//uhg/userhome/UH04/U129414/Home/project/stcsanalysis'
+✔ Adding 'knitr' to Suggests field in DESCRIPTION
+✔ Adding 'rmarkdown' to Suggests field in DESCRIPTION
+✔ Adding 'knitr' to VignetteBuilder
+✔ Adding 'inst/doc' to '.gitignore'
+✔ Creating 'vignettes/'
+✔ Adding '*.html', '*.R' to 'vignettes/.gitignore'
+✔ Writing 'vignettes/introduction-to-stcsanalysis.Rmd'
+• Modify 'vignettes/introduction-to-stcsanalysis.Rmd'
+-->
+

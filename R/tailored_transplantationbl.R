@@ -35,12 +35,11 @@
 #' \item{28.} \code{don_sex}: Sex of the donor. Source: \code{Donor}.
 #' \item{29.} \code{doncod}: Cause of donor death. Source: \code{Donor}.
 #' \item{30.} \code{doncod_comment}: Comment on cause of donor death. Source: \code{Donor}.
-#' \item{31.} \code{donage}: Age of donor. Source: \code{Donor}.
-#' \item{32.} \code{donage_complete}: Calculated age of the donor. Source: \code{Donor}.
-#' \item{33.} \code{donheight}: Donor height. Source: \code{Donor}.
-#' \item{34.-44.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
-#' \item{45.-55.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
-#' \item{56.-66.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
+#' \item{31.} \code{donage_complete}: Calculated age of the donor. Source: \code{Donor}.
+#' \item{32.} \code{donheight}: Donor height. Source: \code{Donor}.
+#' \item{33.-43.} \code{rec_anti...}: (Optional) Recipient Serology. Source: \code{PatientSerology}.
+#' \item{44.-54.} \code{don_anti...}: (Optional) Donor Serology. Source: \code{DonorSerology}.
+#' \item{55.-65.} \code{combi_anti...}: (Optional) Serology combination. Source: derived.
 #'
 #' }
 #'
@@ -57,7 +56,7 @@ tailored_transplantationbl <- function(stcs){
     left_join(
       stcs[["donor"]] |>
         select(all_of(c("donorkey", "dontype", "donrelsubtype", "identical_twins", "kpd", "altruistic",
-                        "don_bg"="bg", "don_sex"="sex", "doncod", "doncod_comment", "donage", "donage_complete","donheight"))),
+                        "don_bg"="bg", "don_sex"="sex", "doncod", "doncod_comment", "donage_complete","donheight"))),
       by = "donorkey", relationship = "many-to-one")
 
 

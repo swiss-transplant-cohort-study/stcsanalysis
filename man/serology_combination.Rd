@@ -7,13 +7,13 @@
 serology_combination(rec_serology, don_serology)
 }
 \arguments{
-\item{rec_serology}{chr. Serology of the recipient. Either "Positive" or Negative.}
+\item{rec_serology}{chr. Serology of the recipient. Either \code{"Positive"} or \code{"Negative"}.}
 
-\item{don_serology}{chr. Serology of the Donor. Either "Positive" or Negative.}
+\item{don_serology}{chr. Serology of the Donor. Either \code{"Positive"} or \code{"Negative"}.}
 }
 \value{
 a character vector.
 }
 \description{
-Recode the serology recipient-donor into: "R+/D+", "R+/D-", "R-/D+", "R-/D-"
+Recode the serology recipient-donor into: \code{"D+/R+"}, \code{"D-/R+"}, \code{"D+/R-"}, \code{"D-/R-"} and when serology is Missing/NA: \code{"D+/"}, \code{"D-/"}, \code{"/R+"}, \code{"/R-"}.
 }
