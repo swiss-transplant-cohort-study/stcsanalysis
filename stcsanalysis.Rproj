@@ -18,5 +18,8 @@ StripTrailingWhitespace: Yes
 
 BuildType: Package
 PackageUseDevtools: Yes
-PackageInstallArgs: --no-multiarch --with-keep.source
+PackageInstallArgs: H:\\project\\stcsanalysis --no-multiarch --with-keep.source
+PackageBuildArgs: H:\\project\\stcsanalysis
+PackageBuildBinaryArgs: H:\\project\\stcsanalysis
+PackageCheckArgs: H:\\project\\stcsanalysis
 PackageRoxygenize: rd,collate,namespace

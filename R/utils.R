@@ -78,7 +78,7 @@ noinf_min <- function(x){
 ## PRIVATE ----
 
 
-
+#' @keywords internal
 check_startstop <- function(start, stop, stop_fun = warning){
   if(!all(start<=stop)){
     stop_fun("stop before start.")
@@ -93,6 +93,7 @@ check_input <- function(x, ..., stop_fun = warning){
 
 
 #' @keywords internal
+#' @exportS3Method check_input character
 check_input.character <- function(x, level = NULL, stop_fun = warning){
   mc <- match.call()
   if(!is.null(level)){
@@ -108,6 +109,7 @@ check_input.character <- function(x, level = NULL, stop_fun = warning){
 
 
 #' @keywords internal
+#' @exportS3Method check_input numeric
 check_input.numeric <- function(x, lb = NULL, ub = NULL, stop_fun = warning){
   mc <- match.call()
   if(!is.null(lb)){

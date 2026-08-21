@@ -1,3 +1,7 @@
+# stcsanalysis 0.1.13
+
+* adding stcs_search(): from (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/14)
+
 # stcsanalysis 0.1.12
 
 * serology_combination(): correction (https://github.com/swiss-transplant-cohort-study/stcsanalysis/issues/9)

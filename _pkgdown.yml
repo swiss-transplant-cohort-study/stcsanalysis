@@ -21,6 +21,7 @@ reference:
    - has_concept("filter")
    - has_concept("select")
    - "validate_metadata"
+   - "stcs_search"
 - title: Functions to create custom dataset
   desc: >
    Set of function to help merging variables

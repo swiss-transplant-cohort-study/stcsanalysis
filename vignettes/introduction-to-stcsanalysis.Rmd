@@ -107,6 +107,22 @@ The ValueMetaData table contains information on each value (tables under constru
 stcs$valuemetadata
 ```
 
+## 3.5 Searching a regular expression
+
+The `stcs_search()` function can be used to search a pattern in all variables in the `stcs`. It uses `stringr::str_detect()` to detect the filter the appropriate regular expression. When combined with `stcs_select_table()` the search is performed on a subset of tables.
+
+
+```{r search}
+stcs |>
+  stcs_select_table(
+    tables = c("patientdisease", "infectionpathogen", "infectionsite")) |>
+  stcs_search(fixed("bact", ignore_case = TRUE)) |> 
+  arrange(desc(sapply(result, nrow))) |> 
+  slice(0)
+```
+
+
+
 # 4 Tailored tables
 
 Tailored-tables are additional pre-programmed tables with derived variables.
@@ -177,7 +193,9 @@ If the variable-name appears in several tables, the name of the table must be sp
 
 stcs$patientdisease |>
   select(diseasekey,  patientkey, patdiagnosis, date) |>
-  add_var(stcs, c("enrollment_age", "rec_sex" = "sex", "bg"), from = "patient") |>
+  add_var(stcs, 
+          c("enrollment_age", "rec_sex" = "sex", "bg"), 
+          from = "patient") |>
   slice(0L)
 ```
 

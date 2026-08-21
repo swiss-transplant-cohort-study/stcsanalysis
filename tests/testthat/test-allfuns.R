@@ -115,6 +115,22 @@ test_that(paste0(dir_name[i],": Run tailored_tables()"), {
 
 }
 
+
+## Search ----
+
+test_that(paste0(dir_name[i],": search"), {
+
+  out <-
+    stcs |>
+    stcs_select_table(tables = c("patientdisease","infectionpathogen","infectionsite")) |>
+    stcs_search(stringr::fixed("bact", ignore_case = TRUE))
+
+  expect_true(nrow(out)>0L)
+
+})
+
+
+
 # NOT BASED ON STCS ----
 
 ## egfr ----
